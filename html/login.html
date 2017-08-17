@@ -1,0 +1,147 @@
+<!DOCTYPE >
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"  />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>登录</title>
+	<link type="text/css"  rel="stylesheet"  href="../css/common.css" />
+	<link type="text/css"  rel="stylesheet"  href="../css/style.css" />
+	<script type="text/javascript"  src="../js/jquery.min.js"></script>
+	<script type="text/javascript"  src="../js/gizwits_ws_0.1.1.min.js"></script>
+	<script type="text/javascript" >
+		// alert样式修正(不显示服务器地址)
+		window.alert = function(name){
+			 var iframe = document.createElement("IFRAME");
+			iframe.style.display="none";
+			iframe.setAttribute("src", 'data:text/plain,');
+			document.documentElement.appendChild(iframe);
+			window.frames[0].window.alert(name);
+			iframe.parentNode.removeChild(iframe);
+		}
+		// 取得request中的手机号
+		$(document).ready(function(){
+			// 取得request中保存的手机号
+			var mobileNoRequest = null;
+			if (mobileNoRequest != null && mobileNoRequest != '') {
+				$('#mobilePhoneNumber').removeAttr("placeholder");
+				$('#mobilePhoneNumber').attr("value", mobileNoRequest);
+			} else {
+				$('#mobilePhoneNumber').attr("placeholder", "请输入手机号码");
+			}
+		 });
+		
+		//校验手机号格式
+		function checkPhonenumber(tel) {
+			// 定义正则表达式
+			var check=/^[0-9]*$/;
+			var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+			if ((reg.test(tel) && check.test(tel))) {
+	    		  return true;
+			 } else{
+				return false;
+			}
+		}
+		// 手机号check
+		function checkMobileNo() {
+			var telNum = $('#mobilePhoneNumber').val();
+	 		if (telNum == '') {
+	 			$('#mobilePhoneNumber').attr("placeholder", "请输入手机号码");
+		 		$('.tip').html('请输入手机号！');
+				return false;
+			} else if (!checkPhonenumber(telNum)) {
+				$('.tip').html('手机号格式不正确！');
+				return false;
+ 			} else{
+ 				$('.tip').html('');
+ 				return true;
+ 			}
+ 		}
+		// 获取短信验证码
+		function getIdentificationCode() {
+			// 手机号check出错，返回false
+			if (!checkMobileNo()) {
+				return false;
+			}
+			$.ajax({
+				type: "get",
+				dataType: "json",
+				url:"/yt/api/login/getCode.htm",
+				data: {
+					// 手机号
+					mobileNo : $('#mobilePhoneNumber').val()
+				},
+				async: false,
+				success: function (data) {
+					alert("短信验证码发送成功！");
+					time($('#btn_sendAuthCode'));
+				},
+        		error:function(e){
+        			alert("获取短信验证码失败！");
+        		}
+			});
+		};
+		// 短信发送时长限制
+		var wait=60;
+		function time(obj) {
+			if (wait == 0) {
+				obj.removeAttr("disabled");
+				obj.attr("value", "获取验证码");
+				wait = 60;
+				} else {
+					obj.attr("disabled", true);
+					obj.attr("value", "重新发送(" + wait + ")");
+					wait--;
+					setTimeout(function() {
+						time(obj)
+						},1000)
+				}
+		}
+		// 手机号和验证码check
+		function checkInputValue() {
+			var authCode = $('#IdentificationCode').val();
+			if (!checkMobileNo()) {
+				return false;
+			} else if (authCode == '' || authCode.length != 4) {
+				$('.tip').html('请输入正确的短信验证码！如果没收到验证码，请点击【获取验证码】来获取短信验证码！');
+				return false;
+			} else {
+				$('.tip').html('');
+				return true;
+			}
+		}
+		// 跳过btn事件
+		function btnSkip() {
+			var openId = $('#openId').val();
+			window.location.href = "/yt/api/device/device_List.htm";
+		}
+	</script>
+</head>
+<body  style="background:#434f5f;">
+<p class="login_massage_green">为了获得更好的服务支持<br />
+    请输入手机号码进行验证</p>
+<div class="login">
+<form id="login_form" action="/yt/api/checkLogin.htm"  onsubmit="return checkInputValue()"  method="post">
+	<input id="openId" name="openId" type="hidden" value=" "/>
+	<div style="text-align: center;"><p class="tip"  style="color:#ff3300; "></p></div>
+	<div class="login_phone">
+		<input id="mobilePhoneNumber"  name="mobilePhoneNumber"  type="tel"  placeholder="请输入手机号码"  maxlength="11"  onblur="checkMobileNo()" />
+	</div>
+	<div class="login_verify_code">
+        <input  id="IdentificationCode"  name="IdentificationCode"   type="text"  class="authCodeInput"  placeholder="请输入验证码"  maxlength="4"  value="" />
+        <input  type="button"  id="btn_sendAuthCode"  class="authCodeBtn"  value="获取验证码"  onclick="getIdentificationCode()"/>
+    </div>
+    <div>
+    </div>
+    <div class="login_verify">
+        <button  id="btn_login"  type="submit" >验证</button>
+    </div>
+    <div class="login_skip">
+        <button  id="btn_skip"   type="button"  onclick="btnSkip()">跳过</button>
+    </div>
+</form>
+<p class="login_massage_gray">成功验证后将不再弹出此页面</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,569 @@
+/* CSS Document */
+/*登录页面*/
+.login_massage_green {
+	width: 100%;
+	color: #74d09d;
+	font-size: 12px;
+	text-align: center;
+	padding: 47px 0 57px 0;
+	line-height: 18px;
+}
+.login {
+	width: 100%;
+	padding: 0 20px;
+}
+.login div {
+	margin-bottom: 20px;
+}
+.login_phone, .login_verify_code, .login_verify, .login_skip {
+	width: 100%;
+	height: 40px;
+}
+.login_phone input {
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-radius: 20px;
+	background: #fff;
+	padding-left: 20px;
+	color: #474747;
+	font-size: 14px;
+}
+.authCodeInput {
+	width: 64%;
+	height: 100%;
+	border: none;
+	border-radius: 20px;
+	background: #fff;
+	padding-left: 20px;
+	color: #474747;
+	font-size: 14px;
+}
+.authCodeBtn {
+	width: 33%;
+	height: 100%;
+	margin-left: 1%;
+	border: none;
+	border-radius: 20px;
+	background: none;
+	color: #74d09d;
+	font-size: 14px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: -webkit-linear-gradient( #72d795, #57c3ea)30 30;
+}
+.login_verify button {
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-radius: 20px;
+	color: #fff;
+	font-size: 14px;
+	background: #72d795;
+	background: -webkit-linear-gradient(to right, #72d795, #57c3ea);
+	background: linear-gradient(to right, #72d795, #57c3ea);
+}
+.login_skip button {
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-radius: 20px;
+	background: #444152;
+	color: #fff;
+	font-size: 14px;
+}
+.login_massage_gray {
+	text-align: center;
+	font-size: 12px;
+	color: #999;
+}
+/*设备列表*/
+.equipment_list {
+	width: 100%;
+	height: 75px;
+	border-bottom: 1px solid #666;
+	background: #2d2a3b;
+	padding: 0 10px;
+	position: relative;
+}
+.equipment_list_link {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+.equipment_list_icon {
+	display: block;
+	float: left;
+	height: 75px;
+	width: auto;
+}
+.equipment_content {
+	float: left;
+	padding: 11px 0;
+	margin-left: 15px;
+}
+.equipment_content p {
+	font-size: 14px;
+	color: #999;
+	line-height: 1;
+}
+.equipment_content .equipment_number {
+	margin-top: 5px;
+}
+.equipment_content .equipment_online {
+	margin-top: 5px;
+	background: url(../images/online_icon.png) no-repeat center left;
+	background-size: 12px 12px;
+	padding-left: 17px;
+	color: #74d09d;
+}
+.equipment_content .equipment_offline {
+	margin-top: 5px;
+	background: url(../images/offline_icon.png) no-repeat center left;
+	background-size: 12px 12px;
+	padding-left: 17px;
+	color: #999;
+}
+.pm_content {
+	padding : 30px 28px 11px 0;
+	position: absolute;
+	right: 10px;
+}
+.pm_content .pm_units {
+	font-family: "Arial";
+	font-size: 14px;
+	color: #5c93ce;
+}
+.pm_content .pm_number {
+	width: 48px;
+	text-align: center;
+	font-size: 12px;
+	line-height: 14px;
+	background: #5c93ce;
+	margin-top: 5px;
+	color: #333;
+	border-radius: 7px;
+}
+.equipment_list_arrow {
+	display: block;
+	height: 75px;
+	width: auto;
+	position: absolute;
+	right: 10px;
+	top: 0;
+}
+.toolbar {
+	width: 100%;
+	background: #78909c;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+.toolbar:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.toolbar div {
+	width: 50%;
+	height: 48px;
+	float: left;
+}
+.toolbar div p {
+	text-align: center;
+	font-size: 10px;
+	color: #fff;
+	padding-top: 32px;
+}
+.toolbar .add_equipment {
+	background: url(../images/equipment_add_icon2.png) no-repeat center center;
+	background-size: 22px 48px;
+	border-right: 1px solid #4f6975;
+}
+.toolbar .offline_description {
+	background: url(../images/equipment_add_icon1.png) no-repeat center center;
+	background-size: 22px 48px;
+	border-left: 1px solid #4f6975;
+}
+.toolbar .add_equipment button {
+	width: 50%;
+	height: 100%;
+	border: none;
+	background: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.toolbar .offline_description button {
+	width: 50%;
+	height: 100%;
+	border: none;
+	background: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+/*设备详情*/
+.device_detail_bg {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: -1;
+	background: url(../images/equipment_detail_bg.png) no-repeat center center;
+	background-size: cover;
+	overflow: hidden;
+}
+.device_detail_content {
+	padding: 35px 10px 0;
+	color: #fff;
+}
+.device_name {
+	font-size: 24px;
+}
+.device_pm {
+	font-size: 12px;
+	margin-top: 27px;
+}
+.pm_date {
+	width: 100%;
+	height: 64px;
+	margin-top: 25px;
+}
+.pm_date .pm_number {
+	float: left;
+	font-size: 64px;
+	line-height: 64px;
+}
+.pm_pollution_degree {
+	float: left;
+	padding: 10px 0 0 10px;
+}
+.pm_pollution_degree .pollution_degree {
+	font-size: 24px;
+}
+.pollution_degree1 {
+	color: #5dca7e;
+}
+.pollution_degree2 {
+	color: #a6d062;
+}
+.pollution_degree3 {
+	color: #f9cf61;
+}
+.pollution_degree4 {
+	color: #fcb161;
+}
+.pollution_degree5 {
+	color: #ef855b;
+}
+.pollution_degree6 {
+	color: #ed6160;
+}
+.pm_pollution_degree .update_time {
+	font-size: 12px;
+	margin-top: 5px;
+}
+.outdoor-position {
+	width: 100%;
+	margin-top: 30px;
+}
+.outdoor-position p {
+	width: 50%;
+	font-size: 14px;
+	float: left;
+}
+.device_detail_prompt {
+	width: 100%;
+	height: 36px;
+	border-radius: 5px;
+	background: rgba(255,255,255,0.2);
+	margin-top: 50px;
+}
+.device_detail_prompt p {
+	line-height: 36px;
+	font-size: 14px;
+	padding-left: 5px;
+}
+.device_date_all {
+	margin-top: 44px;
+	padding-bottom: 64px;
+}
+.device_date_top, .device_date_bottom {
+	width: 100%;
+}
+.device_date_top {
+	padding-bottom: 14px;
+	border-bottom: 1px solid #fff;
+}
+.device_date_bottom {
+	padding-top: 14px;
+}
+.device_date_top .device_date {
+	width: 33.33333%;
+	float: left;
+}
+.device_date_bottom .device_date {
+	width: 50%;
+	float: left;
+}
+.device_date p {
+	font-family: "Arial";
+	text-align: center;
+	font-size: 12px;
+	line-height: 24px;
+}
+.device_date p span {
+	font-size: 16px;
+}
+.clear {
+	clear: both;
+}
+/*历史数据*/
+.historydata_content {
+	padding: 35px 0 0;
+	color: #fff;
+}
+.historydata_content .device_name {
+	padding: 0 10px;
+}
+.historydata_select {
+	width: 100%;
+	height: 36px;
+	background: #4d4d4d;
+	margin-top: 27px;
+	padding: 4px 10px;
+}
+.historydata_select p {
+	font-size: 16px;
+	line-height: 28px;
+	color: #fff;
+	float: left;
+}
+.historydata_select select {
+	width: 90px;
+	height: 28px;
+	border: none;
+	background: #fff;
+	border-radius: 5px;
+	float: right;
+}
+.display_method {
+	width: 100%;
+	height: 32px;
+	padding: 0 10px;
+	margin-top: 25px;
+}
+.display_method ul {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #fff;
+	border-radius: 10px;
+	overflow: hidden;
+}
+.display_method ul li {
+	width: 33.3333333%;
+	height: 100%;
+	float: left;
+	font-size: 14px;
+	color: #fff;
+	text-align: center;
+	line-height: 32px;
+	border-right: 1px solid #fff;
+}
+.display_method ul li:last-child {
+	border: none;
+}
+.display_method ul .display_method_on {
+	background: #fff;
+	color: #36478a;
+}
+.history_data {
+	width: 100%;
+	height: 200px;
+	padding: 0 10px;
+	margin-top: 25px;
+}
+.colour_coded {
+	width: 100%;
+	margin-top: 25px;
+	height: 12px;
+}
+.colour_coded .indoor, .colour_coded .outdoor {
+	width: 50%;
+	float: left;
+}
+.colour_coded span {
+	display: block;
+	height: 4px;
+	width: 32px;
+}
+.colour_coded p {
+	color: #fff;
+	font-size: 12px;
+	line-height: 12px;
+}
+.colour_coded .indoor p, .colour_coded .indoor span {
+	float: right;
+}
+.colour_coded .indoor span {
+	background: #5dca7e;
+	margin: 4px 10px 4px 5px;
+}
+.colour_coded .outdoor p {
+	margin: 0 5px 0 10px;
+}
+.colour_coded .outdoor p, .colour_coded .outdoor span {
+	float: left;
+}
+.colour_coded .outdoor span {
+	background: #ed6160;
+	margin: 4px 0 4px 0;
+}
+/*更多*/
+.more_menu {
+	width: 100%;
+	height: 48px;
+	padding: 0 10px;
+	border-bottom-width: 1px;
+	border-style: solid;
+	border-color: rgba(255,255,255,0.15);
+	position: relative;
+}
+.more_menu label {
+	font-size: 14px;
+	color: #fff;
+	line-height: 48px;
+	padding-left: 24px;
+}
+.more_menu button {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: none;
+	border: none;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.more_menu .more_menu1 {
+	background: url(../images/more_menu_icon1.png) no-repeat left center;
+	background-size: 14px auto;
+}
+.more_menu .more_menu2 {
+	background: url(../images/more_menu_icon2.png) no-repeat left center;
+	background-size: 14px auto;
+}
+.more_menu .more_menu3 {
+	background: url(../images/more_menu_icon3.png) no-repeat left center;
+	background-size: 14px auto;
+}
+.more_menu .more_menu4 {
+	background: url(../images/more_menu_icon4.png) no-repeat left center;
+	background-size: 14px auto;
+}
+.more_menu .more_menu5 {
+	background: url(../images/more_menu_icon5.png) no-repeat left center;
+	background-size: 14px auto;
+}
+/*底部菜单*/
+.bottom_menu {
+	height: 54px;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background: #fff;
+}
+.menu {
+	height: 54px;
+	width: 100%;
+}
+.menu li {
+	width: 25%;
+	height: 54px;
+	float: left;
+	color: #999;
+}
+.menu .network_on {
+	background: url(../images/menu_icon1.png) no-repeat center center;
+	background-size: 48px 48px;
+	color: #fff;
+}
+.menu .network {
+	background: url(../images/menu_icon1_on.png) no-repeat center center;
+	background-size: 48px 48px;
+	position: relative;
+}
+.menu .network button, .menu .share button {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: none;
+}
+.menu .share_on {
+	background: url(../images/menu_icon2.png) no-repeat center center;
+	background-size: 48px 48px;
+}
+.menu .share {
+	background: url(../images/menu_icon2_on.png) no-repeat center center;
+	background-size: 48px 48px;
+	position: relative;
+}
+.menu .historydata_on {
+	background: url(../images/menu_icon3.png) no-repeat center center;
+	background-size: 48px 48px;
+}
+.menu .historydata {
+	background: url(../images/menu_icon3_on.png) no-repeat center center;
+	background-size: 48px 48px;
+}
+.menu .more_on {
+	background: url(../images/menu_icon4.png) no-repeat center center;
+	background-size: 48px 48px;
+}
+.menu .more {
+	background: url(../images/menu_icon4_on.png) no-repeat center center;
+	background-size: 48px 48px;
+}
+.menu li a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+	text-align: center;
+	padding-top: 36px;
+	cursor: pointer;
+	color: #979797;
+}
+.menu .network_on a {
+	color: #4ca7cc;
+}
+.menu .share_on a {
+	color: #4ca7cc;
+}
+.menu .historydata_on a {
+	color: #4ca7cc;
+}
+.menu .more_on a {
+	color: #4ca7cc;
+}
+ @media (max-width:320px) {
+.device_date_all {
+	margin-top: 34px;
+}
+.pm_date .pm_number {
+	font-size: 56px;
+	line-height: 56px;
+}
+.device_date p {
+	line-height: 20px;
+}
+
+}
