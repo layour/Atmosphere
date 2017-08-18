@@ -1,0 +1,451 @@
+<!DOCTYPE >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"  />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no" />
+<title>设备详情</title>
+<link type="text/css" rel="stylesheet" href="../css/common.css" />
+<link type="text/css" rel="stylesheet" href="../css/style.css" />
+<link type="text/css" rel="stylesheet" href="../css/popup.css" />
+<script	type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/qrcode.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="../js/dev.js"></script>
+<script type="text/javascript" src="../js/device_status_check.js"></script>
+
+<!--[if IE]>
+<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+	wx.config({
+	    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    appId: 'wx7c65f52480327c2c', // 必填，公众号的唯一标识
+	    timestamp: '1502951807', // 必填，生成签名的时间戳
+	    nonceStr: '098930a1f6c40597f933a2d617f798ba', // 必填，生成签名的随机串
+	    signature: '0ddfbdc46db218c2f4c9587f4d8693433301c596',// 必填，签名，见附录1
+	    jsApiList: [    
+				'checkJsApi',    
+				'onMenuShareTimeline',    
+				'onMenuShareAppMessage',    
+				'onMenuShareQQ',    
+				'onMenuShareWeibo',    
+				'hideMenuItems',    
+				'showMenuItems',    
+				'hideAllNonBaseMenuItem',    
+				'showAllNonBaseMenuItem',    
+				'translateVoice',    
+				'startRecord',    
+				'stopRecord',    
+				'onRecordEnd',    
+				'playVoice',    
+				'pauseVoice',    
+				'stopVoice',    
+				'uploadVoice',    
+				'downloadVoice',    
+				'chooseImage',    
+				'previewImage',    
+				'uploadImage',    
+				'downloadImage',    
+				'getNetworkType',    
+				'openLocation',    
+				'getLocation',    
+				'hideOptionMenu',    
+				'showOptionMenu',    
+				'closeWindow',    
+				'scanQRCode',    
+				'chooseWXPay',    
+				'openProductSpecificView',    
+				'addCard',    
+				'chooseCard',    
+				'openCard',
+                'openWXDeviceLib',
+                'closeWXDeviceLib',
+                'configWXDeviceWiFi',
+                'getWXDeviceInfos',
+                'sendDataToWXDevice',
+                'startScanWXDevice',
+                'stopScanWXDevice',
+                'connectWXDevice',
+                'disconnectWXDevice',
+                'getWXDeviceTicket',
+                'WeixinJSBridgeReady',
+                'onWXDeviceBindStateChange',
+                'onWXDeviceStateChange',
+                'onScanWXDeviceResult',
+                'onReceiveDataFromWXDevice',
+                'onWXDeviceBluetoothStateChange' ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+
+	wx.ready(function () {
+
+		wx.hideAllNonBaseMenuItem();
+		/*
+		  //判断当前版本是否支持指定 JS 接口，支持批量判断
+		  document.querySelector('#checkJsApi').onclick = function () {
+		    wx.checkJsApi({
+		      jsApiList: [
+		        'getNetworkType',
+		        'previewImage'
+		      ],
+		      success: function (res) {
+		        alert(JSON.stringify(res));
+		      }
+		    });
+		  };
+		  */
+		  
+		  //连接设备
+		  document.querySelector('#linkDevice').onclick = function () {
+			  LinkDeviceFun();
+		  };
+	});
+
+	//连接设备
+	function LinkDeviceFun() {
+	    //console.log("OpenWifiFormV2-1.5");
+	    WeixinJSBridge.invoke('configWXDeviceWiFi', '', function (res) {
+	        //alert(JSON.stringify(res));
+	        // console.log("OpenWifiFormV2-2"+JSON.stringify(res));
+	        var Result = eval(res);
+			//alert(Result.err_msg);
+	        if (Result.err_msg == "configWXDeviceWiFi:ok") {
+
+	            //  console.log("OpenWifiFormV2.5");
+	            ///获取地理位置并发送给服务器更新设备经纬度
+	        }
+	        else {
+	            //   console.log("OpenWifiFormV5");
+	            //console.log("您好，建议您打开地理位置共享以方便我们更好的为您服务");
+	        }
+	    });
+	}
+
+
+</script>
+</head>
+
+<body>
+<div class="device_detail_bg"></div>
+<div class="device_detail_content" id="device_status1">
+    <p class="device_name" id="dName"></p>
+    <p class="device_pm" id="name0" onclick="hisDataTips('PM25')">PM2.5/空气细颗粒物
+    </p>
+    <div class="pm_date">
+        <p class="pm_number" onclick="hisDataTips('PM25')"><span id="value0">--</span><span id="unit0" style="font-size: 40px;"></span></p>
+        <div class="pm_pollution_degree" style="position:absolute; left:150px">
+            <p  id="grade0">--</p>
+            <p class="update_time">更新于<span id="updateTime">--</span></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="outdoor-position" style="margin-top:15px;">
+        <p class="outdoor" onclick="hisDataTips('PM25')">室外PM2.5 : <span id="outsidePm25">--</span><span id="outsidePm25Unit" style="font-size: 12px;"></span></p>
+        <p class="position">位置：<span id="location">--</span></p>
+        <div class="clear"></div>
+    </div>
+    <div class="device_detail_prompt" style="margin-top:20px;">
+        <p id="tip"></p>
+    </div>
+    <div class="device_date_all" style="margin-top:20px;">
+        <div class="device_date_top">
+            <div class="device_date" onclick="hisDataTips('VOC')">
+                <p class="target" id="name1">TVOC</p>
+                <p class="target_number" ><span id="value1">--</span><span id="unit1" style="font-size: 12px;"></span></p>
+                <p class="target_state" id="grade1">--</p>
+            </div>
+            <div class="device_date" onclick="hisDataTips('CO2')">
+                <p class="target" id="name2">二氧化碳</p>
+                <p class="target_number" ><span id="value2">--</span><span id="unit2" style="font-size: 12px;"></span></p>
+                <p class="target_state" id="grade2">--</p>
+            </div>
+            <div class="device_date" onclick="hisDataTips('HCHO')">
+                <p class="target" id="name3">甲醛</p>
+                <p class="target_number" ><span id="value3">--</span><span id="unit3" style="font-size: 12px;"></span></p>
+                <p class="target_state" id="grade3">--</p>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="device_date_bottom">
+            <div class="device_date" onclick="hisDataTips('Temperature')">
+                <p class="target" id="name4">温度</p>
+                <p class="target_number" ><span id="value4">--</span><span id="unit4" style="font-size: 12px;"></span></p>
+                <p class="target_state" id="grade4">--</p>
+            </div>
+            <div class="device_date" onclick="hisDataTips('Humidity')">
+                <p class="target" id="name5">湿度</p>
+                <p class="target_number" ><span id="value5">--</span><span id="unit5" style="font-size: 12px;"></span></p>
+                <p class="target_state" id="grade5">--</p>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<!--底部菜单-->
+<div class="bottom_menu" >
+    <ul class="menu" id="menuUl">    
+        <li class="network"><a>连接网络</a>
+            <button id="CNBT" disabled="disabled" data-modal="connection_network" class="md-trigger"></button>
+        </li>
+        <li class="network" style="display:none"><a>二维码弹窗</a>
+            <button data-modal="make_code" class="md-trigger" id="makeCode"></button>
+        </li>
+        <li class="share"><a id="shareA" >分享</a>
+        </li>
+        <li class="historydata"><a onclick="hisDataTips('PM25')">历史数据</a></li>
+        <li class="more"><a id="moreA" href="#" >更多</a></li>
+    </ul>
+</div>
+<div id= "keyDiv">
+	<form id="keyForm" method="post" action="/yt/api/device/signin.htm" style="display:none">
+		<input name="" id="timeKey" >
+		<input name="" id="productKey" value="" /> 
+		<input name="did" id="did" value="" />
+		<input name="userId" id="userId" value="" />
+		<input name="mac" id="mac" value="5ccf7fdbe755" />
+		<input name="firmwareVer" id="firmwareVer" value="" >
+		<input name="location" id="locationKey" value="" />
+		<input name="dName" id="dNameKey" value="" /> 
+	</form>
+</div>
+<!--连接网络弹窗开始-->
+<div class="md-modal md-effect-1" id="connection_network">
+    <div class="md-content more_popup">
+        <p class="more_popup_title">连接网络</p>
+        <p class="connection_network">1.请打开设备电源<br />
+            2.长按设备顶部的触摸键5秒 <br />
+            3.待设备蓝灯快速呼吸进入配网模式后点击下一步</p>
+        <div class="popup_button">
+            <button class="md-close cancel">取消</button>
+            <button class="md-close next" id ="linkDevice">下一步</button>
+        </div>
+    </div>
+</div>
+<!--连接网络弹窗结束-->
+
+ <!--二维码弹窗开始-->
+<div class="md-modal md-effect-1" id="make_code">
+    <div class="md-content more_popup" id="codeDiv">
+        <p class="more_popup_title">扫码体验设备</p>
+        <p class="connection_network">
+			<div id="qrcode" style="margin-left:15%"></div>
+		</p>
+        <div class="popup_button">
+            <button class="md-close cancel" id="codeClose" style="display:none">取消</button>
+            <button class="confirm" id="codeOk" style="margin-left:27%">确定</button>
+        </div>
+    </div>
+</div>
+<!--二维码弹窗结束-->
+
+<!--提示弹窗开始-->
+<div class="md-modal md-effect-1" id="alertTips">
+    <div class="md-content more_popup">
+        <p class="more_popup_title">警告提示</p>
+        <p class="firmware_version">您暂时无法进行此操作</p>
+        <div class="popup_button">
+            <button class="md-close cancel" id="tipsClose" style="display:none">取消</button>
+            <button class="confirm" id="tipsOk" style="margin-left:27%">确定</button>
+        </div>
+    </div>
+</div>
+<!--提示弹窗结束--> 
+
+<div class="more_menu" style="display:none">
+    <label class="more_menu4">提示</label>
+    <button  data-modal="alertTips"  class="md-trigger"></button>
+</div>
+
+<!--弹窗的黑色透明背景-->
+<div class="md-overlay"></div>
+
+<!--弹窗JS--> 
+<script type="text/javascript" src="../js/popup/classie.js"></script> 
+<script type="text/javascript" src="../js/popup/modalEffects.js"></script> 
+<script>
+	// this is important for IEs
+	var polyfilter_scriptpath = '/js/';
+</script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#timeKey").val("");
+	$("#codeOk").click(function(){
+		$("#codeClose").click();    		
+	});
+	$("#tipsOk").click(function(){
+		$("#tipsClose").click();    		
+	});
+	
+	var initResult = {"userId":99999999,"productKey":"70b03e8cb0754208bf1655b04da32708","dName":"体验机","updateTime":"2017-08-17 14:36:45","location":"北京","cityId":"101010100","outsidePm25":"15","firmwareVersion":"VER1.0","datas":[["温度","29.0","℃","Temperature"],["甲醛","0.00","mg/m³","HCHO"],["PM2.5","27","ug/m³","PM25"],["CO2","521","ppm","CO2"],["TVOC","0.96","ppm","VOC"],["湿度","38.0","%","Humidity"]],"mac":"5ccf7fdbe755"};
+	createTable(initResult);
+	
+	// 取得设备最新状态
+	getNewDeviceStatus();
+	var refreshRate = 5000;
+	if(refreshRate == 'null' || refreshRate == null || refreshRate == ''){
+		var t1 = window.setInterval("getNewDeviceStatus()",5000);
+	}
+	else{
+		var t1 = window.setInterval("getNewDeviceStatus()",refreshRate);
+	}
+ });
+ // 判断底栏是否可用
+$(document).ready(function(){
+	var mac = "5ccf7fdbe755";
+	var defaultMac = "5ccf7fdbe755";
+	var companyFlg = "0";
+	
+	if(mac != defaultMac && companyFlg !="1"){
+		$("#moreA").attr("onclick","toSignin();return false;");
+		$("#shareA").attr("onclick","makeCode()");
+		$("#CNBT").removeAttr("disabled");
+	}
+ });
+//得到最新设备状态
+function getNewDeviceStatus(){
+	   var productKey = $("#productKey").val();
+	   var mac = $("#mac").val();
+	   var userId = $("#userId").val();
+	   var firmwareVersion = $("#firmwareVer").val();
+	   $.post("/yt/api/device/getNewDeviceStatus.htm?productKey="+productKey+"&mac="+mac+"&userId="+userId+"&firmwareVersion="+firmwareVersion+"",
+				"",
+				function(result) {
+		   			var status = result;
+		   			createTable(status);
+		  		});
+}
+//利用查询得到数据生成显示效果
+function createTable(status){
+	if(status['updateTime'] != $("#timeKey").val()){
+		// 保留查询条件
+		$("#productKey").val(status['productKey']);
+		$("#mac").val(status['mac']);
+		$("#userId").val(status['userId']);
+		$("#firmwareVer").val(status['firmwareVersion']);
+		// 得到数据集
+		   var datas = status['datas'];
+		// 得到提示信息
+		var tips = getTips(datas,status['outsidePm25']);
+		// 整体环境舒适则提示
+		if(tips[6] != ""){$("#tip").text(tips[6])}
+		// 遍历数据提示信息
+		else{
+			for(var i = 0; i < tips.length; i++){
+				if(tips[i] != ""){
+					$("#tip").text(tips[i]);
+					break;
+				}
+			}
+		}
+		// 设备名
+		  $("#dName").text(status['dName']);
+		  $("#dNameKey").val(status['dName']);
+		// 设备位置
+		  $("#location").text(status['location']);
+		  $("#locationKey").val(status['location']);
+		// 更新时间
+		  var time = status['updateTime'].slice(0,16) 
+		  $("#updateTime").text(time);
+		 $("#timeKey").val(status['updateTime']);
+		//户外pm2.5 
+		$("#outsidePm25").text(status['outsidePm25']);
+		  // pm2.5
+		   for(var i=0; i<datas.length; i++){
+			   var name = datas[i][0];
+			   var value = datas[i][1];
+			   var unit = datas[i][2];
+			   if(value == "null"){
+				   value = "-"
+			   }
+			   if(datas[i][3] == "PM25"){
+				   var grade = SetPM25Content(datas[i][1]);
+				   var pm25Class = checkPM25Class(datas[i][1]);
+				   $("#value0").text(value);
+				   $("#grade0").removeAttr("class");
+				   $("#grade0").attr("class","pollution_degree pollution_degree"+pm25Class);
+				   $("#grade0").text(grade);
+			   }
+			   if(datas[i][3] == "VOC"){
+				   var grade = SetTVOCContent(datas[i][1]);
+				   $("#value1").text(value);
+				   $("#unit1").text(unit);
+				   $("#grade1").text(grade);
+			   }
+			   if(datas[i][3] == "CO2"){
+				   var grade = SetCO2Content(datas[i][1]);
+				   $("#value2").text(value);
+				   $("#unit2").text(unit);
+				   $("#grade2").text(grade);
+			   }
+			   if(datas[i][3] == "HCHO"){
+				   var grade = SetPAContent(datas[i][1]);
+				   $("#value3").text(value);
+				   $("#unit3").text(unit);
+				   $("#grade3").text(grade);
+			   }
+			   if(datas[i][3] == "Temperature"){
+				   var grade = SetTemperatureContent(datas[i][1]);
+				   $("#value4").text(value);
+				   $("#unit4").text(unit);
+				   $("#grade4").text(grade);
+			   }
+			   if(datas[i][3] == "Humidity"){
+				   var grade = SetHumidityContent(datas[i][1]);
+				   $("#value5").text(value);
+				   $("#unit5").text(unit);
+				   $("#grade5").text(grade);
+			   }
+		   }
+	}
+}   
+
+function hisDataTips(tagId) {
+	var productKey = $("#productKey").val();
+	var devName = $("#dName").text();
+	var mac = $("#mac").val();
+	
+	window.location.href="/yt/api/device/deviceHistoryData.htm?productKey=" +productKey+ "&mac=" +mac+ "&devName=" +devName+ "&tagId=" +tagId;
+}
+// 跳转到更多页面
+function toSignin(){
+	/* // 得到要传的值
+	var dName = $("#dName").text();
+	var location = $("#location").text();
+	var firmwareVer = $("#firmwareVer").val();
+	var did = $("#did").val();
+	var userId = $("#userId").val();
+	window.location.href="/yt/api/device/signin.htm?dName="+dName+"&location="+location+"&firmwareVer="+firmwareVer+"&did="+did+"&userId="+userId; */
+	$("#keyForm").submit();
+}
+// 生成二维码
+function makeCode() {
+	$("#qrcode").text("");
+	var widths=document.getElementById("device_status1").offsetWidth * 0.5;
+	var height=document.getElementById("device_status1").offsetHeight * 0.5;
+	var x = -1;
+	(widths > height) ? x = height : x = widths;
+	var y = x * 1.5;
+	$("#make_code").attr("style","width:"+y+"px")
+	var qrcode = new QRCode(document.getElementById("qrcode"), {
+		width : x,
+		height : x
+	});
+	
+	if('' == $("#mac").val()) {
+		$("button[data-modal='alertTips']").click();
+		return false;
+	}
+	
+    var urltext="http://wx.yuntongkeji.com:80/yt/api/" + "auth.htm?type=4&p=" + $("#mac").val();
+	qrcode.makeCode(urltext);
+	$("#makeCode").click();
+}
+
+</script>
+</body>
+</html>

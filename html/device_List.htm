@@ -1,0 +1,251 @@
+ <!DOCTYPE >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"  />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no" />
+<title>设备列表</title>
+
+<link type="text/css" rel="stylesheet" href="../css/common.css" />
+<link type="text/css" rel="stylesheet" href="../css/style.css" />
+<link type="text/css" rel="stylesheet" href="../css/popup.css" />
+<!--[if IE]>
+<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/gizwits_ws_0.1.1.min.js"></script>
+<script type="text/javascript" src="../js/dev.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/themes/dark-unica.js"></script>
+<script type="text/javascript">
+	wx.config({
+	    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    appId: 'wx7c65f52480327c2c', // 必填，公众号的唯一标识
+	    timestamp: '1502951047', // 必填，生成签名的时间戳
+	    nonceStr: 'f516dfb84b9051ed85b89cdc3a8ab7f5', // 必填，生成签名的随机串
+	    signature: '1b3cefd76482047d696ded8684e4edfe7fa23e84',// 必填，签名，见附录1
+	    jsApiList: [    
+				'checkJsApi',    
+				'onMenuShareTimeline',    
+				'onMenuShareAppMessage',    
+				'onMenuShareQQ',    
+				'onMenuShareWeibo',    
+				'hideMenuItems',    
+				'showMenuItems',    
+				'hideAllNonBaseMenuItem',    
+				'showAllNonBaseMenuItem',    
+				'translateVoice',    
+				'startRecord',    
+				'stopRecord',    
+				'onRecordEnd',    
+				'playVoice',    
+				'pauseVoice',    
+				'stopVoice',    
+				'uploadVoice',    
+				'downloadVoice',    
+				'chooseImage',    
+				'previewImage',    
+				'uploadImage',    
+				'downloadImage',    
+				'getNetworkType',    
+				'openLocation',    
+				'getLocation',    
+				'hideOptionMenu',    
+				'showOptionMenu',    
+				'closeWindow',    
+				'scanQRCode',    
+				'chooseWXPay',    
+				'openProductSpecificView',    
+				'addCard',    
+				'chooseCard',    
+				'openCard',
+                'openWXDeviceLib',
+                'closeWXDeviceLib',
+                'configWXDeviceWiFi',
+                'getWXDeviceInfos',
+                'sendDataToWXDevice',
+                'startScanWXDevice',
+                'stopScanWXDevice',
+                'connectWXDevice',
+                'disconnectWXDevice',
+                'getWXDeviceTicket',
+                'WeixinJSBridgeReady',
+                'onWXDeviceBindStateChange',
+                'onWXDeviceStateChange',
+                'onScanWXDeviceResult',
+                'onReceiveDataFromWXDevice',
+                'onWXDeviceBluetoothStateChange' ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+
+	wx.ready(function () {
+		wx.hideAllNonBaseMenuItem();
+		/*
+		  //判断当前版本是否支持指定 JS 接口，支持批量判断
+		  document.querySelector('#checkJsApi').onclick = function () {
+		    wx.checkJsApi({
+		      jsApiList: [
+		        'getNetworkType',
+		        'previewImage'
+		      ],
+		      success: function (res) {
+		        alert(JSON.stringify(res));
+		      }
+		    });
+		  };
+		  */
+	});
+
+</script>
+</head>
+<body  style="background:#434f5f;">
+	 <div id="deviceList" style="padding-bottom:48px;">
+	 </div>
+	 
+<!--底部工具栏-->
+<div class="toolbar" id="toolbatButton">
+  <div class="add_equipment">
+    <p>添加设备</p>
+    <button data-modal="equipment_add"  class="md-trigger"></button>
+  </div>
+  <div class="offline_description">
+    <p>离线说明</p>
+    <button data-modal="offline_description"  class="md-trigger"></button>
+  </div>
+</div>
+
+<!--添加设备弹窗开始-->
+<div class="md-modal md-effect-1" id="equipment_add">
+  <div class="md-content more_popup">
+    <p class="more_popup_title">添加设备</p>
+    <p class="connection_network" style="text-align: center;">长按图片识别二维码</p>
+    <div style="text-align: center; margin-top:5px">
+    	<img id= "productQrCode">
+    </div>
+    <div class="popup_button_1">
+      <button class="md-close next">关闭</button>
+    </div>
+  </div>
+</div>
+<!--添加设备弹窗结束--> 
+
+<!--离线说明弹窗开始-->
+<div class="md-modal md-effect-1" id="offline_description">
+  <div class="md-content more_popup">
+    <p class="more_popup_title">离线说明</p>
+    <p class="offline_description_font">若设备显示“离线”状态，请按以下说明排查原因，重新建立微信与硬件的连接。</p>
+    <ul class="offline_description_ul">
+      <li>检查硬件是否断电。</li>
+      <li>检查路由器WiFi是否能正常连接。</li>
+      <li>监测仪只支持2.4G频段WiFi信号</li>
+      <li>查看监测仪MAC地址是否被路由器限制。</li>
+      <li>以上正常可尝试重新配置网络。</li>
+    </ul>
+    <div class="popup_button_1">
+      <button class="md-close next">返回</button>
+    </div>
+  </div>
+</div>
+<!--离线说明弹窗结束--> 
+
+<!--弹窗的黑色透明背景-->
+<div class="md-overlay"></div>
+
+</body>
+<!--弹窗JS--> 
+<script type="text/javascript" src="../js/popup/classie.js"></script> 
+<script type="text/javascript" src="../js/popup/modalEffects.js"></script> 
+<script type="text/javascript">
+var deviceJson = '[{"bindTime":1481343947000,"cityNameChinese":"北京","devAlias":"体验机","devId":"26e7988ef7474fa7b6639b62b65c12c4","devName":"体验机","did":"QgfE9fg7nSv2Hi9U5U3zD5","firmwareVersion":"VER1.0","firstOnlineTime":1482575453000,"isNeedPush":0,"isOnline":1,"lastOnlineTime":1502842656000,"mac":"5ccf7fdbe755","pm25Val":"27","productKey":"70b03e8cb0754208bf1655b04da32708","remark":"体验机","tagDesc":"PM2.5","tagName":"PM2.5 ug/m³","unit":"ug/m³","userId":99999999}]';
+var devName = '智能空气质量检测仪';
+var qrCodeUrl = 'http://wx.yuntongkeji.com/res/img/qrcode.jpg';
+
+var companyFlg = '0';
+
+pageInit(deviceJson,devName,qrCodeUrl);
+/*
+window.onload = function(){
+	var qslide = new qSlide('equipment_list',ajaxDel);
+}
+//delId为传回来的要删除的数据的ID
+function ajaxDel(oDivId){
+	console.info("后台删除请求在这里写");
+	var Index = oDivId.slice(13)
+	// 得到要删除的设备信息
+	var did = $("#did"+Index).text();
+	var userId = $("#userId"+Index).text();
+	alert(did);
+	alert(userId);
+	// 调用ajax删除
+	 $.post("/yt/api/device/deleteDevice.htm?did="+did+"&userId="+userId+"",
+			"",
+			function(result) {
+	   			alert(result);
+	  		}); 
+}
+*/
+function pageInit(deviceJson,devName,qrCodeUrl) {
+	$("#productQrCode").attr("src",qrCodeUrl);
+	$("#productQrCode").attr("style","width:"+260+"px")
+	var divObj = $("#deviceList");
+	var obj = eval(deviceJson);
+	for (var i = 0; i < obj.length; i++) {
+		var isOnline;
+		var pmContent;
+		var pmValue;
+		var link;
+		if (obj[i].isOnline == 0) {
+			// 离线
+			isOnline="离线";
+			style = "equipment_offline";
+			link = "<form id='detailForm' action='#' method='post'>"
+			/* link = "<a class='equipment_list_link' href='#'></a>"; */
+			pmContent = "";
+		}
+		else if (obj[i].isOnline == 1) {
+			// 在线
+			isOnline="在线";
+			style = "equipment_online";
+			// ?productKey="+obj[i].productKey+"&did="+obj[i].did+"&userId="+obj[i].userId+"&firmwareVersion="+obj[i].firmwareVersion+"
+			link = "<form id='detailForm"+i+"' action='/yt/api/device/detail.htm' method='post'><input type = 'hidden' name = 'productKey' value='"+obj[i].productKey+"'><input type = 'hidden' name = 'mac' value='"+obj[i].mac+"'><input type = 'hidden' name = 'userId' value='"+obj[i].userId+"'><input type = 'hidden' name = 'firmwareVersion' value='"+obj[i].firmwareVersion+"'><input type = 'hidden' name = 'companyFlg' value='"+companyFlg+"'></form>"
+/* 			link = "<a class='equipment_list_link' href='/yt/api/device/detail.htm?productKey="+obj[i].productKey+"&did="+obj[i].did+"&userId="+obj[i].userId+"&firmwareVersion="+obj[i].firmwareVersion+"'></a>";
+ */			if (typeof(obj[i].pm25Val) == 'undefined' || obj[i].pm25Val == "") {
+				pmValue = '--';
+			}
+			else {
+				pmValue = obj[i].pm25Val;
+			}
+			pmContent = "<div class='pm_content'><p class='pm_units'>" +obj[i].tagName+ "</p><p class='pm_number'>"+pmValue+"</p></div><div class='clear'></div><img class='equipment_list_arrow' src='../images/equipment_list_arrow.png' /></div>"
+		}
+		if(obj[i].devName != ""){
+			devName = obj[i].devName;
+		}
+		$("#deviceList").append("<div class='equipment_list' onclick='detail("+i+");return false;' >"+link+"<img class='equipment_list_icon' src='../images/equipment_list_icon.png'/>"
+				+ "<div class='equipment_content'><p class='equipment_name'>"+devName+"</p><p class='equipment_number'>"+obj[i].mac +"</p><p class="+style+">"+isOnline+"</p></div>"+pmContent+"</div><div  id='userId"+i+"' style='display:none'>"+obj[i].userId+"</div>"+"<div  id='mac"+i+"' style='display:none'>"+obj[i].mac+"</div>"
+			);
+	}
+	
+	if(companyFlg == "1")
+	{
+		document.getElementById('toolbatButton').style.display = "none";
+		document.getElementById('deviceList').style.paddingBottom = "0px";
+	}else
+	{
+		document.getElementById('toolbatButton').style.display = "block";
+		document.getElementById('deviceList').style.paddingBottom = "48px";
+	}
+
+}
+function detail(i){
+	var oForm = $("#detailForm"+i);
+	if(oForm.attr('action') != '#'){
+		oForm.submit();
+	} 
+	
+} 
+
+
+</script>
+	
+</html>

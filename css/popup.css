@@ -1,0 +1,187 @@
+/* CSS Document */
+/***********************************************
+*                             弹窗                             *
+***********************************************/
+.md-content {
+	padding: 0 10px;
+}
+.popup_title {
+	height: 36px;
+	text-align: center;
+	color: #596774;
+	font-size: 16px;
+	line-height: 36px;
+	border-bottom: 1px solid #ddd;
+	position: relative;
+}
+.popup_title img {
+	position: absolute;
+	top: 10px;
+	right: 0;
+	cursor: pointer;
+}
+.popup_content {
+	padding: 10px 10px 0;
+}
+.md-modal {
+	width: 90%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	height: auto;
+	z-index: 2000;
+	visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+	background: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+}
+.md-show {
+	visibility: visible;
+}
+.md-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	opacity: 0;
+	background: rgba(0,0,0,0.5);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+.md-show ~ .md-overlay {
+	opacity: 1;
+	visibility: visible;
+}
+/* Individual modal styles with animations/transitions */
+
+/* Effect 1: Fade in and scale up */
+.md-effect-1 .md-content {
+	-webkit-transform: scale(0.7);
+	-moz-transform: scale(0.7);
+	-ms-transform: scale(0.7);
+	transform: scale(0.7);
+	opacity: 0;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+.md-show.md-effect-1 .md-content {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+}
+.more_popup {
+	width: 100%;
+}
+.more_popup_title {
+	width: 100%;
+	margin: 0 auto;
+	line-height: 36px;
+	font-size: 14px;
+	color: #4d4d4d;
+	text-align: center;
+	border-bottom: 1px solid #eee;
+}
+.modify_name, .modify_location {
+	width: 100%;
+	height: 36px;
+	border: 1px solid #eee;
+	margin-top: 10px;
+	padding-left: 5px;
+	font-size: 12px;
+	color: #4d4d4d;
+	background: none;
+}
+.popup_button {
+	width: 210px;
+	margin: 0 auto;
+	padding: 20px 0 10px 0;
+}
+.popup_button_1{
+	width: 102px;
+	margin: 0 auto;
+	padding: 20px 0 10px 0;
+}
+.popup_button button,.popup_button_1 button {
+	height: 28px;
+	width: 102px;
+	border: none;
+	border-radius: 5px;
+}
+.firmware_version, .delete_device {
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	margin-top: 10px;
+	padding-left: 5px;
+	font-size: 12px;
+	text-align: center;
+	color: #4d4d4d;
+}
+.connection_network {
+	width: 100%;
+	line-height: 22px;
+	margin-top: 10px;
+	padding-left: 5px;
+	font-size: 13px;
+	color: #4d4d4d;
+}
+.offline_description_font{
+	width: 100%;
+	line-height: 22px;
+	margin-top: 10px;
+	padding-left: 5px;
+	font-size: 13px;
+	color: #1b617d;
+}
+.cancel {
+	background: #eee;
+	color: #c0c0c0;
+	font-size: 12px;
+}
+#firmwareOk {
+	background: #4CA7CC;
+	color: #fff;
+	font-size: 12px;
+}
+#delConfirm {
+	background: #4CA7CC;
+	color: #fff;
+	font-size: 12px;
+}
+.confirm {
+	background: #4CA7CC;
+	color: #fff;
+	font-size: 12px;
+}
+
+.disabled{
+	background: #eee;
+}
+.next {
+	background: #4CA7CC;
+	color: #fff;
+}
+.offline_description_ul {
+	margin-top: 10px;
+}
+.offline_description_ul li {
+	list-style: inside;
+	padding-left: -10px;
+	line-height: 22px;
+	font-size: 13px;
+	color: #4d4d4d;
+}
