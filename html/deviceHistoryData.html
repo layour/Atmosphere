@@ -1,6 +1,4 @@
-
-
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -110,11 +108,15 @@
 		var mac = $("#mac").val();
 		// 室内历史数据取得
 		$.ajaxSettings.async = false;
-		$.post("/yt/api/device/getHisData.htm?displayPeriod="+displayPeriod+"&dataPoint="+showTag+"&mac="+mac,
-				"",
-				function(result) {
-					var obj = eval(result);
-					for(var i = count; i >=0 ; i--) {
+		$.ajax({
+			type : "get",
+			dataType : "json",
+			url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction?parameter1=01006001&parameter2=2017-07-15%2017:55:49&parameter3=2017-07-16%2017:55:49&parameter4=3",
+			data : {},
+			success : function(data) {
+				var obj = data;
+				// 登录成功以后跳转到list
+				for(var i = count; i >=0 ; i--) {
 						xData.push(obj[i].valDate);
 						if (obj[i].dayData == '' || obj[i].dayData == null) {
 							iData.push(null);
@@ -122,11 +124,16 @@
 							iData.push(Number(obj[i].dayData));
 						}
 					}
-		 });
+			},
+			error : function(e) {
+				alert(e.responseText);
+			}
+		});
 		
+		/*
 		// 室外数据取得
 	    // $.ajaxSettings.async = true;
-		$.post("/yt/api/device/getOutsideStsHisData.htm?displayPeriod="+displayPeriod+"&dataPoint="+showTag,
+		$.get("/yt/api/device/getOutsideStsHisData.htm?displayPeriod="+displayPeriod+"&dataPoint="+showTag,
 				"",
 				function(result) {
 					var obj = eval(result);
@@ -138,7 +145,7 @@
 						}
 					}
 		 });
-		
+	*/	
 		// 创建图表
 		createAA(xData,iData,oData);
 	}
@@ -263,6 +270,9 @@
 		});
 	}
 	
+
+</script>
+<script>
 	/*创建图表*/
 	function createChart(xData, iData, oData,tagVal,interArray,bands) {
  			Highcharts.setOptions({

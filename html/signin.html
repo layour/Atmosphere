@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"  />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no" />
+<title>更多</title>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../css/common.css" />
+<link type="text/css" rel="stylesheet" href="../css/style.css" />
+<link type="text/css" rel="stylesheet" href="../css/popup.css" />
+<script type="text/javascript" src="../js/layer/layer.js"></script>
+<!--[if IE]>
+<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+	wx.config({
+	    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    beta: true, // 开启内测接口调用，注入wx.invoke方法,非常重要!!必须有这个
+	    appId: 'wx7c65f52480327c2c', // 必填，公众号的唯一标识
+	    timestamp: '1503384457', // 必填，生成签名的时间戳
+	    nonceStr: '83187550749e6b8024a097630f9d4722', // 必填，生成签名的随机串
+	    signature: 'e5e90df03fdd9f09f5c30f69fa4a0927d3b2445d',// 必填，签名，见附录1
+	    jsApiList: [
+				'checkJsApi',
+				'onMenuShareTimeline',
+				'onMenuShareAppMessage',
+				'onMenuShareQQ',
+				'onMenuShareWeibo',
+				'hideMenuItems',
+				'showMenuItems',
+				'hideAllNonBaseMenuItem',    
+				'showAllNonBaseMenuItem',    
+				'translateVoice',    
+				'startRecord',    
+				'stopRecord',    
+				'onRecordEnd',    
+				'playVoice',    
+				'pauseVoice',    
+				'stopVoice',    
+				'uploadVoice',    
+				'downloadVoice',    
+				'chooseImage',    
+				'previewImage',    
+				'uploadImage',    
+				'downloadImage',    
+				'getNetworkType',    
+				'openLocation',    
+				'getLocation',    
+				'hideOptionMenu',    
+				'showOptionMenu',    
+				'closeWindow',    
+				'scanQRCode',    
+				'chooseWXPay',    
+				'openProductSpecificView',    
+				'addCard',    
+				'chooseCard',    
+				'openCard',
+                'openWXDeviceLib',
+                'closeWXDeviceLib',
+                'configWXDeviceWiFi',
+                'getWXDeviceInfos',
+                'sendDataToWXDevice',
+                'startScanWXDevice',
+                'stopScanWXDevice',
+                'connectWXDevice',
+                'disconnectWXDevice',
+                'getWXDeviceTicket',
+                'WeixinJSBridgeReady',
+                'onWXDeviceBindStateChange',
+                'onWXDeviceStateChange',
+                'onScanWXDeviceResult',
+                'onReceiveDataFromWXDevice',
+                'onWXDeviceBluetoothStateChange' ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+
+	wx.ready(function () {
+		  // 9 微信原生接口
+		  // 9.1.1 扫描二维码并返回结果
+		  document.querySelector('#scanQRCode1').onclick = function () {
+		    wx.scanQRCode({
+		      desc: 'scanQRCode desc'
+		    });
+		  };
+	});
+	</script>
+	
+</head>
+
+<body>
+<div class="device_detail_bg"></div>
+
+<!--更多-[修改名称，删除设备，固件版本，扫码]-->
+<div class="more_menu">
+    <label class="more_menu1">修改名称</label>
+    <button  data-modal="modify_name"  class="md-trigger" id="modifyName"></button>
+</div>
+<div class="more_menu">
+    <label class="more_menu2">修改位置</label>
+    <button  data-modal="modify_location"  class="md-trigger"></button>
+</div>
+<div class="more_menu">
+    <label class="more_menu3">删除设备</label>
+    <button  data-modal="delete_device"  class="md-trigger"></button>
+</div>
+<div class="more_menu">
+    <label class="more_menu4">固件版本</label>
+    <button  data-modal="firmware_version"  class="md-trigger"></button>
+</div>
+<div class="more_menu" style="display:none">
+    <label class="more_menu4">删除无效提示</label>
+    <button  data-modal="alertTips"  class="md-trigger" ></button>
+</div>
+<div class="more_menu" style="display:none">
+    <label class="more_menu4">修改成功</label>
+    <button  data-modal="modifySuccess"  class="md-trigger" ></button>
+</div>
+<div class="more_menu" style="display:none">
+    <label class="more_menu4">删除成功提示</label>
+    <button  data-modal="delsus"  class="md-trigger" ></button>
+</div>
+<div class="more_menu">
+    <label class="more_menu5">扫一扫</label>
+    <button class="md-trigger" id="scanQRCode1"></button>
+</div>
+
+<div >
+	<input value="" id="mac" type="hidden">
+	<input value="" id="userId" type="hidden">
+</div>
+
+<!--修改名称弹窗开始-->
+<div class="md-modal md-effect-1" id="modify_name">
+    <div class="md-content more_popup" id="modifyName_group">
+        <p class="more_popup_title" id="name_title">修改名称</p>
+        <input id="dName" class="modify_name" type="text" placeholder="请输入要修改的设备名称" value="" maxlength="20"/>
+        <div class="popup_button">
+            <button class="md-close cancel" id="nameClose">取消</button>
+            <button id="dNameConfirm" class="confirm" onclick = "updateDeviceNm();return false;">确定</button>
+        </div>
+    </div>
+</div>
+<!--修改名称弹窗结束--> 
+
+<!--修改位置弹窗开始-->
+<div class="md-modal md-effect-1" id="modify_location">
+    <div class="md-content more_popup" id="modifyLocal_group">
+        <p class="more_popup_title" id="local_title">修改位置</p>
+        <input class="modify_location" type="text" placeholder="请输入要修改的位置" id="cityName" value="" maxlength="10"/>
+        <div class="popup_button">
+            <button class="md-close cancel" id="cityClose">取消</button>
+            <button id="cityConfirm" class="confirm" onclick="updateCityNm();return false;">确定</button>
+        </div>
+    </div>
+</div>
+<!--修改位置弹窗结束--> 
+
+<!--删除设备弹窗开始-->
+<div class="md-modal md-effect-1" id="delete_device">
+    <div class="md-content more_popup">
+        <p class="more_popup_title">删除设备</p>
+        <p class="delete_device">是否删除该设备？</p>
+        <div class="popup_button">
+            <button class="md-close cancel" id="deleClose">取消</button>
+            <button id="delConfirm" onclick="deleteDevice();return false;">确定</button>
+        </div>
+    </div>
+</div>
+<!--删除设备弹窗结束-->
+
+
+<!--固件版本弹窗开始-->
+<div class="md-modal md-effect-1" id="firmware_version">
+    <div class="md-content more_popup">
+        <p class="more_popup_title">固件版本</p>
+        <p class="firmware_version"></p>
+        <div class="popup_button">
+            <button class="md-close" id="firmwareClose" style="display:none">取消</button>
+            <button id="firmwareOk" style="margin-left:27%">确定</button>
+        </div>
+    </div>
+</div>
+<!--固件版本弹窗结束-->
+
+<!--提示弹窗开始-->
+<div class="md-modal md-effect-1" id="alertTips">
+    <div class="md-content more_popup">
+        <p class="more_popup_title">权限提示</p>
+        <p class="firmware_version">您没有权限对当前设备进行此操作</p>
+        <div class="popup_button">
+            <button class="md-close cancel" id="tipsClose" style="display:none">取消</button>
+            <button class="confirm" id="tipsOk" style="margin-left:27%">确定</button>
+        </div>
+    </div>
+</div>
+<!--提示弹窗结束-->
+ 
+<!--删除成功弹窗开始-->
+<div class="md-modal md-effect-1" id="delsus">
+    <div class="md-content more_popup">
+        <p class="more_popup_title">删除成功</p>
+        <p class="firmware_version">删除成功！</p>
+        <div class="popup_button">
+            <button class="md-close cancel" id="susClose" style="display:none">取消</button>
+            <button class="confirm" id="susOk" style="margin-left:27%">确定</button>
+        </div>
+    </div>
+</div>
+<!--删除成功弹窗结束-->
+
+<!--弹窗的黑色透明背景-->
+<div class="md-overlay"></div>
+
+<!--弹窗JS--> 
+<script type="text/javascript" src="../js/popup/classie.js"></script> 
+<script type="text/javascript" src="../js/popup/modalEffects.js"></script> 
+<script>
+$(document).ready(function(){
+	$("#firmwareOk").click(function(){
+		$("#firmwareClose").click();    		
+	});
+ });
+$(document).ready(function(){
+	$("#tipsOk").click(function(){
+		$("#tipsClose").click();
+	});
+ });
+$(document).ready(function(){
+	$("#susOk").click(function(){
+		$("#susClose").click();
+		window.location.href="/yt/api/device/device_List.htm";
+	});
+});
+	
+	// this is important for IEs
+	var polyfilter_scriptpath = '/js/';
+	var dName = 'null';
+	var dLocal = 'null';
+	
+	// 监视名称文本框变化
+	$("#dName").keyup(function() {
+		if (dName != $("#dName").val()) {
+			$("#dNameConfirm").css("background-color",'#4CA7CC');
+		} else {
+			$("#dNameConfirm").css("background-color",'#eee');
+		}
+	});
+	// 修改设备名称
+	function updateDeviceNm(){
+		var userId = $("#userId").val();
+		var mac = $("#mac").val();
+		var deviceNm = $("#dName").val();
+		if (dName != deviceNm) {
+			$.post("/yt/api/device/updateDeviceNmOrCityNm.htm?deviceNm="+$.trim(deviceNm)+"&mac="+mac+"&userId="+userId,
+					"",
+					function(result) {
+						if(result == 1 || result == -1){
+							$("#nameClose").click();
+							layer.msg("修改成功", {time: 1000});
+						}
+						if(result == -1){
+							$("button[data-modal='alertTips']").click();
+						}
+			 });
+			dName = deviceNm;
+		}
+	}
+	
+	// 修改名称点击[取消]时
+	$("#nameClose").click(function(){
+		$("#dName").val(dName);
+		$("#dNameConfirm").css("background-color",'#eee');
+	});
+	
+	// 监视位置文本框变化
+	$("#cityName").keyup(function() {
+		if (dLocal != $("#cityName").val()) {
+			$("#cityConfirm").css("background-color",'#4CA7CC');
+		} else {
+			$("#cityConfirm").css("background-color",'#eee');
+		}
+	});
+	
+	// 修改城市名称
+	function updateCityNm(){
+		var userId = $("#userId").val();
+		var mac = $("#mac").val();
+		var cityNm = $("#cityName").val();
+		if (dLocal != cityNm) {
+			$.post("/yt/api/device/updateDeviceNmOrCityNm.htm?cityNm="+$.trim(cityNm)+"&mac="+mac+"&userId="+userId,
+					"",
+					function(result) {
+						if(result == 1 || result == -1){
+							$("#cityClose").click();
+							layer.msg("修改成功", {time: 1000});
+						}
+						if(result == -1){
+							$("button[data-modal='alertTips']").click();
+						}
+			 });
+			dLocal = cityNm;
+		}
+	}
+	// 修改地理位置时,点击取消
+	$("#cityClose").click(function(){
+		$("#cityName").val(dLocal);
+		$("#cityConfirm").css("background-color",'#eee');
+	});
+	
+ 	// 删除设备
+	function deleteDevice(){
+		var userId = $("#userId").val();
+		var mac = $("#mac").val();
+ 		$.post("/yt/api/device/deleteDevice.htm?mac="+mac+"&userId="+userId,
+				"",
+				function(result) {
+					if(result == 1 || result == -1){
+						$("#deleClose").click();
+						layer.msg("删除成功", {time: 1000},function(){
+							// 返回设备一览页面
+							window.location.href="/yt/api/device/device_List.htm";
+						});
+					}
+					if(result == -1) {
+						$("button[data-modal='alertTips']").click();
+					}
+		  		});
+	}
+ 	
+ 	// 点击除弹出框以外位置
+ 	$("body").click(function(e) {
+ 		var target = $(e.target);
+ 		if (e.target.id == "") {
+ 			$("#dName").val(dName);
+ 			$("#dNameConfirm").css("background-color",'#eee');
+ 			$("#cityName").val(dLocal);
+ 			$("#cityConfirm").css("background-color",'#eee');
+ 		}
+ 	});
+</script>
+</body>
+</html>

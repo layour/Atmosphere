@@ -80,15 +80,16 @@
 					url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
 					data : {
 						// 手机号
-						username : $('#mobilePhoneNumber').val(),
+						username : $('#username').val(),
 						password: password,
 						index: "login"
 					},
 					success : function(data) {
-						alert("短信验证码发送成功！");
+						// 登录成功以后跳转到list
+						window.location.href = "../html/device_List.html";
 					},
 					error : function(e) {
-						alert("获取短信验证码失败！");
+						alert(e.responseText);
 					}
 				});
 				
@@ -96,7 +97,7 @@
 			// 跳过btn事件
 			function btnSkip() {
 				var openId = $('#openId').val();
-				window.location.href = "../html/device_List.htm";
+				window.location.href = "../html/device_List.html";
 			}
 		</script>
 	</head>
@@ -111,7 +112,7 @@
 				<p class="tip"  style="color:#ff3300; "></p>
 			</div>
 			<div class="login_phone">
-				<input id="username" type="tel"  placeholder="请输入手机号码"  maxlength="11" />
+				<input id="username" type="text"  placeholder="请输入账号"  />
 			</div>
 			<div class="login_verify_code">
 				<input id="password" type="password"  class="authCodeInput"  placeholder="请输入密码" />

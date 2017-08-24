@@ -94,16 +94,18 @@
 		      }
 		    });
 		  };
-		  */
+		  
 		  
 		  //连接设备
 		  document.querySelector('#linkDevice').onclick = function () {
 			  LinkDeviceFun();
 		  };
+		  */
 	});
 
 	//连接设备
 	function LinkDeviceFun() {
+		alert(123);
 	    //console.log("OpenWifiFormV2-1.5");
 	    WeixinJSBridge.invoke('configWXDeviceWiFi', '', function (res) {
 	        //alert(JSON.stringify(res));
@@ -187,10 +189,7 @@
 <div class="bottom_menu" >
     <ul class="menu" id="menuUl">    
         <li class="network"><a>连接网络</a>
-            <button id="CNBT" disabled="disabled" data-modal="connection_network" class="md-trigger"></button>
-        </li>
-        <li class="network" style="display:none"><a>二维码弹窗</a>
-            <button data-modal="make_code" class="md-trigger" id="makeCode"></button>
+            <button id="CNBT" data-modal="connection_network" class="md-trigger" ></button>
         </li>
         <li class="share"><a id="shareA" >分享</a>
         </li>
@@ -299,6 +298,11 @@ $(document).ready(function(){
 	var mac = "5ccf7fdbe755";
 	var defaultMac = "5ccf7fdbe755";
 	var companyFlg = "0";
+	
+	$("#moreA").attr("onclick","toSignin();return false;");
+	$("#shareA").attr("onclick","makeCode()");
+	$("#CNBT").removeAttr("disabled");
+	
 	
 	if(mac != defaultMac && companyFlg !="1"){
 		$("#moreA").attr("onclick","toSignin();return false;");
@@ -409,7 +413,7 @@ function hisDataTips(tagId) {
 	var devName = $("#dName").text();
 	var mac = $("#mac").val();
 	
-	window.location.href="/yt/api/device/deviceHistoryData.htm?productKey=" +productKey+ "&mac=" +mac+ "&devName=" +devName+ "&tagId=" +tagId;
+	window.location.href="../html/deviceHistoryData.html?productKey=" +productKey+ "&mac=" +mac+ "&devName=" +devName+ "&tagId=" +tagId;
 }
 // 跳转到更多页面
 function toSignin(){
@@ -420,7 +424,13 @@ function toSignin(){
 	var did = $("#did").val();
 	var userId = $("#userId").val();
 	window.location.href="/yt/api/device/signin.htm?dName="+dName+"&location="+location+"&firmwareVer="+firmwareVer+"&did="+did+"&userId="+userId; */
-	$("#keyForm").submit();
+	
+	
+	
+	//$("#keyForm").submit();
+	
+	window.location.href="../html/signin.html";
+	
 }
 // 生成二维码
 function makeCode() {
