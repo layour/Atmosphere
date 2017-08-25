@@ -2,7 +2,7 @@
 
 <application> 
   <app_start>html/login.html</app_start>  
-  <app_name>atmosphere</app_name>  
+  <app_name>空气盒子</app_name>  
   <project_name>a</project_name>  
   <package_name>com.yonyou.atmosphere</package_name>  
   <frame_name>summer-um</frame_name>  
