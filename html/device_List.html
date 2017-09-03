@@ -6,19 +6,12 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="format-detection" content="telephone=no" />
 		<title>设备列表</title>
-
 		<link type="text/css" rel="stylesheet" href="../css/common.css" />
 		<link type="text/css" rel="stylesheet" href="../css/style.css" />
 		<link type="text/css" rel="stylesheet" href="../css/popup.css" />
-		<!--[if IE]>
-		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
-		<![endif]-->
+
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
-		<script type="text/javascript" src="../js/gizwits_ws_0.1.1.min.js"></script>
-		<script type="text/javascript" src="../js/dev.js"></script>
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-		<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/themes/dark-unica.js"></script>
 		<script type="text/javascript">
 			wx.config({
 				debug : false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -31,22 +24,7 @@
 
 			wx.ready(function() {
 				wx.hideAllNonBaseMenuItem();
-				/*
-				 //判断当前版本是否支持指定 JS 接口，支持批量判断
-				 document.querySelector('#checkJsApi').onclick = function () {
-				 wx.checkJsApi({
-				 jsApiList: [
-				 'getNetworkType',
-				 'previewImage'
-				 ],
-				 success: function (res) {
-				 alert(JSON.stringify(res));
-				 }
-				 });
-				 };
-				 */
 			});
-
 		</script>
 	</head>
 	<body  style="background:#088e85;">
@@ -78,7 +56,7 @@
 					长按图片识别二维码
 				</p>
 				<div style="text-align: center; margin-top:5px">
-					<img id= "productQrCode">
+					<img id="productQrCode" style="width:260px;" src="http://wx.yuntongkeji.com/res/img/qrcode.jpg">
 				</div>
 				<div class="popup_button_1">
 					<button class="md-close next">
@@ -134,28 +112,24 @@
 	<script type="text/javascript" src="../js/doT.min.js"></script>
 	<script id="itemTemp" type="text/x-dot-template">
 		{{ for(var i = 0;i<it.length;i++){ }}
-			<div class="equipment_list" data-id="{{=it[i].id}}" onclick="openDetail(this)">
-				<img class="equipment_list_icon" src="../images/equipment_list_icon.png">
-				<div class="equipment_content">
-					<p class="equipment_name">{{=it[i].name}}</p>
-					<p class="equipment_number">{{=it[i].stationId}}</p>
-					<p class="equipment_online">在线</p>
-				</div>
-				<div class="pm_content">
-					<p class="pm_units">PM2.5 ug/m³</p>
-					<p class="pm_number">{{=it[i].pm25}}</p>
-				</div>
-				<div class="clear"></div>
-				<img class="equipment_list_arrow" src="../images/equipment_list_arrow.png">
-			</div>
+		<div class="equipment_list" data-id="{{=it[i].id}}" onclick="openDetail(this)">
+		<img class="equipment_list_icon" src="../images/equipment_list_icon.png">
+		<div class="equipment_content">
+		<p class="equipment_name">{{=it[i].name}}</p>
+		<p class="equipment_number">{{=it[i].stationId}}</p>
+		<p class="equipment_online">在线</p>
+		</div>
+		<div class="pm_content">
+		<p class="pm_units">PM2.5 ug/m³</p>
+		<p class="pm_number">{{=it[i].pm25}}</p>
+		</div>
+		<div class="clear"></div>
+		<img class="equipment_list_arrow" src="../images/equipment_list_arrow.png">
+		</div>
 		{{ } }}
 	</script>
 	<script type="text/javascript">
-		$(function(){
-			aaa();
-			var qrCodeUrl = 'http://wx.yuntongkeji.com/res/img/qrcode.jpg';
-			$("#productQrCode").attr("src", qrCodeUrl);
-			$("#productQrCode").attr({"style": "width:" + 260 + "px","src": qrCodeUrl});
+		$(function() {
 			$.ajax({
 				type : "get",
 				dataType : "json",
@@ -167,134 +141,17 @@
 					var list = data.list;
 					var dataText = doT.template($("#itemTemp").text());
 					$("#deviceList").html(dataText(list));
-					// 登录成功以后跳转到list
-					//window.location.href = "../html/device_List.html";
 				},
 				error : function(e) {
 					console.log(e);
 				}
 			});
 		});
-		function openDetail(item){
+		// 点击列表跳转详情， 将id传递过去
+		function openDetail(item) {
 			var id = $(item).attr("data-id");
-			var href = '../html/detail.html?id='+id;
+			var href = '../html/detail.html?id=' + id;
 			window.location.href = href;
-		}
-		function aaa(){
-			var list = [
- 				    {
-					    "id": "5493",
-					    "stationId": "8986",
-					    "name": "8986",
-					    "e": "116.64",
-					    "n": "39.866",
-					    "phone": "18756501473",
-					    "eplace": "未知",
-					    "dataDate": "1900-01-01 00:00:00.0",
-					    "NongD": "0",
-					    "ShiD": "0.0",
-					    "WenD": "0.0",
-					    "ZLZS": "0",
-					    "FengX": "0",
-					    "FengS": "0.0",
-					    "YuL": "0.0",
-					    "QiY": "0.0",
-					    "ZWX": "0.0",
-					    "YQHL": "0.0",
-					    "pm1": "0.0",
-					    "pm25": "0.0",
-					    "pm10": "0.0"
-					  },
-					  {
-					    "id": "5494",
-					    "stationId": "10009",
-					    "name": "10009",
-					    "e": "",
-					    "n": "",
-					    "phone": "15029541481",
-					    "eplace": "",
-					    "dataDate": "1900-01-01 00:00:00.0",
-					    "NongD": "0",
-					    "ShiD": "0.0",
-					    "WenD": "0.0",
-					    "ZLZS": "0",
-					    "FengX": "0",
-					    "FengS": "0.0",
-					    "YuL": "0.0",
-					    "QiY": "0.0",
-					    "ZWX": "0.0",
-					    "YQHL": "0.0",
-					    "pm1": "0.0",
-					    "pm25": "0.0",
-					    "pm10": "0.0"
-					  }]
-					var dataText = doT.template($("#itemTemp").text());
-					$("#deviceList").html(dataText(list));
-		}
-	</script>
-	<script>
-		var deviceJson = '[{"bindTime":1481343947000,"cityNameChinese":"北京","devAlias":"体验机","devId":"26e7988ef7474fa7b6639b62b65c12c4","devName":"体验机","did":"QgfE9fg7nSv2Hi9U5U3zD5","firmwareVersion":"VER1.0","firstOnlineTime":1482575453000,"isNeedPush":0,"isOnline":1,"lastOnlineTime":1502842656000,"mac":"5ccf7fdbe755","pm25Val":"27","productKey":"70b03e8cb0754208bf1655b04da32708","remark":"体验机","tagDesc":"PM2.5","tagName":"PM2.5 ug/m³","unit":"ug/m³","userId":99999999}]';
-		var devName = '智能空气质量检测仪';
-		var qrCodeUrl = 'http://wx.yuntongkeji.com/res/img/qrcode.jpg';
-
-		var companyFlg = '0';
-
-		//pageInit(deviceJson, devName, qrCodeUrl);
-		
-		function pageInit(deviceJson, devName, qrCodeUrl) {
-			$("#productQrCode").attr("src", qrCodeUrl);
-			$("#productQrCode").attr("style", "width:" + 260 + "px")
-			var divObj = $("#deviceList");
-			var obj = eval(deviceJson);
-			for (var i = 0; i < obj.length; i++) {
-				var isOnline;
-				var pmContent;
-				var pmValue;
-				var link;
-				if (obj[i].isOnline == 0) {
-					// 离线
-					isOnline = "离线";
-					style = "equipment_offline";
-					link = "<form id='detailForm' action='#' method='post'>"
-					/* link = "<a class='equipment_list_link' href='#'></a>"; */
-					pmContent = "";
-				} else if (obj[i].isOnline == 1) {
-					// 在线
-					isOnline = "在线";
-					style = "equipment_online";
-					// ?productKey="+obj[i].productKey+"&did="+obj[i].did+"&userId="+obj[i].userId+"&firmwareVersion="+obj[i].firmwareVersion+"
-					link = "<form id='detailForm" + i + "' action='/yt/api/device/detail.htm' method='post'><input type = 'hidden' name = 'productKey' value='" + obj[i].productKey + "'><input type = 'hidden' name = 'mac' value='" + obj[i].mac + "'><input type = 'hidden' name = 'userId' value='" + obj[i].userId + "'><input type = 'hidden' name = 'firmwareVersion' value='" + obj[i].firmwareVersion + "'><input type = 'hidden' name = 'companyFlg' value='" + companyFlg + "'></form>"
-					/* 			link = "<a class='equipment_list_link' href='/yt/api/device/detail.htm?productKey="+obj[i].productKey+"&did="+obj[i].did+"&userId="+obj[i].userId+"&firmwareVersion="+obj[i].firmwareVersion+"'></a>";
-					 */
-					if ( typeof (obj[i].pm25Val) == 'undefined' || obj[i].pm25Val == "") {
-						pmValue = '--';
-					} else {
-						pmValue = obj[i].pm25Val;
-					}
-					pmContent = "<div class='pm_content'><p class='pm_units'>" + obj[i].tagName + "</p><p class='pm_number'>" + pmValue + "</p></div><div class='clear'></div><img class='equipment_list_arrow' src='../images/equipment_list_arrow.png' /></div>"
-				}
-				if (obj[i].devName != "") {
-					devName = obj[i].devName;
-				}
-				$("#deviceList").append("<div class='equipment_list' onclick='detail(" + i + ");return false;' >" + link + "<img class='equipment_list_icon' src='../images/equipment_list_icon.png'/>" + "<div class='equipment_content'><p class='equipment_name'>" + devName + "</p><p class='equipment_number'>" + obj[i].mac + "</p><p class=" + style + ">" + isOnline + "</p></div>" + pmContent + "</div><div  id='userId" + i + "' style='display:none'>" + obj[i].userId + "</div>" + "<div  id='mac" + i + "' style='display:none'>" + obj[i].mac + "</div>");
-			}
-
-			if (companyFlg == "1") {
-				document.getElementById('toolbatButton').style.display = "none";
-				document.getElementById('deviceList').style.paddingBottom = "0px";
-			} else {
-				document.getElementById('toolbatButton').style.display = "block";
-				document.getElementById('deviceList').style.paddingBottom = "48px";
-			}
-
-		}
-
-		function detail(i) {
-			var oForm = $("#detailForm" + i);
-			if (oForm.attr('action') != '#') {
-				oForm.submit();
-			}
-
 		}
 	</script>
 </html>
