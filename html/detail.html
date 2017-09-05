@@ -29,7 +29,9 @@
 	<body>
 		<div class="device_detail_bg"></div>
 		<div class="device_detail_content" id="device_status1">
-			<p class="device_name" id="dName"></p>
+			<p class="device_name" id="dName">
+			
+			</p>
 			<p class="device_pm" id="name0" onclick="hisDataTips('PM25')">
 				PM2.5/空气细颗粒物
 			</p>
@@ -142,18 +144,6 @@
 				</li>
 			</ul>
 		</div>
-		<div id="keyDiv">
-			<form id="keyForm" method="post" action="/yt/api/device/signin.htm" style="display:none">
-				<input name="" id="timeKey" >
-				<input name="" id="productKey" value="" />
-				<input name="did" id="did" value="" />
-				<input name="userId" id="userId" value="" />
-				<input name="mac" id="mac" value="5ccf7fdbe755" />
-				<input name="firmwareVer" id="firmwareVer" value="" >
-				<input name="location" id="locationKey" value="" />
-				<input name="dName" id="dNameKey" value="" />
-			</form>
-		</div>
 		<!--连接网络弹窗开始-->
 		<div class="md-modal md-effect-1" id="connection_network">
 			<div class="md-content more_popup">
@@ -181,6 +171,19 @@
 
 		<!--弹窗的黑色透明背景-->
 		<div class="md-overlay"></div>
+		
+		<div id="keyDiv">
+			<form id="keyForm" method="post" action="/yt/api/device/signin.htm" style="display:none">
+				<input name="" id="timeKey" >
+				<input name="" id="productKey" value="" />
+				<input name="did" id="did" value="" />
+				<input name="userId" id="userId" value="" />
+				<input name="mac" id="mac" value="5ccf7fdbe755" />
+				<input name="firmwareVer" id="firmwareVer" value="" >
+				<input name="location" id="locationKey" value="" />
+				<input name="dName" id="dNameKey" value="" />
+			</form>
+		</div>
 	</body>
 
 	<script	type="text/javascript" src="../js/jquery.min.js"></script>
@@ -190,7 +193,14 @@
 	<script type="text/javascript" src="../js/popup/modalEffects.js"></script>
 
 	<script type="text/javascript">
+		// 获取location 参数
+		function GetQueryString(name){
+	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	        var r = window.location.search.substr(1).match(reg);
+	        if(r!=null)return  unescape(r[2]); return null;
+	    }
 		$(document).ready(function() {
+			alert();
 			var initResult = {
 				"userId" : 99999999,
 				"productKey" : "70b03e8cb0754208bf1655b04da32708",
@@ -204,7 +214,8 @@
 				"mac" : "5ccf7fdbe755"
 			};
 			createTable(initResult);
-
+			var list = {"list": [ { "id": "6283", "stationId": "10071001", "name": "河北省石家庄市灵寿县五岳寨国家森林公园", "e": "113.872", "n": "38.711", "phone": "15932116854", "eplace": "河北省", "dataDate": "2017-09-03 16:26:00.0", "NongD": "126" } ]}
+			//createTable(initResult);
 			// 取得设备最新状态
 			getNewDeviceStatus();
 			var refreshRate = 5000;
@@ -217,13 +228,22 @@
 		
 		//得到最新设备状态
 		function getNewDeviceStatus() {
-			var productKey = $("#productKey").val();
-			var mac = $("#mac").val();
-			var userId = $("#userId").val();
-			var firmwareVersion = $("#firmwareVer").val();
-			$.post("/yt/api/device/getNewDeviceStatus.htm?productKey=" + productKey + "&mac=" + mac + "&userId=" + userId + "&firmwareVersion=" + firmwareVersion + "", "", function(result) {
-				var status = result;
-				createTable(status);
+
+			var paramId = GetQueryString("id") || 10071001;
+			$.ajax({
+				type : "get",
+				dataType : "json",
+				url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+				data : {
+					parameter4 : 2,
+					parameter5 : paramId
+				},
+				success : function(data) {
+					createTable(data);
+				},
+				error : function(e) {
+					console.log(e);
+				}
 			});
 		}
 
