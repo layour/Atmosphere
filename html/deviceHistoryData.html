@@ -28,202 +28,154 @@
     <div class="historydata_select">
         <p>历史数据</p>
         <select>
+	        <!-- <option value="NongD">负离子</option> -->
+	        <option value="ShiD">湿度</option>
+	        <option value="WenD">温度</option>
+	        <!-- <option value="ZLZS">正离子</option> -->
+	        <option value="ZWX">紫外线</option>
+	        <option value="YQHL">氧气含量</option>
         </select>
         <div class="clear"></div>
     </div>
 </div>
-
 <!--年月日tab-->
 <div class="display_method">
     <ul id="nmdUl">
-		
+	    <li class="display_method_on" id="li1" data-type="day">按日显示</li>
+	    <li class="" id="li2" data-type="month">按月显示</li>
+	    <li class="" id="li3" data-type="year">按年显示</li>
     </ul>
 </div>
 
 <!--历史数据曲线图-->
 <div class="history_data" id = "history_data" style="height: 60%;"></div>
 
-<!--室内室外的色标-->
-<!-- <div class="colour_coded">
-    <div class="indoor">
-    	<span></span>
-        <p>室内</p>
-    </div>
-    <div class="outdoor">
-        <p>室外</p>
-        <span></span>
-    </div>
-    <div class="clear"></div>
-</div> -->
-<input type="hidden" value="5ccf7fdbe755" id="mac"/>
 </body>
 <script type="text/javascript">
 	wx.hideAllNonBaseMenuItem();
 	// 显示的类型
-	var showType = "";
+	var showType = "day";
 	// 显示的数据点
-	var showTag = "";
-	// 获取数据点
-	var tagJson = '[{"kind":0,"tagId":"PM25","tagDesc":"PM2.5","unit":"ug/m³","decimalPlace":0,"enumOptionName":"","enumOptionVal":"","updateTime":"Nov 30, 2016 11:25:05 AM","productKey":"70b03e8cb0754208bf1655b04da32708","dataColNo":3},{"kind":0,"tagId":"Temperature","tagDesc":"温度","unit":"℃","decimalPlace":1,"enumOptionName":"","enumOptionVal":"","updateTime":"Nov 30, 2016 11:23:51 AM","productKey":"70b03e8cb0754208bf1655b04da32708","dataColNo":1},{"kind":0,"tagId":"HCHO","tagDesc":"甲醛","unit":"mg/m³","decimalPlace":2,"enumOptionName":"","enumOptionVal":"","updateTime":"Nov 30, 2016 11:25:05 AM","productKey":"70b03e8cb0754208bf1655b04da32708","dataColNo":2},{"kind":0,"tagId":"CO2","tagDesc":"CO2","unit":"ppm","decimalPlace":0,"enumOptionName":"","enumOptionVal":"","updateTime":"Nov 30, 2016 11:25:05 AM","productKey":"70b03e8cb0754208bf1655b04da32708","dataColNo":4},{"kind":0,"tagId":"VOC","tagDesc":"TVOC","unit":"ppm","decimalPlace":2,"enumOptionName":"","enumOptionVal":"","updateTime":"Nov 30, 2016 11:25:05 AM","productKey":"70b03e8cb0754208bf1655b04da32708","dataColNo":5},{"kind":0,"tagId":"Humidity","tagDesc":"湿度","unit":"%","decimalPlace":1,"enumOptionName":"","enumOptionVal":"","updateTime":"Nov 30, 2016 11:25:05 AM","productKey":"70b03e8cb0754208bf1655b04da32708","dataColNo":6}]';
-	// 创建数据点下拉框
-	createTagSelect(tagJson);
-	// 创建年月日Tab
-	createNMDli();
-	// 获取图表显示数据
-	getChartData();
+	var showTag = "ShiD";
+	var idata=[{"id":"3096138","sationId":"01006001","dataDate":"2017-07-15 18:00:00.0","NongD":"546","ShiD":72.5,"WenD":30.1,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096246","sationId":"01006001","dataDate":"2017-07-15 19:00:00.0","NongD":"538","ShiD":74.5,"WenD":28.85,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096356","sationId":"01006001","dataDate":"2017-07-15 20:00:00.0","NongD":"509","ShiD":75.5,"WenD":28.25,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096466","sationId":"01006001","dataDate":"2017-07-15 21:00:00.0","NongD":"524","ShiD":74,"WenD":28.35,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096575","sationId":"01006001","dataDate":"2017-07-15 22:00:00.0","NongD":"548","ShiD":75,"WenD":28.2,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096684","sationId":"01006001","dataDate":"2017-07-15 23:00:00.0","NongD":"500","ShiD":76.5,"WenD":27.8,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096793","sationId":"01006001","dataDate":"2017-07-16 00:00:00.0","NongD":"541","ShiD":77.5,"WenD":27.55,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096902","sationId":"01006001","dataDate":"2017-07-16 01:00:00.0","NongD":"524","ShiD":78.5,"WenD":27.35,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097009","sationId":"01006001","dataDate":"2017-07-16 02:00:00.0","NongD":"502","ShiD":78.5,"WenD":27.2,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097117","sationId":"01006001","dataDate":"2017-07-16 03:00:00.0","NongD":"501","ShiD":79,"WenD":27.1,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097226","sationId":"01006001","dataDate":"2017-07-16 04:00:00.0","NongD":"504","ShiD":79,"WenD":26.95,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097333","sationId":"01006001","dataDate":"2017-07-16 05:00:00.0","NongD":"450","ShiD":80.5,"WenD":26.85,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097439","sationId":"01006001","dataDate":"2017-07-16 06:00:00.0","NongD":"512","ShiD":78,"WenD":27.75,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097546","sationId":"01006001","dataDate":"2017-07-16 07:00:00.0","NongD":"519","ShiD":75,"WenD":28.75,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097654","sationId":"01006001","dataDate":"2017-07-16 08:00:00.0","NongD":"442","ShiD":72.5,"WenD":30,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097762","sationId":"01006001","dataDate":"2017-07-16 09:00:00.0","NongD":"435","ShiD":69.5,"WenD":31.15,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097869","sationId":"01006001","dataDate":"2017-07-16 10:00:00.0","NongD":"428","ShiD":66,"WenD":32.45,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097975","sationId":"01006001","dataDate":"2017-07-16 11:00:00.0","NongD":"503","ShiD":61.5,"WenD":33.7,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098082","sationId":"01006001","dataDate":"2017-07-16 12:00:00.0","NongD":"538","ShiD":57.6,"WenD":34.45,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098190","sationId":"01006001","dataDate":"2017-07-16 13:00:00.0","NongD":"559","ShiD":52.5,"WenD":35.1,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098298","sationId":"01006001","dataDate":"2017-07-16 14:00:00.0","NongD":"560","ShiD":52.5,"WenD":35.55,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098406","sationId":"01006001","dataDate":"2017-07-16 15:00:00.0","NongD":"433","ShiD":51.5,"WenD":35.85,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098514","sationId":"01006001","dataDate":"2017-07-16 16:00:00.0","NongD":"355","ShiD":54.5,"WenD":35.65,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098621","sationId":"01006001","dataDate":"2017-07-16 17:00:00.0","NongD":"349","ShiD":60,"WenD":34.63,"ZLZS":"0","ZWX":0,"YQHL":0}];
+	var xData = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"]
 	
+	// 获取图表显示数据
+	$(function(){
+		//getChartData();
+		// 创建图表
+		createAA(xData,idata);
+	});
+	// 获取location 参数
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
 	/*获取图表显示数据*/
 	function getChartData() {
-		// X轴数据
-		var xData = [];
-		// 室内数据
-		var iData = [];
-		// 室外数据
-		var oData = [];
-		// 显示类型
-		var displayPeriod;
-		if(showType == "" || showType == "按日显示") {
-			// 画面初期化时默认显示
-			displayPeriod = "day";
-		}else if (showType == "按月显示") {
-			displayPeriod = "month";
-		}else if (showType == "按年显示") {
-			displayPeriod = "year";
-		}
-		
-		var count = 24;
+		var param1 = GetQueryString("id") || 01006001;
+		var param2 = "2017-07-15%2017:55:49";
+		var prarm3 = "2017-07-16%2017:55:49";
+		var param4 = 4;
 		switch (showType) {
-		case "按日显示":
-			count = 24;
-			break;
-		case "按月显示":
-			count = 29;
-			break;
-		case "按年显示":
-			count = 5;
-			break;
-		default:
-			break;
+			case "day":
+				param4 = 4;
+				break;
+			case "month":
+				param4 = 5;
+				break;
+			case "year":
+				param4 = 6;
+				break;
 		}
-		var mac = $("#mac").val();
 		// 室内历史数据取得
-		$.ajaxSettings.async = false;
 		$.ajax({
 			type : "get",
 			dataType : "json",
-			url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction?parameter1=01006001&parameter2=2017-07-15%2017:55:49&parameter3=2017-07-16%2017:55:49&parameter4=3",
-			data : {},
+			url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+			data : {
+				parameter1 : param1,
+				parameter2 : param2,
+				parameter3 : prarm3,
+				parameter4 : param4,
+			},
 			success : function(data) {
-				var obj = data;
-				// 登录成功以后跳转到list
-				for(var i = count; i >=0 ; i--) {
-						xData.push(obj[i].valDate);
-						if (obj[i].dayData == '' || obj[i].dayData == null) {
-							iData.push(null);
-						} else {
-							iData.push(Number(obj[i].dayData));
-						}
-					}
+				// 室内数据
+				var iData = data;
+				// X轴数据
+				var xData = [];
+				for (var i = 0; i < data.length; i++){
+					var date1 = data[i].dataDate;
+					var date2 = date1.substring(11).substr(0,5);
+					xData.push(date2);
+				}
+				createAA(xData,iData);
 			},
 			error : function(e) {
 				alert(e.responseText);
 			}
 		});
 		
-		/*
-		// 室外数据取得
-	    // $.ajaxSettings.async = true;
-		$.get("/yt/api/device/getOutsideStsHisData.htm?displayPeriod="+displayPeriod+"&dataPoint="+showTag,
-				"",
-				function(result) {
-					var obj = eval(result);
-					for(var i = count; i >=0 ; i--) {
-						if (obj[i].dayData == '' || obj[i].dayData == null) {
-							oData.push(null);
-						} else {
-							oData.push(Number(obj[i].dayData));
-						}
-					}
-		 });
-	*/	
-		// 创建图表
-		createAA(xData,iData,oData);
-	}
-	
-	/*创建下拉框*/
-	function createTagSelect(tagJson) {
-		var obj = eval(tagJson);
-		for (var i = 0; i < obj.length; i++) {
-			if (i == 0) {
-				showTag = obj[i].tagId;
-			}
-			$("select").append("<option value="+obj[i].tagId+">" +obj[i].tagDesc+ "</option>");
-		}
-	}
-	
-	/*动态生成年月日tab*/
-	function createNMDli() {
-		var liVal;
-		var liClass;
-		for (var i = 1; i < 4; i++) {
-			switch (i) {
-			case 1:
-				liVal = "按日显示"
-				liClass = "display_method_on";
-				break;
-			case 2:
-				liVal = "按月显示"
-				liClass = "";
-				break;
-			case 3:
-				liVal = "按年显示"
-				liClass = "";
-				break;
-			default:
-				break;
-			}
-			$("#nmdUl").append("<li class='" +liClass+"' id='li" +i+ "'>" +liVal+ "</li>");
-		}
 	}
 	
 	/*[年月日tab]变化监听事件*/
 	$(".display_method").children("ul").children("li").click(function() {
-		// 删除ul下所有li的样式
 		$("ul[id=nmdUl] > li").removeClass();
-		// 当前li增加样式
 		$(this).addClass("display_method_on");
-		showType = $(this).text();
-		// 获取图表显示数据
-		getChartData();
+		// 更改showType类型   分为day，month  year  
+		//showType = $(this).attr("data-type");
+		//getChartData();
 	});
 	
 	/*数据点下拉框监听事件*/
 	$("select").change(function() {
 		showTag = $(this).val();
+		createAA(xData,idata);
+		return;
 		// 获取图表显示数据
 		getChartData();
 	});
 	
-	function createAA(xData, iData, oData) {
+	function createAA(xData, iData) {
 		var seriesArr = new Array();
+		var dataArr = [];
 		switch (showTag) {
-		case "Temperature": // 温度
-			seriesArr.push({"name": '室内温度(℃)', "data": iData},{"name": '室外温度(℃)', "data": oData});
+		case "NongD": // 负离子
+			for (var i = 0; i < iData.length; i++){
+				dataArr.push(iData[i].NongD);
+			}
+			seriesArr.push({"name": '负离子', "data": dataArr});
 			break;
-		case "HCHO": // 甲醛
-			seriesArr.push({"name": '室内甲醛(mg/m³)', "data": iData});
+		case "ShiD": // 湿度
+			for (var i = 0; i < iData.length; i++){
+				dataArr.push(iData[i].ShiD);
+			}
+			seriesArr.push({"name": '湿度', "data": dataArr});
 			break;
-		case "PM25": // pm2.5
-			seriesArr.push({"name": '室内PM2.5(ug/m³)', "data": iData},{"name": '室外PM2.5(ug/m³)', "data": oData});
+		case "WenD": // 温度
+			for (var i = 0; i < iData.length; i++){
+				dataArr.push(iData[i].WenD);
+			}
+			seriesArr.push({"name": '温度', "data": dataArr});
 			break;
-		case "CO2": // co2
-			seriesArr.push({"name": '室内CO2(ppm)', "data": iData});
+		case "ZLZS": // 正离子
+			for (var i = 0; i < iData.length; i++){
+				dataArr.push(iData[i].ZLZS);
+			}
+			seriesArr.push({"name": '正离子', "data": dataArr});
 			break;
-		case "VOC": // TVOC
-			seriesArr.push({"name": '室内TVOC(ppm)', "data": iData});
+		case "ZWX": // 紫外线
+			for (var i = 0; i < iData.length; i++){
+				dataArr.push(iData[i].ZWX);
+			}
+			seriesArr.push({"name": '紫外线', "data": dataArr});
 			break;
-		case "Humidity": // 湿度
-			seriesArr.push({"name": '室内湿度(%)', "data": iData},{"name": '室外湿度(%)', "data": oData});
+		case "YQHL": // 氧气含量
+			for (var i = 0; i < iData.length; i++){
+				dataArr.push(iData[i].YQHL);
+			}
+			seriesArr.push({"name": '氧气含量', "data": dataArr});
 			break;
 		default:
 			break;
@@ -268,400 +220,6 @@
 	        },
 	        series:seriesArr
 		});
-	}
-	
-
-</script>
-<script>
-	/*创建图表*/
-	function createChart(xData, iData, oData,tagVal,interArray,bands) {
- 			Highcharts.setOptions({
-			    colors: ['#008800', '#FF3333']
-			});
-		   $('.history_data').highcharts({
-			   chart: {
-				 type: 'areaspline',
-				 backgroundColor:''
-			   },
-		        title: {
-		            text: ''
-		        },
-		        subtitle: {
-		            text: ''
-		        },
-		        xAxis: {
-		        	// X轴显示数据
-		        	categories: xData,
-		        	// X轴刻度线对齐方式
-		        	//tickmarkPlacement:'in',
-		        },
-		        yAxis: {
-		            gridLineWidth: 1,
-		        	// 重写Y刻度值设定方法
-/*  		        	tickPositioner:function() {
-		        		positions = interArray.slice();
-	        			if (this.dataMin < positions[0]) {
-	        				positions.splice(0,0,this.dataMin);
-	        			}
-	        			
-	        			if (this.dataMax > positions[positions.length - 1]) {
-	        				positions.splice(positions.length-1, 1, this.dataMax);
-	        			}
-	        			
-		        		return positions;
-		        	}, */
-		        	
-		        	title: {
-		                text: ''
-		            },
- 		        	labels: {
- 		        		enabled:false,
-			    		// 自定义Y轴标签格式化函数
-/* 			    		formatter:function() {
-			    			switch (showTag) {
-							case "Temperature": // 温度
-								return SetTemperatureContent(this.value) + this.value;
-								break;
-							case "HCHO": // 甲醛
-								if (this.value > 0){
-									return SetPAContent(this.value) + this.value;
-								}
-								break;
-							case "PM25": // pm2.5
-								if (this.value > 0) {
-									return SetPM25Content(this.value) + this.value;
-								}
-								break;
-							case "CO2": // co2
-								if (this.value >= 1500) {
-									return SetCO2Content(this.value) + this.value;
-								};
-								break;
-							case "VOC": // TVOC
-								if (this.value > 0) {
-									return SetTVOCContent(this.value) + this.value;
-								}
-								break;
-							case "Humidity": // 湿度
-								//if (this.value > 0) {
-									return SetHumidityContent(this.value) + this.value;
-								//}
-								break;
-							default:
-								break;
-							}
-			    		}, */
-		            },
-		            plotBands: bands
-		        },
-/* 	            legend: { //图例
-	                align: 'center',
-	                verticalAlign: 'top',
-	                y: 0,
-	                floating: true,
-	                borderWidth: 0
-	            }, */
-		        plotOptions: {
-		        	areaspline: {
-		        		fillOpacity:10000,
-		                lineWidth: 2,
-		                states: {
-		                    hover: {
-		                        lineWidth: 2
-		                    }
-		                },
-		                marker: {
-		                	// 是否显示点
-		                    enabled: true,
-		                },
-		                dataLabels: {
-		                    enabled: true
-		                },
-		                enableMouseTracking: false
-		            }
-		        },
-		        credits : {
-		        	// 是否显示右下角文本
-		        	enabled:false
-		        },
-		        series: [{
-		            name: '室内'+tagVal,
-		            data: iData,
-		            fillColor: {
-	                    linearGradient: {
-	                        x1: 0,
-	                        y1: 0,
-	                        x2: 0,
-	                        y2: 1
-	                    },
-	                    stops: [
-	                        [0, Highcharts.getOptions().colors[0]],
-	                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-	                    ],
-	                },
-		        },  {
-		            name: '室外'+tagVal,
-		            data: oData,
-		            fillColor: {
-	                    linearGradient: {
-	                        x1: 0,
-	                        y1: 0,
-	                        x2: 0,
-	                        y2: 1
-	                    },
-	                    stops: [
-	                        [0, Highcharts.getOptions().colors[1]],
-	                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-	                    ],
-	                },
-		        }
-		        ],
-		        navigation: {
-		            menuItemStyle: {
-		                fontSize: '10px'
-		            }
-		        },
-		    });
-	}
-	
-	
-	function createTT(xData,iData,oData,tagVal,interArray) {
-			Highcharts.setOptions({ 
-			    colors: ['#008800', '#FF3333']
-			});
-		   $('.history_data').highcharts({
-			   chart: {
-				 type: 'areaspline',
-				 inverted: true
-			   },
-		        title: {
-		            text: ''
-		        },
-		        subtitle: {
-		            text: ''
-		        },
-		        xAxis: {
-		        	// X轴显示数据
-		        	categories: xData,
-		        	// X轴刻度线对齐方式
-		        	//tickmarkPlacement:'in',
-		        },
-		        yAxis: {
-		            gridLineWidth: 1,
-		        	// 重写Y刻度值设定方法
- 		        	tickPositioner:function() {
-		        		var positions = interArray;
-	        			if (this.dataMin < positions[0]) {
-	        				positions.splice(0,0,this.dataMin);
-	        			}
-	        			
-	        			if (this.dataMax > positions[positions.length - 1]) {
-	        				positions.splice(positions.length-1, 1, this.dataMax);
-	        			}
-		        		return positions;
-		        	},
-		        	
-		        	title: {
-		                text: ''
-		            },
- 		        	labels: {
- 		        		enabled:true,
-			    		// 自定义Y轴标签格式化函数
-			    		formatter:function() {
-			    			switch (showTag) {
-							case "Temperature": // 温度
-								return SetTemperatureContent(this.value) + this.value;
-								break;
-							case "HCHO": // 甲醛
-								if (this.value > 0){
-									return SetPAContent(this.value) + this.value;
-								}
-								break;
-							case "PM25": // pm2.5
-								if (this.value > 0) {
-									return SetPM25Content(this.value) + this.value;
-								}
-								break;
-							case "CO2": // co2
-								if (this.value >= 1500) {
-									return SetCO2Content(this.value) + this.value;
-								};
-								break;
-							case "VOC": // TVOC
-								if (this.value > 0) {
-									return SetTVOCContent(this.value) + this.value;
-								}
-								break;
-							case "Humidity": // 湿度
-								//if (this.value > 0) {
-									return SetHumidityContent(this.value) + this.value;
-								//}
-								break;
-							default:
-								break;
-							}
-			    		},
-		            },
-		        },
-/* 	            legend: { //图例
-	                align: 'center',
-	                verticalAlign: 'top',
-	                y: 0,
-	                floating: true,
-	                borderWidth: 0
-	            }, */
-		        plotOptions: {
-		        	areaspline: {
-		        		fillOpacity:10000,
-		                lineWidth: 2,
-		                states: {
-		                    hover: {
-		                        lineWidth: 2
-		                    }
-		                },
-		                marker: {
-		                	// 是否显示点
-		                    enabled: true,
-		                },
-		                dataLabels: {
-		                    enabled: true
-		                },
-		                enableMouseTracking: false
-		            }
-		        },
-		        credits : {
-		        	// 是否显示右下角文本
-		        	enabled:false
-		        },
-		        series: [{
-		            name: '室内'+tagVal,
-		            data: iData,
-		            fillColor: {
-	                    linearGradient: {
-	                        x1: 0,
-	                        y1: 0,
-	                        x2: 0,
-	                        y2: 1
-	                    },
-	                    stops: [
-	                        [0, Highcharts.getOptions().colors[0]],
-	                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.01).get('rgba')]
-	                    ],
-	                },
-		        },  {
-		            name: '室外'+tagVal,
-		            data: oData,
-		            fillColor: {
-	                    linearGradient: {
-	                        x1: 0,
-	                        y1: 0,
-	                        x2: 0,
-	                        y2: 1
-	                    },
-	                    stops: [
-	                        [0, Highcharts.getOptions().colors[1]],
-	                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.01).get('rgba')]
-	                    ],
-	                },
-		        }
-		        ],
-		        navigation: {
-		            menuItemStyle: {
-		                fontSize: '10px'
-		            }
-		        },
-		    });
-		}
-	
-	function createTest(xData, iData, oData,tagVal,interArray,bands) {
-	    $('.history_data').highcharts({
-	        chart: {
-	            type: 'areaspline',
-	        },
-	        title: {
-	            text: ''
-	        },
-	        subtitle: {
-	            text: ''
-	        },
-	        credits : {
-	        	// 是否显示右下角文本
-	        	enabled:false
-	        },
-	        xAxis: {
-	            categories: xData,
-	            labels: {
-	                overflow: 'justify'
-	            }
-	        },
-	        yAxis: {
-	            title: {
-	                text: ''
-	            },
- 	           /*  minorGridLineWidth: 0, */
-	            gridLineWidth: 0,
-	            alternateGridColor: null,
-	            plotBands: bands
-	        },
-	        tooltip: {
-	            valueSuffix: ''
-	        },
-	        plotOptions: {
-	        	areaspline: {
-	        		fillOpacity:0.1,
-	                lineWidth: 2,
-	                states: {
-	                    hover: {
-	                        lineWidth: 1
-	                    }
-	                },
-	                marker: {
-	                	// 是否显示点
-	                    enabled: true,
-	                },
-	                dataLabels: {
-	                    enabled: true
-	                },
-	                enableMouseTracking: false
-	            }
-	        },
-	        series: [{
-	            name: '室内'+tagVal,
-	            data: iData,
-	            fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.1).get('rgba')]
-                    ],
-                },
-	        }, {
-	            name: '室外'+tagVal,
-	            data: oData,
-	            fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[1]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.1).get('rgba')]
-                    ],
-                },
-	        }],
-	        navigation: {
-	            menuItemStyle: {
-	                fontSize: '10px'
-	            }
-	        }
-	    });
 	}
 </script>
 </html>

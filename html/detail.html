@@ -63,9 +63,9 @@
 			</div>
 			<div class="device_date_all" style="margin-top:20px;">
 				<div class="device_date_top">
-					<div class="device_date" onclick="hisDataTips('VOC')">
+					<div class="device_date">
 						<p class="target" id="name1">
-							TVOC
+							紫外线
 						</p>
 						<p class="target_number" >
 							<span id="value1">--</span><span id="unit1" style="font-size: 12px;"></span>
@@ -74,9 +74,9 @@
 							--
 						</p>
 					</div>
-					<div class="device_date" onclick="hisDataTips('CO2')">
+					<div class="device_date">
 						<p class="target" id="name2">
-							二氧化碳
+							负离子
 						</p>
 						<p class="target_number" >
 							<span id="value2">--</span><span id="unit2" style="font-size: 12px;"></span>
@@ -85,9 +85,9 @@
 							--
 						</p>
 					</div>
-					<div class="device_date" onclick="hisDataTips('HCHO')">
+					<div class="device_date">
 						<p class="target" id="name3">
-							甲醛
+							氧气含量
 						</p>
 						<p class="target_number" >
 							<span id="value3">--</span><span id="unit3" style="font-size: 12px;"></span>
@@ -99,7 +99,7 @@
 					<div class="clear"></div>
 				</div>
 				<div class="device_date_bottom">
-					<div class="device_date" onclick="hisDataTips('Temperature')">
+					<div class="device_date">
 						<p class="target" id="name4">
 							温度
 						</p>
@@ -110,7 +110,7 @@
 							--
 						</p>
 					</div>
-					<div class="device_date" onclick="hisDataTips('Humidity')">
+					<div class="device_date">
 						<p class="target" id="name5">
 							湿度
 						</p>
@@ -200,22 +200,37 @@
 	        if(r!=null)return  unescape(r[2]); return null;
 	    }
 		$(document).ready(function() {
-			alert();
-			var initResult = {
-				"userId" : 99999999,
-				"productKey" : "70b03e8cb0754208bf1655b04da32708",
-				"dName" : "体验机",
-				"updateTime" : "2017-08-17 14:36:45",
-				"location" : "北京",
-				"cityId" : "101010100",
-				"outsidePm25" : "15",
-				"firmwareVersion" : "VER1.0",
-				"datas" : [["温度", "29.0", "℃", "Temperature"], ["甲醛", "0.00", "mg/m³", "HCHO"], ["PM2.5", "27", "ug/m³", "PM25"], ["CO2", "521", "ppm", "CO2"], ["TVOC", "0.96", "ppm", "VOC"], ["湿度", "38.0", "%", "Humidity"]],
-				"mac" : "5ccf7fdbe755"
-			};
-			createTable(initResult);
-			var list = {"list": [ { "id": "6283", "stationId": "10071001", "name": "河北省石家庄市灵寿县五岳寨国家森林公园", "e": "113.872", "n": "38.711", "phone": "15932116854", "eplace": "河北省", "dataDate": "2017-09-03 16:26:00.0", "NongD": "126" } ]}
+			
 			//createTable(initResult);
+			var list = {
+				"list": [ 
+					{
+				    "id": "6283",
+				    "stationId": "10071001",
+				    "name": "河北省石家庄市灵寿县五岳寨国家森林公园",
+				    "e": "113.872",
+				    "n": "38.711",
+				    "phone": "15932116854",
+				    "eplace": "河北省",
+				    "dataDate": "2017-09-09 16:02:00.0",
+				    "NongD": "537",
+				    "ShiD": "85.0",
+				    "WenD": "20.9",
+				    "ZLZS": "0",
+				    "FengX": "0",
+				    "FengS": "0.0",
+				    "YuL": "0.0",
+				    "QiY": "0.0",
+				    "ZWX": "0.0",
+				    "YQHL": "0.0",
+				    "pm1": "0.0",
+				    "pm25": "0.0",
+				    "pm10": "0.0"
+				  }
+				]
+			}
+			create(list);
+			/*
 			// 取得设备最新状态
 			getNewDeviceStatus();
 			var refreshRate = 5000;
@@ -224,11 +239,50 @@
 			} else {
 				var t1 = window.setInterval("getNewDeviceStatus()", refreshRate);
 			}
+			*/
 		});
-		
+		function create(s){
+			var status = s.list[0];
+			// 
+			$("#dName").text(status['name']);
+			$("#location").text(status['eplace']);
+			$("#updateTime").text(status.dataDate);
+			
+			var tips = getTips2(status,status.pm10);
+			$("#tip").text(tips);
+			// pm2.5
+			var grade0 = SetPM25Content(status.pm25);
+			$("#value0").text(status.pm25);
+			$("#grade0").text(grade0);
+			// 温度
+			var grade4 = SetTemperatureContent(status.WenD);
+		    $("#value4").text(status.WenD);
+		    $("#unit4").text("°C");
+		    $("#grade4").text(grade4);
+		    // 湿度
+			var grade5 = SetHumidityContent(status.ShiD);
+		    $("#value5").text(status.ShiD);
+		    $("#unit5").text("%");
+		    $("#grade5").text(grade5);
+		    // 紫外线
+			var grade1 = SetTVOCContent(status.ZWX);
+			$("#value1").text(status.ZWX);
+			$("#unit1").text("nm");
+			$("#grade1").text(grade1);
+			// 负离子
+			var grade2 = SetCO2Content(status.NongD);
+		    $("#value2").text(status.NongD);
+		    $("#unit2").text("个/cm3");
+		    $("#grade2").text(grade2);
+		    // 甲醛
+			var grade3 = SetPAContent(status.YQHL);
+		    $("#value3").text(status.YQHL);
+		    $("#unit3").text("mg/m³");
+		    $("#grade3").text(grade3);
+			
+		}
 		//得到最新设备状态
 		function getNewDeviceStatus() {
-
 			var paramId = GetQueryString("id") || 10071001;
 			$.ajax({
 				type : "get",
@@ -246,100 +300,10 @@
 				}
 			});
 		}
-
-		//利用查询得到数据生成显示效果
-		function createTable(status) {
-			if (status['updateTime'] != $("#timeKey").val()) {
-				// 保留查询条件
-				$("#productKey").val(status['productKey']);
-				$("#mac").val(status['mac']);
-				$("#userId").val(status['userId']);
-				$("#firmwareVer").val(status['firmwareVersion']);
-				// 得到数据集
-				var datas = status['datas'];
-				// 得到提示信息
-				var tips = getTips(datas, status['outsidePm25']);
-				// 整体环境舒适则提示
-				if (tips[6] != "") {
-					$("#tip").text(tips[6])
-				}
-				// 遍历数据提示信息
-				else {
-					for (var i = 0; i < tips.length; i++) {
-						if (tips[i] != "") {
-							$("#tip").text(tips[i]);
-							break;
-						}
-					}
-				}
-				// 设备名
-				$("#dName").text(status['dName']);
-				$("#dNameKey").val(status['dName']);
-				// 设备位置
-				$("#location").text(status['location']);
-				$("#locationKey").val(status['location']);
-				// 更新时间
-				var time = status['updateTime'].slice(0, 16)
-				$("#updateTime").text(time);
-				$("#timeKey").val(status['updateTime']);
-				//户外pm2.5
-				$("#outsidePm25").text(status['outsidePm25']);
-				// pm2.5
-				for (var i = 0; i < datas.length; i++) {
-					var name = datas[i][0];
-					var value = datas[i][1];
-					var unit = datas[i][2];
-					if (value == "null") {
-						value = "-"
-					}
-					if (datas[i][3] == "PM25") {
-						var grade = SetPM25Content(datas[i][1]);
-						var pm25Class = checkPM25Class(datas[i][1]);
-						$("#value0").text(value);
-						$("#grade0").removeAttr("class");
-						$("#grade0").attr("class", "pollution_degree pollution_degree" + pm25Class);
-						$("#grade0").text(grade);
-					}
-					if (datas[i][3] == "VOC") {
-						var grade = SetTVOCContent(datas[i][1]);
-						$("#value1").text(value);
-						$("#unit1").text(unit);
-						$("#grade1").text(grade);
-					}
-					if (datas[i][3] == "CO2") {
-						var grade = SetCO2Content(datas[i][1]);
-						$("#value2").text(value);
-						$("#unit2").text(unit);
-						$("#grade2").text(grade);
-					}
-					if (datas[i][3] == "HCHO") {
-						var grade = SetPAContent(datas[i][1]);
-						$("#value3").text(value);
-						$("#unit3").text(unit);
-						$("#grade3").text(grade);
-					}
-					if (datas[i][3] == "Temperature") {
-						var grade = SetTemperatureContent(datas[i][1]);
-						$("#value4").text(value);
-						$("#unit4").text(unit);
-						$("#grade4").text(grade);
-					}
-					if (datas[i][3] == "Humidity") {
-						var grade = SetHumidityContent(datas[i][1]);
-						$("#value5").text(value);
-						$("#unit5").text(unit);
-						$("#grade5").text(grade);
-					}
-				}
-			}
-		}
-
-		function hisDataTips(tagId) {
-			var productKey = $("#productKey").val();
-			var devName = $("#dName").text();
-			var mac = $("#mac").val();
-
-			window.location.href = "../html/deviceHistoryData.html?productKey=" + productKey + "&mac=" + mac + "&devName=" + devName + "&tagId=" + tagId;
+		
+		function hisDataTips() {
+			var id = GetQueryString("id") || 10071001;
+			window.location.href = "../html/deviceHistoryData.html?id=" + id;
 		}
 
 		// 跳转到更多页面
@@ -348,4 +312,5 @@
 		}
 
 	</script>
+	
 </html>

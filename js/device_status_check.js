@@ -976,6 +976,43 @@ var hchoPlotBands = [
 	}
 },
 ]
+function getTips2(datas,outsidePm25){
+	var value = "当前环境舒适";
+	if( outsidePm25 && outsidePm25 <= 35) {
+		value = "室外空气质量优良，建议开窗通风";
+    }
+	if( outsidePm25 && outsidePm25 > 115){
+		value = "pm2.5浓度较高，建议开启净化器";
+	}
+	// 甲醛
+	if( datas.HCHO > 0.08 )	{
+		value = "甲醛污染较严重，建议开启净化器"
+	}
+	// 判断二氧化碳
+	if( datas.co2 > 1500 )	{
+		value = "空气较浑浊，建议开窗通风"
+	}
+	// 判断VOC
+	if( datas.voc > 0.5 )	{
+		value = "TVOC污染较严重，建议开启净化器"
+	}
+	// 判断温度
+	if( datas.WenD < 10 )	{
+		value = "温度较低，建议开启暖风"
+	}
+	if( datas.WenD > 33 )	{
+		value = "温度较高，建议开启冷风"
+	}
+	
+	// 判断湿度
+	if( datas.ShiD < 30 )	{
+		value = "空气湿度较小，建议开启加湿器"
+	}
+	if( datas.ShiD > 67 )	{
+		value = "空气湿度较大，建议开启除湿器"
+	}
+	return value;
+}
 	// 设备最新状态页面提示取得方法 
 	function getTips(datas,outsidePm25){
 		// 定义表示位表示是否整体环境舒适
