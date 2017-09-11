@@ -62,9 +62,9 @@
 	
 	// 获取图表显示数据
 	$(function(){
-		//getChartData();
+		getChartData();
 		// 创建图表
-		createAA(xData,idata);
+		//createAA(xData,idata);
 	});
 	// 获取location 参数
 	function GetQueryString(name){
@@ -74,9 +74,10 @@
     }
 	/*获取图表显示数据*/
 	function getChartData() {
-		var param1 = GetQueryString("id") || 01006001;
-		var param2 = "2017-07-15%2017:55:49";
-		var prarm3 = "2017-07-16%2017:55:49";
+		var param1 = GetQueryString("id") || "01006001";
+		var param1 = "01006001";
+		var param2 = "2017-07-15 17:55:49";
+		var prarm3 = "2017-07-16 17:55:49";
 		var param4 = 4;
 		switch (showType) {
 			case "day":
@@ -102,7 +103,7 @@
 			},
 			success : function(data) {
 				// 室内数据
-				var iData = data;
+				var iData = data.list;
 				// X轴数据
 				var xData = [];
 				for (var i = 0; i < data.length; i++){
@@ -131,8 +132,10 @@
 	/*数据点下拉框监听事件*/
 	$("select").change(function() {
 		showTag = $(this).val();
+		/*
 		createAA(xData,idata);
 		return;
+		*/
 		// 获取图表显示数据
 		getChartData();
 	});

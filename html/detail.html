@@ -229,8 +229,7 @@
 				  }
 				]
 			}
-			create(list);
-			/*
+			//create(list);
 			// 取得设备最新状态
 			getNewDeviceStatus();
 			var refreshRate = 5000;
@@ -239,7 +238,6 @@
 			} else {
 				var t1 = window.setInterval("getNewDeviceStatus()", refreshRate);
 			}
-			*/
 		});
 		function create(s){
 			var status = s.list[0];
@@ -283,7 +281,8 @@
 		}
 		//得到最新设备状态
 		function getNewDeviceStatus() {
-			var paramId = GetQueryString("id") || 10071001;
+			var paramId = GetQueryString("id") || "10071001";
+			var paramId = "10071001";
 			$.ajax({
 				type : "get",
 				dataType : "json",
@@ -293,7 +292,7 @@
 					parameter5 : paramId
 				},
 				success : function(data) {
-					createTable(data);
+					create(data);
 				},
 				error : function(e) {
 					console.log(e);
