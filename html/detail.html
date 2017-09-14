@@ -33,7 +33,7 @@
 			
 			</p>
 			<p class="device_pm" id="name0">
-				PM2.5/空气细颗粒物
+				PM10/空气细颗粒物
 			</p>
 			<div class="pm_date">
 				<p class="pm_number">
@@ -41,7 +41,6 @@
 				</p>
 				<div class="pm_pollution_degree" style="position:absolute; left:150px">
 					<p  id="grade0">
-						--
 					</p>
 					<p class="update_time">
 						更新于<span id="updateTime">--</span>
@@ -50,9 +49,6 @@
 				<div class="clear"></div>
 			</div>
 			<div class="outdoor-position" style="margin-top:15px;">
-				<p class="outdoor">
-					室外PM2.5 : <span id="outsidePm25">--</span><span id="outsidePm25Unit" style="font-size: 12px;"></span>
-				</p>
 				<p class="position">
 					位置：<span id="location">--</span>
 				</p>
@@ -65,36 +61,30 @@
 				<div class="device_date_top">
 					<div class="device_date">
 						<p class="target" id="name1">
-							紫外线
+							噪音
 						</p>
 						<p class="target_number" >
 							<span id="value1">--</span><span id="unit1" style="font-size: 12px;"></span>
 						</p>
-						<p class="target_state" id="grade1">
-							--
-						</p>
+						<!-- <p class="target_state" id="grade1">--</p> -->
 					</div>
 					<div class="device_date">
 						<p class="target" id="name2">
-							负离子
+							风向
 						</p>
 						<p class="target_number" >
 							<span id="value2">--</span><span id="unit2" style="font-size: 12px;"></span>
 						</p>
-						<p class="target_state" id="grade2">
-							--
-						</p>
+						<!-- <p class="target_state" id="grade2">--</p> -->
 					</div>
 					<div class="device_date">
 						<p class="target" id="name3">
-							氧气含量
+							风速
 						</p>
 						<p class="target_number" >
 							<span id="value3">--</span><span id="unit3" style="font-size: 12px;"></span>
 						</p>
-						<p class="target_state" id="grade3">
-							--
-						</p>
+						<!-- <p class="target_state" id="grade3">--</p> -->
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -106,9 +96,7 @@
 						<p class="target_number" >
 							<span id="value4">--</span><span id="unit4" style="font-size: 12px;"></span>
 						</p>
-						<p class="target_state" id="grade4">
-							--
-						</p>
+						<!-- <p class="target_state" id="grade4">--</p> -->
 					</div>
 					<div class="device_date">
 						<p class="target" id="name5">
@@ -117,9 +105,7 @@
 						<p class="target_number" >
 							<span id="value5">--</span><span id="unit5" style="font-size: 12px;"></span>
 						</p>
-						<p class="target_state" id="grade5">
-							--
-						</p>
+						<!-- <p class="target_state" id="grade5">--</p> -->
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -248,35 +234,40 @@
 			
 			var tips = getTips2(status,status.pm10);
 			$("#tip").text(tips);
-			// pm2.5
-			var grade0 = SetPM25Content(status.pm25);
+			// pm10
+			var grade0 = SetPM25Content(status.pm10);
 			$("#value0").text(status.pm25);
 			$("#grade0").text(grade0);
+			
+			// 噪音
+			$("#value1").text(status.YuL);
+			$("#unit1").text("db");
+			//var grade1 = SetTVOCContent(status.YuL);
+			//$("#grade1").text(grade1);
+			
+			// 风向
+		    $("#value2").text(status.FengX);
+		    $("#unit2").text("度");
+		    //var grade2 = SetCO2Content(status.FengX);
+		    //$("#grade2").text(grade2);
+		    
+		    // 风速
+		    $("#value3").text(status.FengS);
+		    $("#unit3").text("m/s");
+		    //var grade3 = SetPAContent(status.FengS);
+		    //$("#grade3").text(grade3);
+		    
 			// 温度
-			var grade4 = SetTemperatureContent(status.WenD);
 		    $("#value4").text(status.WenD);
 		    $("#unit4").text("°C");
-		    $("#grade4").text(grade4);
+		    //var grade4 = SetTemperatureContent(status.WenD);
+		    //$("#grade4").text(grade4);
+		    
 		    // 湿度
-			var grade5 = SetHumidityContent(status.ShiD);
 		    $("#value5").text(status.ShiD);
 		    $("#unit5").text("%");
-		    $("#grade5").text(grade5);
-		    // 紫外线
-			var grade1 = SetTVOCContent(status.ZWX);
-			$("#value1").text(status.ZWX);
-			$("#unit1").text("nm");
-			$("#grade1").text(grade1);
-			// 负离子
-			var grade2 = SetCO2Content(status.NongD);
-		    $("#value2").text(status.NongD);
-		    $("#unit2").text("个/cm3");
-		    $("#grade2").text(grade2);
-		    // 甲醛
-			var grade3 = SetPAContent(status.YQHL);
-		    $("#value3").text(status.YQHL);
-		    $("#unit3").text("mg/m³");
-		    $("#grade3").text(grade3);
+		    //var grade5 = SetHumidityContent(status.ShiD);
+		    // $("#grade5").text(grade5);
 			
 		}
 		//得到最新设备状态

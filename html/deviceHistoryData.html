@@ -28,12 +28,12 @@
     <div class="historydata_select">
         <p>历史数据</p>
         <select>
-	        <!-- <option value="NongD">负离子</option> -->
+	        <option value="pm10">PM10</option>
+	        <option value="YuL">噪音</option>
+	        <option value="FengX">风向</option>
+	        <option value="FengS">风速</option>
 	        <option value="ShiD">湿度</option>
 	        <option value="WenD">温度</option>
-	        <!-- <option value="ZLZS">正离子</option> -->
-	        <option value="ZWX">紫外线</option>
-	        <option value="YQHL">氧气含量</option>
         </select>
         <div class="clear"></div>
     </div>
@@ -56,7 +56,7 @@
 	// 显示的类型
 	var showType = "day";
 	// 显示的数据点
-	var showTag = "ShiD";
+	var showTag = "pm10";
 	var idata=[{"id":"3096138","sationId":"01006001","dataDate":"2017-07-15 18:00:00.0","NongD":"546","ShiD":72.5,"WenD":30.1,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096246","sationId":"01006001","dataDate":"2017-07-15 19:00:00.0","NongD":"538","ShiD":74.5,"WenD":28.85,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096356","sationId":"01006001","dataDate":"2017-07-15 20:00:00.0","NongD":"509","ShiD":75.5,"WenD":28.25,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096466","sationId":"01006001","dataDate":"2017-07-15 21:00:00.0","NongD":"524","ShiD":74,"WenD":28.35,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096575","sationId":"01006001","dataDate":"2017-07-15 22:00:00.0","NongD":"548","ShiD":75,"WenD":28.2,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096684","sationId":"01006001","dataDate":"2017-07-15 23:00:00.0","NongD":"500","ShiD":76.5,"WenD":27.8,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096793","sationId":"01006001","dataDate":"2017-07-16 00:00:00.0","NongD":"541","ShiD":77.5,"WenD":27.55,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3096902","sationId":"01006001","dataDate":"2017-07-16 01:00:00.0","NongD":"524","ShiD":78.5,"WenD":27.35,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097009","sationId":"01006001","dataDate":"2017-07-16 02:00:00.0","NongD":"502","ShiD":78.5,"WenD":27.2,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097117","sationId":"01006001","dataDate":"2017-07-16 03:00:00.0","NongD":"501","ShiD":79,"WenD":27.1,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097226","sationId":"01006001","dataDate":"2017-07-16 04:00:00.0","NongD":"504","ShiD":79,"WenD":26.95,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097333","sationId":"01006001","dataDate":"2017-07-16 05:00:00.0","NongD":"450","ShiD":80.5,"WenD":26.85,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097439","sationId":"01006001","dataDate":"2017-07-16 06:00:00.0","NongD":"512","ShiD":78,"WenD":27.75,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097546","sationId":"01006001","dataDate":"2017-07-16 07:00:00.0","NongD":"519","ShiD":75,"WenD":28.75,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097654","sationId":"01006001","dataDate":"2017-07-16 08:00:00.0","NongD":"442","ShiD":72.5,"WenD":30,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097762","sationId":"01006001","dataDate":"2017-07-16 09:00:00.0","NongD":"435","ShiD":69.5,"WenD":31.15,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097869","sationId":"01006001","dataDate":"2017-07-16 10:00:00.0","NongD":"428","ShiD":66,"WenD":32.45,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3097975","sationId":"01006001","dataDate":"2017-07-16 11:00:00.0","NongD":"503","ShiD":61.5,"WenD":33.7,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098082","sationId":"01006001","dataDate":"2017-07-16 12:00:00.0","NongD":"538","ShiD":57.6,"WenD":34.45,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098190","sationId":"01006001","dataDate":"2017-07-16 13:00:00.0","NongD":"559","ShiD":52.5,"WenD":35.1,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098298","sationId":"01006001","dataDate":"2017-07-16 14:00:00.0","NongD":"560","ShiD":52.5,"WenD":35.55,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098406","sationId":"01006001","dataDate":"2017-07-16 15:00:00.0","NongD":"433","ShiD":51.5,"WenD":35.85,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098514","sationId":"01006001","dataDate":"2017-07-16 16:00:00.0","NongD":"355","ShiD":54.5,"WenD":35.65,"ZLZS":"0","ZWX":0,"YQHL":0},{"id":"3098621","sationId":"01006001","dataDate":"2017-07-16 17:00:00.0","NongD":"349","ShiD":60,"WenD":34.63,"ZLZS":"0","ZWX":0,"YQHL":0}];
 	var xData = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"]
 	
@@ -106,8 +106,8 @@
 				var iData = data.list;
 				// X轴数据
 				var xData = [];
-				for (var i = 0; i < data.length; i++){
-					var date1 = data[i].dataDate;
+				for (var i = 0; i < iData.length; i++){
+					var date1 = iData[i].dataDate;
 					var date2 = date1.substring(11).substr(0,5);
 					xData.push(date2);
 				}
@@ -144,11 +144,11 @@
 		var seriesArr = new Array();
 		var dataArr = [];
 		switch (showTag) {
-		case "NongD": // 负离子
+		case "pm10": // pm10
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].NongD);
+				dataArr.push(iData[i].pm10);
 			}
-			seriesArr.push({"name": '负离子', "data": dataArr});
+			seriesArr.push({"name": 'PM10', "data": dataArr});
 			break;
 		case "ShiD": // 湿度
 			for (var i = 0; i < iData.length; i++){
@@ -162,23 +162,23 @@
 			}
 			seriesArr.push({"name": '温度', "data": dataArr});
 			break;
-		case "ZLZS": // 正离子
+		case "YuL": // 噪音
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].ZLZS);
+				dataArr.push(iData[i].YuL);
 			}
-			seriesArr.push({"name": '正离子', "data": dataArr});
+			seriesArr.push({"name": '噪音', "data": dataArr});
 			break;
-		case "ZWX": // 紫外线
+		case "FengX": // 风向
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].ZWX);
+				dataArr.push(iData[i].fengX);
 			}
-			seriesArr.push({"name": '紫外线', "data": dataArr});
+			seriesArr.push({"name": '风向', "data": dataArr});
 			break;
-		case "YQHL": // 氧气含量
+		case "FengS": // 风速
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].YQHL);
+				dataArr.push(iData[i].fengS);
 			}
-			seriesArr.push({"name": '氧气含量', "data": dataArr});
+			seriesArr.push({"name": '风速', "data": dataArr});
 			break;
 		default:
 			break;
