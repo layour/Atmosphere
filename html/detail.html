@@ -240,7 +240,7 @@
 			$("#grade0").text(grade0);
 			
 			// 噪音
-			$("#value1").text(status.YuL);
+			$("#value1").text(status.pm1);
 			$("#unit1").text("db");
 			//var grade1 = SetTVOCContent(status.YuL);
 			//$("#grade1").text(grade1);
@@ -272,8 +272,7 @@
 		}
 		//得到最新设备状态
 		function getNewDeviceStatus() {
-			var paramId = GetQueryString("id") || "10071001";
-			var paramId = "10071001";
+			var paramId = GetQueryString("id") || "60130";
 			$.ajax({
 				type : "get",
 				dataType : "json",

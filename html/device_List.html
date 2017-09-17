@@ -112,7 +112,7 @@
 	<script type="text/javascript" src="../js/doT.min.js"></script>
 	<script id="itemTemp" type="text/x-dot-template">
 		{{ for(var i = 0;i<it.length;i++){ }}
-		<div class="equipment_list" style="overflow: hidden;" data-id="{{=it[i].id}}" onclick="openDetail(this)">
+		<div class="equipment_list" style="overflow: hidden;" data-id="{{=it[i].stationId}}" onclick="openDetail(this)">
 		<img class="equipment_list_icon" src="../images/equipment_list_icon.png">
 		<div class="equipment_content">
 		<p class="equipment_name">{{=it[i].name}}</p>
@@ -120,7 +120,7 @@
 		<p class="equipment_online">在线</p>
 		</div>
 		<div class="pm_content">
-		<p class="pm_units">pm10</p>
+		<p class="pm_units">PM10</p>
 		<p class="pm_number">{{=it[i].pm10}}</p>
 		</div>
 		<img class="equipment_list_arrow" src="../images/equipment_list_arrow.png">
