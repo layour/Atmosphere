@@ -24,7 +24,7 @@
 
 <!--设备名称和历史数据选择下拉框-->
 <div class="historydata_content">
-    <p class="device_name">体验机</p>
+    <p class="device_name">--</p>
     <div class="historydata_select">
         <p>历史数据</p>
         <select>
@@ -62,6 +62,9 @@
 	
 	// 获取图表显示数据
 	$(function(){
+		var loca = window.localStorage;
+		var name = loca.dev_name;
+		$(".device_name").text(name);
 		getChartData();
 		// 创建图表
 		//createAA(xData,idata);
@@ -170,7 +173,7 @@
 			break;
 		case "FengX": // 风向
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].FengX);
+				dataArr.push(parseInt(iData[i].FengX));
 			}
 			seriesArr.push({"name": '风向', "data": dataArr});
 			break;
