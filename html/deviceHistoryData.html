@@ -75,9 +75,9 @@
 	/*获取图表显示数据*/
 	function getChartData() {
 		var param1 = GetQueryString("id") || "01006001";
-		var param1 = "01006001";
-		var param2 = "2017-07-15 17:55:49";
-		var prarm3 = "2017-07-16 17:55:49";
+		//var param1 = "01006001";
+		var param2 = "2017-09-16 17:55:49";
+		var prarm3 = "2017-09-17 17:55:49";
 		var param4 = 4;
 		switch (showType) {
 			case "day":
@@ -164,19 +164,19 @@
 			break;
 		case "YuL": // 噪音
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].YuL);
+				dataArr.push(iData[i].pm1);
 			}
 			seriesArr.push({"name": '噪音', "data": dataArr});
 			break;
 		case "FengX": // 风向
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].fengX);
+				dataArr.push(iData[i].FengX);
 			}
 			seriesArr.push({"name": '风向', "data": dataArr});
 			break;
 		case "FengS": // 风速
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].fengS);
+				dataArr.push(iData[i].FengS);
 			}
 			seriesArr.push({"name": '风速', "data": dataArr});
 			break;
