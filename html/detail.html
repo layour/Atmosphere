@@ -173,7 +173,7 @@
 	</body>
 
 	<script	type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/device_status_check.js"></script>
+	<!-- <script type="text/javascript" src="../js/device_status_check.js"></script> -->
 	<!--弹窗JS-->
 	<script type="text/javascript" src="../js/popup/classie.js"></script>
 	<script type="text/javascript" src="../js/popup/modalEffects.js"></script>
@@ -301,7 +301,51 @@
 		function toSignin() {
 			window.location.href = "../html/signin.html";
 		}
-
+		
+		// 判断弹窗
+		function getTips2(datas,outsidePm25){
+			var value = "当前环境舒适";
+			if( outsidePm25 && outsidePm25 <= 35) {
+				return value = "室外空气质量优良，建议开窗通风";
+		    }
+			if( outsidePm25 && outsidePm25 > 115){
+				return value = "pm10浓度较高，建议开启净化器";
+			}
+			
+			// 判断温度
+			if( datas.WenD < 10 )	{
+				return value = "温度较低，建议开启暖风"
+			}
+			if( datas.WenD > 33 )	{
+				return value = "温度较高，建议开启冷风"
+			}
+			
+			// 判断湿度
+			if( datas.ShiD < 30 )	{
+				return value = "空气湿度较小，建议开启加湿器"
+			}
+			if( datas.ShiD > 67 )	{
+				return value = "空气湿度较大，建议开启除湿器"
+			}
+			return value;
+		}
+		
+		//pm2.5
+        function SetPM25Content(pm25) {
+		    if(pm25 <= 35) {
+		        return "空气质量优";
+		    } else if(pm25 <= 75) {
+		        return "空气质量良";
+		    } else if(pm25 <= 115) {
+		        return "轻度污染";
+		    } else if(pm25 <= 150) {
+		        return "中度污染";
+		    } else if(pm25 <= 250) {
+		        return "重度污染";
+		    } else {
+		        return "严重污染";
+		    }
+		}
 	</script>
 	
 </html>
