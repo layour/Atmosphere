@@ -1,0 +1,287 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>我的关注</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no, email=no"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="stylesheet" href="../css/iuapmobile.um.css">
+        <style>
+			html, .um-frame {
+				background: #FFFFFF;
+			}
+			.list-item {
+				padding-left: 0.2rem;
+			}
+			.list-item:active {
+				background-color: #eee;
+			}
+			.list-item-inner {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				height: 1.3rem;
+				border-bottom: 1px solid #dddddd;
+				position: relative;
+			}
+			.list-item .ibox {
+				text-align: center;
+				color: #fff;
+			}
+			.list-item .ibox img {
+				display: inline-block;
+				height: 100%;
+			}
+			.list-item .ibox span {
+				display: block;
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+			}
+			.list-item .cbox {
+				-webkit-box-flex: 1;
+				-webkit-flex: 1;
+				flex: 1;
+				padding-top: 0.3rem;
+			}
+			.list-item .cbox dl {
+				height: 100%;
+			}
+			.list-item .cbox dt {
+				font-size: 0.32rem;
+				color: #333333;
+				max-width: 5rem;
+			}
+			.list-item .cbox dd {
+				color: #a9a9a9;
+				font-size: 0.26rem;
+			}
+			.list-item .cbox i {
+				font-style: normal;
+			}
+			/*下边为。。。*/
+			.icon-box {
+				height: 100%;
+			}
+			.icon-box .none {
+				display: none;
+			}
+			.select {
+				height: 100%;
+			}
+			.um-check-inline {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+			.um-icon-checkbox.um-css3-vc {
+				left: auto;
+				right: 0.3rem;
+			}
+			.um-input-search{
+			    background: #f4f4f4;
+			    position:relative;
+			}
+			.um-cancle{
+                font-size: 14px;
+                padding-left: 10px;
+            }
+            .um-input-search .form-control{
+                background:#fff;
+            }
+            .icon-search{
+                position:absolute;
+                left:16px;
+                top:16px;
+                width: 16px;
+                height: 16px;
+                display:block;
+                background:url(../images/search.png) no-repeat;
+                background-size: 100% 100%;
+            }
+            .btn, .btn-bg, .um-btn{
+            	border-radius:0;
+            }
+        </style>
+    </head>
+    <script>
+    (function (doc, win) {
+	     var docEl = doc.documentElement,
+	          resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+	          recalc    = function () {
+	                 var clientWidth = docEl.clientWidth;
+	                 if (clientWidth>=750) {
+	                    clientWidth = 750;
+	                 };
+	                 if (!clientWidth) return;
+	               docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	          };
+	          if (!doc.addEventListener) return;
+	          win.addEventListener(resizeEvt, recalc, false);
+	          doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+    </script>
+    <body>
+        <script type="text/x-dot-template" id="itemTemp">
+            {{  for(var i=0;i<it.length;i++){  }}
+            <div class="list-item" data-id="{{=it[i].stationId}}" onclick="selectList(this,{{=i}})">
+            	<div class="list-item-inner">
+            		<div class="ibox">
+            			<img class="equipment_list_icon" src="../images/equipment_list_icon.png">
+            		</div>
+            		<div class="cbox">
+	            		<dl>
+	            			<dt class="um-text-overflow">{{=it[i].name}}</dt>
+	            			<dd class="um-text-overflow">{{=it[i].stationId}}</dd>
+	            		</dl>
+            		</div>
+            		<div class="icon-box" id="icon-box">
+            			<div class="select icon-inner">
+            				<div class="um-check-inline">
+           					{{if(it[i].checked){}}
+            					<input name="um-checkbox-inline" type="checkbox" value="" checked>
+            				{{}else{}}
+            					<input name="um-checkbox-inline" type="checkbox" value="">
+            				{{}}}
+            					<span class="um-icon-checkbox um-css3-vc"></span>
+            				</div>
+            			</div>
+           			</div>
+            	</div>
+            </div>
+            {{ } }}
+        </script>
+        <div id="wrap" class="um-win">
+        	<div class="um-header">
+        		<div class="um-input-search">
+	                <span class="icon-search"></span>
+	                <input type="search" class="form-control um-bf1" id="search" placeholder="搜索">
+	                <span class="um-cancle um-blue" onclick="cancle()">取消</span>
+	            </div>
+        	</div>
+            
+            <div id="deviceList" class="um-content">
+
+            </div>
+            
+            <div class="um-footer">
+            	<button class="um-btn">开始对比</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/doT.min.js"></script>
+    <script>
+        var arr1 = [];
+        var arr2 = [];
+        var arr3 = [];
+        var paramId;
+        // 获取location 参数
+		function GetQueryString(name){
+	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	        var r = window.location.search.substr(1).match(reg);
+	        if(r!=null)return  unescape(r[2]); return null;
+	    }
+	    
+		$(function(){
+			// 请求数据
+			getList();
+		});
+        // 获取群成员
+		function getList(args) {
+			$.ajax({
+				type : "get",
+				dataType : "json",
+				url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+				data : {
+					parameter4 : 2
+				},
+				success : function(data) {
+					var list = data.list;
+					paramId = GetQueryString("id");
+					for (var i = 0; i < list.length; i++) {
+						if( paramId == list[i].stationId ) {
+							list.splice(i, 1);
+						}
+					}
+					arr1 = list.slice(0,list.length);
+					arr2 = list;
+					getList2(arr2);
+				},
+				error : function(e) {
+					console.log(e);
+				}
+			});
+		};
+		// 只作为渲染arr2 用      TODO 本来可以不用传递参数，更加清晰回忆吧
+		function getList2(args){
+			
+            var dataText = doT.template($("#itemTemp").text());
+			$("#deviceList").html(dataText(args));
+        }
+        // 每次点击选中或取消选中的操作
+        function selectList(obj,i){
+        	 // 实时更改antionBar的数字统计
+            var length = arr3.length;
+            if (arr2[i].checked){
+                arr2[i].checked = false;
+                arr3.pop();
+            }else{
+                if (length >= 3){
+                	return false;
+                }
+                arr2[i].checked = true;
+                arr3.push(arr2[i]);
+            }
+            getList2(arr2);
+            // 将被选中或者取消更替arr1
+            for (var x = 0; x < arr1.length; x++){
+                if(arr1[x].id == arr2[i].id){
+                    arr1[x].checked = arr2[i].checked;
+                }
+            }
+        }
+		// 每次当search输入框搜索时候的方法
+		$("#search").on("input propertychange focus",function(){
+            var text = $(this).val();
+            var txt = text.trim();
+            if( text == "" ){
+            	arr2 = arr1;
+            	getList2(arr2);
+            	return false;
+            }
+            // 将arr2  滞空
+            arr2 = [];
+            // 循环arr1 做比对。  然后将数据添加到arr2 中去
+            for(var k = 0; k < arr1.length; k++){
+                if(arr1[k].name.indexOf(txt) >= 0){
+                    arr2.push(arr1[k]);
+                }
+            }
+            // 重新渲染arr2
+            getList2(arr2);
+        });
+        
+        //  取消按钮
+        function cancle(){
+            $("#search").val("");
+            arr2 = arr1;
+            getList2(arr2);
+        }    
+        
+        
+        // 点击actionbar上的保存
+		function saveClose() {
+            // 定义返回给原生的数组对象
+			var arrs = [];
+			for (var i = 0; i < arr3.length; i++) {
+				arrs.push(arr3[i].id);
+			}
+			arrs.push("paramId");
+			
+		}
+
+    </script>
+</html>

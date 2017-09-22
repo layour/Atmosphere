@@ -126,7 +126,7 @@
 					<a onclick="hisDataTips('PM25')">历史数据</a>
 				</li>
 				<li class="more">
-					<a id="moreA">更多</a>
+					<a id="moreA" onclick="contrast()">对比</a>
 				</li>
 			</ul>
 		</div>
@@ -295,6 +295,11 @@
 		function hisDataTips() {
 			var id = GetQueryString("id") || 10071001;
 			window.location.href = "../html/deviceHistoryData.html?id=" + id;
+		}
+		
+		function contrast(){
+			var id = GetQueryString("id") || 10071001;
+			window.location.href = "../html/groupSub.html?id=" + id;
 		}
 
 		// 跳转到更多页面
