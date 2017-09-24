@@ -71,7 +71,7 @@
 			        <div class="clear"></div>
 			    </div>
 			    <div id="list-header" class="um-box">
-		        	<div class="h1" style="width:130px;">
+		        	<div class="h1 um-box-center" style="width:130px;">
 		        		日期
 					</div>
 					<div class="um-box um-bf1" id="header-b">  
@@ -93,7 +93,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=item[k].pm10}}</div>
+						<div class="d1">{{=toF(item[k].pm10)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -102,7 +102,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=item[k].ShiD}}</div>
+						<div class="d1">{{=toF(item[k].ShiD)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -111,7 +111,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=item[k].WenD}}</div>
+						<div class="d1">{{=toF(item[k].WenD)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -120,7 +120,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=item[k].YuL}}</div>
+						<div class="d1">{{=toF(item[k].YuL)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -129,7 +129,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=item[k].FengX}}</div>
+						<div class="d1">{{=toF(item[k].FengX)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -138,7 +138,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=item[k].FengS}}</div>
+						<div class="d1">{{=toF(item[k].FengS)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -286,6 +286,10 @@
 		        }
 		    }
         }
+        function toF(toa){
+        	var num = Number(toa);
+        	return num.toFixed(1);
+        }
 	    // 四个的总和
 	    var toArr = [];
 	    var contrastArr = summer.getStorage("Contrast_Arr");
@@ -348,7 +352,7 @@
 			var param1 = "60130";
 			var param2 = "2017-09-16 17:55:49";
 			var prarm3 = "2017-09-17 17:55:49";
-			var param4 = 1;
+			var param4 = 4;
 			
 			var p0 = contrastArr[0].id;
 			var p1 = contrastArr[1].id;
