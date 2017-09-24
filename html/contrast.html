@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title>对比</title>
+		<link rel="stylesheet" href="../css/iuapmobile.um.css">
+		<link type="text/css" rel="stylesheet" href="../css/common.css" />
+		<link type="text/css" rel="stylesheet" href="../css/style.css" />
+		<style>
+			.um-header{
+				background: none;
+			}
+			.historydata_select{
+				height: 44px;
+				margin:0;
+			}
+			.historydata_select p{
+				line-height: 36px;
+			}
+			.historydata_select select{
+				height:36px;
+				box-sizing:border-box;
+			}
+			.um-content{
+				font-size: 12px;
+			}
+			#table{
+				text-align:center;
+			}
+			#table li .um-bf1{
+				border-right: 1px solid #ccc;
+			}
+			#table li .um-bf1:last-child{
+				border:none;
+			}
+			.d1{
+				height: 40px;
+				border-bottom: 1px solid #ccc;
+				padding: 10px 0;
+			}
+			#l1{
+				width: 130px;
+				border-right: 1px solid #ccc;
+			}
+			#list-header .h1{
+				border-bottom: 1px solid #ccc;
+				padding: 10px 0;
+				border-right:1px solid #ccc;
+				text-align:center;
+				font-size:14px;
+			}
+			#list-header div:last-child{
+				border-right:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="um-win" id="index">
+			<div class="um-header" >
+				<div class="historydata_select">
+			        <p>参数对比</p>
+			        <select>
+				        <option value="pm10">PM10</option>
+				        <option value="YuL">噪音</option>
+				        <option value="FengX">风向</option>
+				        <option value="FengS">风速</option>
+				        <option value="ShiD">湿度</option>
+				        <option value="WenD">温度</option>
+			        </select>
+			        <div class="clear"></div>
+			    </div>
+			    <div id="list-header" class="um-box">
+		        	<div class="h1" style="width:130px;">
+		        		日期
+					</div>
+					<div class="um-box um-bf1" id="header-b">  
+						
+					</div>
+		        </div>
+			</div>
+			<script type="text/x-dot-template" id="itemTemp0">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="d1">{{=it[i].dataDate}}</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemHeader">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1 h1">{{=it[i].name}}</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemTemp1">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1">
+	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
+						<div class="d1">{{=item[k].pm10}}</div>
+						{{ } }}
+					</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemTemp2">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1">
+	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
+						<div class="d1">{{=item[k].ShiD}}</div>
+						{{ } }}
+					</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemTemp3">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1">
+	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
+						<div class="d1">{{=item[k].WenD}}</div>
+						{{ } }}
+					</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemTemp4">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1">
+	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
+						<div class="d1">{{=item[k].YuL}}</div>
+						{{ } }}
+					</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemTemp5">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1">
+	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
+						<div class="d1">{{=item[k].FengX}}</div>
+						{{ } }}
+					</div>
+	            {{ } }}
+	        </script>
+	        <script type="text/x-dot-template" id="itemTemp6">
+	            {{  for(var i=0;i<it.length;i++){  }}
+	            	<div class="um-bf1">
+	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
+						<div class="d1">{{=item[k].FengS}}</div>
+						{{ } }}
+					</div>
+	            {{ } }}
+	        </script>
+			<div class="um-content">
+				<ul id="table" class="um-box">
+					<li id="l1">
+						
+					</li>
+					<li class="um-box um-bf1" id="c-b">
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/doT.min.js"></script>
+    <script>
+    	// 扩展date format
+    	Date.prototype.format = function (format) {
+	        var o = {
+	            "M+": this.getMonth() + 1, //month
+	            "d+": this.getDate(), //day
+	            "h+": this.getHours(), //hour
+	            "m+": this.getMinutes(), //minute
+	            "s+": this.getSeconds(), //second
+	            "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+	            "S": this.getMilliseconds() //millisecond
+	        };
+	
+	        if (/(y+)/.test(format)) {
+	            format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	        }
+	
+	        for (var k in o) {
+	            if (new RegExp("(" + k + ")").test(format)) {
+	                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+	            }
+	        }
+	        return format;
+	    };
+	     //持久化本地存储
+	    var umStorage = function (type) {
+	        type = type || "localStorage";
+	        if (type == "localStorage") {
+	            if (!window.localStorage) {
+	                alert('your device do not support the localStorage');
+	                return;
+	            }
+	            return window.localStorage;
+	        } else if (type == "sessionStorage") {
+	            if (!window.sessionStorage) {
+	                alert('your device do not support the sessionStorage');
+	                return;
+	            }
+	            return window.sessionStorage;
+	        } else if (type == "application") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: value
+	                    };
+	                    return s.callSync("SummerStorage.writeApplicationContext", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readApplicationContext", JSON.stringify(json));
+	                }
+	            };
+	        } else if (type == "configure") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: typeof value == "string" ? value : JSON.stringify(value)
+	                    };
+	                    return s.callSync("SummerStorage.writeConfigure", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readConfigure", JSON.stringify(json));
+	                }
+	            };
+	        } else if (type == "window") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: typeof value == "string" ? value : JSON.stringify(value)
+	                    };
+	                    return s.callSync("SummerStorage.writeWindowContext", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readWindowContext", JSON.stringify(json));
+	                }
+	            };
+	        }
+	    };
+	    // summer方法
+	    var summer = {
+        	setStorage : function (key, value, storageType) {
+		        var v = value;
+		        if (storageType != "configure") {
+		            //storageType == "configure" 是为原生提供的配置，callAction时原生读取，所以不能obj- str-处理
+		            if (typeof v == 'object') {
+		                v = JSON.stringify(v);
+		                v = 'obj-' + v;
+		            } else {
+		                v = 'str-' + v;
+		            }
+		        }
+		        var ls = umStorage(storageType);
+		        if (ls) {
+		            ls.setItem(key, v);
+		        }
+		    },
+		    getStorage : function (key, storageType) {
+		        var ls = umStorage(storageType);
+		        if (ls) {
+		            var v = ls.getItem(key);
+		            if (!v) {
+		                return;
+		            }
+		            if (storageType != "configure") {
+		                if (v.indexOf('obj-') === 0) {
+		                    v = v.slice(4);
+		                    return JSON.parse(v);
+		                } else if (v.indexOf('str-') === 0) {
+		                    return v.slice(4);
+		                } else {
+		                    return v;
+		                }
+		            } else {
+		                return v;
+		            }
+		        }
+		    }
+        }
+	    // 四个的总和
+	    var toArr = [];
+	    var contrastArr = summer.getStorage("Contrast_Arr");
+	    
+	    function setDateList(){
+    		var args = toArr[0];
+    		var dataText = doT.template($("#itemTemp0").text());
+			$("#l1").html(dataText(args));
+    	}
+    	function setTitle() {
+    		var dataText = doT.template($("#itemHeader").text());
+			$("#header-b").html(dataText(contrastArr));
+    	}
+    	$("select").change(function() {
+			var type = $(this).val();
+			setItem(type);
+		});
+    	function setItem(type){
+    		switch (type) {
+				case "pm10": // pm10
+					var dataText = doT.template($("#itemTemp1").text());
+					$("#c-b").html(dataText(toArr));
+					break;
+				case "ShiD": // 湿度
+					var dataText = doT.template($("#itemTemp2").text());
+					$("#c-b").html(dataText(toArr));
+					break;
+				case "WenD": // 温度
+					var dataText = doT.template($("#itemTemp3").text());
+					$("#c-b").html(dataText(toArr));
+					break;
+				case "YuL": // 噪音
+					var dataText = doT.template($("#itemTemp4").text());
+					$("#c-b").html(dataText(toArr));
+					break;
+				case "FengX": // 风向
+					var dataText = doT.template($("#itemTemp5").text());
+					$("#c-b").html(dataText(toArr));
+					break;
+				case "FengS": // 风速
+					var dataText = doT.template($("#itemTemp6").text());
+					$("#c-b").html(dataText(toArr));
+					break;
+			}
+    	}
+	    
+    	$(function(){
+			setTitle();
+			getData();
+    	});
+    	
+    	
+    	function getData() {
+    		
+    		var currDate = new Date();
+			var prevDate = new Date(currDate.getTime() - 24*60*60*1000);
+			var param2 = currDate.format("yyyy-MM-dd hh:mm:ss");
+			var prarm3 = prevDate.format("yyyy-MM-dd hh:mm:ss");
+			
+			var param1 = "60130";
+			var param2 = "2017-09-16 17:55:49";
+			var prarm3 = "2017-09-17 17:55:49";
+			var param4 = 1;
+			
+			var p0 = contrastArr[0].id;
+			var p1 = contrastArr[1].id;
+			var p2 = contrastArr[2] ? contrastArr[2].id : "";
+			
+			$.ajax({
+				type : "get",
+				dataType : "json",
+				url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+				data : {
+					parameter1 : param1,
+					parameter2 : param2,
+					parameter3 : prarm3,
+					parameter4 : param4,
+				},
+				success : function(data) {
+					// 室内数据
+					var iData = data.list;
+					toArr.push(iData);
+					// 
+					$.ajax({
+						type : "get",
+						dataType : "json",
+						url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+						data : {
+							parameter1 : param1,
+							parameter2 : param2,
+							parameter3 : prarm3,
+							parameter4 : param4,
+						},
+						success : function(data) {
+							// 室内数据
+							var iData = data.list;
+							toArr.push(iData);
+							
+							if ( p2 ) {
+								$.ajax({
+									type : "get",
+									dataType : "json",
+									url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+									data : {
+										parameter1 : param1,
+										parameter2 : param2,
+										parameter3 : prarm3,
+										parameter4 : param4,
+									},
+									success : function(data) {
+										// 室内数据
+										var iData = data.list;
+										toArr.push(iData);
+										console.log(toArr);
+										setDateList();
+										setItem("pm10")
+									},
+									error : function(e) {
+										alert(e.responseText);
+									}
+								});
+							}else{
+								setDateList();
+								setItem("pm10")
+							}
+						},
+						error : function(e) {
+							alert(e.responseText);
+						}
+					});
+				},
+				error : function(e) {
+					alert(e.responseText);
+				}
+			});
+    	}
+    	
+    	
+    </script>
+</html>

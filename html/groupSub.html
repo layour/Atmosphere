@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>我的关注</title>
+        <title>对比列表</title>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="format-detection" content="telephone=no, email=no"/>
@@ -104,6 +104,17 @@
             .btn, .btn-bg, .um-btn{
             	border-radius:0;
             }
+            
+            .list-item{
+            	padding-left: 0;
+            }
+            .list-item-inner{
+            	border-bottom: 1px solid #777;
+            	background: #01645C;
+            }
+            .list-item .cbox dt{
+            	color: #999;
+            }
         </style>
     </head>
     <script>
@@ -153,7 +164,7 @@
             </div>
             {{ } }}
         </script>
-        <div id="wrap" class="um-win">
+        <div id="wrap" class="um-win" style="background:#088e85;">
         	<div class="um-header">
         		<div class="um-input-search">
 	                <span class="icon-search"></span>
@@ -166,8 +177,18 @@
 
             </div>
             
-            <div class="um-footer">
-            	<button class="um-btn">开始对比</button>
+            <div class="um-footer um-box">
+            	<!-- <div class="um-btn um-bf1" style="background: #78909c;border:none;border-right: 1px solid #4f6975">
+            		<select>
+            					        <option value="pm10">PM10</option>
+            					        <option value="YuL">噪音</option>
+            					        <option value="FengX">风向</option>
+            					        <option value="FengS">风速</option>
+            					        <option value="ShiD">湿度</option>
+            					        <option value="WenD">温度</option>
+            				        </select>
+            	</div> -->
+            	<button class="um-btn um-bf1" style="background: #78909c;border:none;" onclick="saveClose()">开始对比</button>
             </div>
         </div>
     </body>
@@ -184,7 +205,113 @@
 	        var r = window.location.search.substr(1).match(reg);
 	        if(r!=null)return  unescape(r[2]); return null;
 	    }
-	    
+	     //持久化本地存储
+	    var umStorage = function (type) {
+	        type = type || "localStorage";
+	        if (type == "localStorage") {
+	            if (!window.localStorage) {
+	                alert('your device do not support the localStorage');
+	                return;
+	            }
+	            return window.localStorage;
+	        } else if (type == "sessionStorage") {
+	            if (!window.sessionStorage) {
+	                alert('your device do not support the sessionStorage');
+	                return;
+	            }
+	            return window.sessionStorage;
+	        } else if (type == "application") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: value
+	                    };
+	                    return s.callSync("SummerStorage.writeApplicationContext", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readApplicationContext", JSON.stringify(json));
+	                }
+	            };
+	        } else if (type == "configure") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: typeof value == "string" ? value : JSON.stringify(value)
+	                    };
+	                    return s.callSync("SummerStorage.writeConfigure", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readConfigure", JSON.stringify(json));
+	                }
+	            };
+	        } else if (type == "window") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: typeof value == "string" ? value : JSON.stringify(value)
+	                    };
+	                    return s.callSync("SummerStorage.writeWindowContext", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readWindowContext", JSON.stringify(json));
+	                }
+	            };
+	        }
+	    };
+	    // summer方法
+	    var summer = {
+        	setStorage : function (key, value, storageType) {
+		        var v = value;
+		        if (storageType != "configure") {
+		            //storageType == "configure" 是为原生提供的配置，callAction时原生读取，所以不能obj- str-处理
+		            if (typeof v == 'object') {
+		                v = JSON.stringify(v);
+		                v = 'obj-' + v;
+		            } else {
+		                v = 'str-' + v;
+		            }
+		        }
+		        var ls = umStorage(storageType);
+		        if (ls) {
+		            ls.setItem(key, v);
+		        }
+		    },
+		    getStorage : function (key, storageType) {
+		        var ls = umStorage(storageType);
+		        if (ls) {
+		            var v = ls.getItem(key);
+		            if (!v) {
+		                return;
+		            }
+		            if (storageType != "configure") {
+		                if (v.indexOf('obj-') === 0) {
+		                    v = v.slice(4);
+		                    return JSON.parse(v);
+		                } else if (v.indexOf('str-') === 0) {
+		                    return v.slice(4);
+		                } else {
+		                    return v;
+		                }
+		            } else {
+		                return v;
+		            }
+		        }
+		    }
+        }
+        
+        // 
 		$(function(){
 			// 请求数据
 			getList();
@@ -229,7 +356,8 @@
                 arr2[i].checked = false;
                 arr3.pop();
             }else{
-                if (length >= 3){
+                if (length >= 2){
+                	alert("最多可以选2个")
                 	return false;
                 }
                 arr2[i].checked = true;
@@ -271,16 +399,28 @@
             getList2(arr2);
         }    
         
-        
         // 点击actionbar上的保存
 		function saveClose() {
             // 定义返回给原生的数组对象
+            if (arr3.length == 0){
+            	alert("请至少选择一个");
+            	return false;
+            }
 			var arrs = [];
+			arrs.push({
+				id : paramId,
+				name : window.localStorage.dev_name
+			});
 			for (var i = 0; i < arr3.length; i++) {
-				arrs.push(arr3[i].id);
+				var json = {
+					id : arr3[i].stationId,
+					name : arr3[i].name
+				};
+				arrs.push(json);
 			}
-			arrs.push("paramId");
 			
+			summer.setStorage("Contrast_Arr",arrs);
+			window.location.href = '../html/contrast.html';
 		}
 
     </script>
