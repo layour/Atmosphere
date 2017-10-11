@@ -7,18 +7,23 @@
 		<link rel="stylesheet" href="../css/iuapmobile.um.css">
 		<link type="text/css" rel="stylesheet" href="../css/common.css" />
 		<link type="text/css" rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../js/mob/iscroll.css" />
 		<style>
 			.um-header{
 				background: none;
 			}
 			.historydata_select{
-				height: 44px;
+				height: auto;
 				margin:0;
+				background: #51A8DF;
 			}
 			.historydata_select p{
 				line-height: 36px;
 			}
 			.historydata_select select{
+			
+				width:60px;
+				margin-left:10px;
 				height:36px;
 				box-sizing:border-box;
 			}
@@ -53,14 +58,34 @@
 			#list-header div:last-child{
 				border-right:0;
 			}
+			
+			.um-header span{
+				color:#ffffff;
+				line-height: 24px;
+				margin-right:3px;
+			}
+			.um-header input[type=text]{
+				width:144px;
+				font-size:12px;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="um-win" id="index">
 			<div class="um-header" >
-				<div class="historydata_select">
-			        <p>参数对比</p>
-			        <select>
+				<div class="historydata_select clearfix">
+			        <div class="fl">
+				    	<div class="um-box">
+				    		<span class="f12">开始时间</span>
+				    		<input type="text" id="startTime" class="scroller-date" readonly/>
+				    	</div>
+				    	<div class="um-box">
+				    		<span  class="f12">结束时间</span>
+				    		<input type="text" id="endTime" class="scroller-date" readonly/>
+				    	</div>
+				    </div>
+			        
+			        <select id="select2">
 				        <option value="pm10">PM10</option>
 				        <option value="YuL">噪音</option>
 				        <option value="FengX">风向</option>
@@ -68,8 +93,12 @@
 				        <option value="ShiD">湿度</option>
 				        <option value="WenD">温度</option>
 			        </select>
-			        <div class="clear"></div>
+			        <select name="" id="select1">
+			        	<option value="m">分钟</option>
+			        	<option value="h">小时</option>
+			        </select>
 			    </div>
+			    
 			    <div id="list-header" class="um-box">
 		        	<div class="h1 um-box-center" style="width:130px;">
 		        		日期
@@ -157,6 +186,7 @@
 	</body>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/doT.min.js"></script>
+    <script src="../js/mob/iscroll.js"></script>
     <script>
     	// 扩展date format
     	Date.prototype.format = function (format) {
@@ -292,21 +322,26 @@
         }
 	    // 四个的总和
 	    var toArr = [];
+	    var types = "";
 	    var contrastArr = summer.getStorage("Contrast_Arr");
 	    
+	    // 设置时间列表
 	    function setDateList(){
     		var args = toArr[0];
     		var dataText = doT.template($("#itemTemp0").text());
 			$("#l1").html(dataText(args));
     	}
+    	// 设置头部几个地区的名字
     	function setTitle() {
     		var dataText = doT.template($("#itemHeader").text());
 			$("#header-b").html(dataText(contrastArr));
     	}
-    	$("select").change(function() {
-			var type = $(this).val();
-			setItem(type);
+    	// 选择不同的
+    	$("#select2").change(function() {
+			types = $(this).val();
+			setItem(types);
 		});
+		// 设置列表
     	function setItem(type){
     		switch (type) {
 				case "pm10": // pm10
@@ -337,26 +372,61 @@
     	}
 	    
     	$(function(){
+    		// 初始化 滚动
+    		scroll();
+    		// 初始化设置头部
 			setTitle();
+			// 获取数据
 			getData();
     	});
     	
-    	
-    	function getData() {
+    	//初始化完毕初始化滚动js
+		function scroll(){
+			$('.scroller-date').scroller('destroy').scroller({
+				preset: 'datetime',
+				theme: "ios7",
+				mode: "scroller",
+				display: "bottom",
+				animate: "",
+				onSelect: selected
+			});
+		}
+		
+		function selected(){
+			var start = $("#startTime").val();
+			var end = $("#endTime").val();
+			if(start && end ){
+				var startAmTm = start.split(" ");
+				var endAmTm = end.split(" ");		
+				if((new Date(startAmTm)).getTime() > (new Date(endAmTm)).getTime() ){
+					alert("开始时间不能大于结束时间");
+					$("#end").val("");
+					return false;
+				}
+				begintime = (new Date(startAmTm)).format("yyyy-MM-dd hh:mm:ss");
+				endtime = (new Date(endAmTm)).format("yyyy-MM-dd hh:mm:ss");
+				getData(false,begintime,endtime)
+			}
+		}
+		
+    	function getData(types,pr2,pr3,p4) {
     		
     		var currDate = new Date();
-			var prevDate = new Date(currDate.getTime() - 24*60*60*1000);
-			var param2 = currDate.format("yyyy-MM-dd hh:mm:ss");
-			var prarm3 = prevDate.format("yyyy-MM-dd hh:mm:ss");
+			var prevDate = new Date(currDate.getTime() - 1*60*60*1000);
+			var param2 = pr2 ? pr2 : currDate.format("yyyy-MM-dd hh:mm:ss");
+			var prarm3 = pr3 ? pr3 : prevDate.format("yyyy-MM-dd hh:mm:ss");
+			// 4是小时  1是分钟数据
+			var param4 = p4 ? 4 : 1;
 			
 			var param1 = "60130";
-			var param2 = "2017-09-16 17:55:49";
+			var param2 = "2017-09-16 16:55:49";
 			var prarm3 = "2017-09-17 17:55:49";
-			var param4 = 4;
 			
 			var p0 = contrastArr[0].id;
 			var p1 = contrastArr[1].id;
 			var p2 = contrastArr[2] ? contrastArr[2].id : "";
+			
+			var type = types ? types : "pm10";
 			
 			$.ajax({
 				type : "get",
@@ -405,7 +475,7 @@
 										toArr.push(iData);
 										console.log(toArr);
 										setDateList();
-										setItem("pm10")
+										setItem(type)
 									},
 									error : function(e) {
 										alert(e.responseText);
@@ -413,7 +483,7 @@
 								});
 							}else{
 								setDateList();
-								setItem("pm10")
+								setItem(type)
 							}
 						},
 						error : function(e) {

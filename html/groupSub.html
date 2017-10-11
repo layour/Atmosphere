@@ -188,7 +188,8 @@
             					        <option value="WenD">温度</option>
             				        </select>
             	</div> -->
-            	<button class="um-btn um-bf1" style="background: #78909c;border:none;" onclick="saveClose()">开始对比</button>
+            	<button class="um-btn um-bf1" style="background: #78909c;border:none;border-right: 1px solid #4f6975;" onclick="saveClose(1)">图表对比</button>
+            	<button class="um-btn um-bf1" style="background: #78909c;border:none;" onclick="saveClose(2)">表单对比</button>
             </div>
         </div>
     </body>
@@ -400,7 +401,7 @@
         }    
         
         // 点击actionbar上的保存
-		function saveClose() {
+		function saveClose(id) {
             // 定义返回给原生的数组对象
             if (arr3.length == 0){
             	alert("请至少选择一个");
@@ -420,7 +421,12 @@
 			}
 			
 			summer.setStorage("Contrast_Arr",arrs);
-			window.location.href = '../html/contrast.html';
+			if( id == 1 ){
+				window.location.href = '../html/contrast2.html';
+			}else{
+				window.location.href = '../html/contrast.html';
+			}
+			
 		}
 
     </script>

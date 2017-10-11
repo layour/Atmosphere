@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title>对比</title>
+		<link rel="stylesheet" href="../css/iuapmobile.um.css">
+		<link type="text/css" rel="stylesheet" href="../css/common.css" />
+		<link type="text/css" rel="stylesheet" href="../css/style.css" />
+		<style>
+			.um-header{
+				background: none;
+			}
+			.historydata_select{
+				height: 44px;
+				margin:0;
+			}
+			.historydata_select p{
+				line-height: 36px;
+			}
+			.historydata_select select{
+				height:36px;
+				box-sizing:border-box;
+			}
+			.um-content{
+				font-size: 12px;
+			}
+			#table{
+				text-align:center;
+			}
+			#table li .um-bf1{
+				border-right: 1px solid #ccc;
+			}
+			#table li .um-bf1:last-child{
+				border:none;
+			}
+			.d1{
+				height: 40px;
+				border-bottom: 1px solid #ccc;
+				padding: 10px 0;
+			}
+			#l1{
+				width: 130px;
+				border-right: 1px solid #ccc;
+			}
+			#list-header .h1{
+				border-bottom: 1px solid #ccc;
+				padding: 10px 0;
+				border-right:1px solid #ccc;
+				text-align:center;
+				font-size:14px;
+			}
+			#list-header div:last-child{
+				border-right:0;
+			}
+			.history_data{
+				width: 100%;
+			    padding: 0 10px;
+			    margin-top: 25px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="um-win" id="index">
+			<div class="um-header" >
+				<div class="historydata_select">
+			        <p>参数对比</p>
+			        <div class="fl">
+			        	<input type="datetime-local" id="startTime"/>
+			        </div>
+			        <select>
+				        <option value="pm10">PM10</option>
+				        <option value="YuL">噪音</option>
+				        <option value="FengX">风向</option>
+				        <option value="FengS">风速</option>
+				        <option value="ShiD">湿度</option>
+				        <option value="WenD">温度</option>
+			        </select>
+			        <div class="clear"></div>
+			    </div>
+			</div>
+			<div class="um-content">
+				<!--历史数据曲线图-->
+				<div class="history_data" id = "history_data" style="height: 60%;"></div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/highcharts.js"></script>
+    
+    <script>
+    	// 扩展date format
+    	Date.prototype.format = function (format) {
+	        var o = {
+	            "M+": this.getMonth() + 1, //month
+	            "d+": this.getDate(), //day
+	            "h+": this.getHours(), //hour
+	            "m+": this.getMinutes(), //minute
+	            "s+": this.getSeconds(), //second
+	            "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+	            "S": this.getMilliseconds() //millisecond
+	        };
+	
+	        if (/(y+)/.test(format)) {
+	            format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	        }
+	
+	        for (var k in o) {
+	            if (new RegExp("(" + k + ")").test(format)) {
+	                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+	            }
+	        }
+	        return format;
+	    };
+	     //持久化本地存储
+	    var umStorage = function (type) {
+	        type = type || "localStorage";
+	        if (type == "localStorage") {
+	            if (!window.localStorage) {
+	                alert('your device do not support the localStorage');
+	                return;
+	            }
+	            return window.localStorage;
+	        } else if (type == "sessionStorage") {
+	            if (!window.sessionStorage) {
+	                alert('your device do not support the sessionStorage');
+	                return;
+	            }
+	            return window.sessionStorage;
+	        } else if (type == "application") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: value
+	                    };
+	                    return s.callSync("SummerStorage.writeApplicationContext", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readApplicationContext", JSON.stringify(json));
+	                }
+	            };
+	        } else if (type == "configure") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: typeof value == "string" ? value : JSON.stringify(value)
+	                    };
+	                    return s.callSync("SummerStorage.writeConfigure", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readConfigure", JSON.stringify(json));
+	                }
+	            };
+	        } else if (type == "window") {
+	            return {
+	                setItem: function (key, value) {
+	                    var json = {
+	                        key: key,
+	                        value: typeof value == "string" ? value : JSON.stringify(value)
+	                    };
+	                    return s.callSync("SummerStorage.writeWindowContext", JSON.stringify(json));
+	                },
+	                getItem: function (key) {
+	                    var json = {
+	                        key: key
+	                    };
+	                    return s.callSync("SummerStorage.readWindowContext", JSON.stringify(json));
+	                }
+	            };
+	        }
+	    };
+	    // summer方法
+	    var summer = {
+        	setStorage : function (key, value, storageType) {
+		        var v = value;
+		        if (storageType != "configure") {
+		            //storageType == "configure" 是为原生提供的配置，callAction时原生读取，所以不能obj- str-处理
+		            if (typeof v == 'object') {
+		                v = JSON.stringify(v);
+		                v = 'obj-' + v;
+		            } else {
+		                v = 'str-' + v;
+		            }
+		        }
+		        var ls = umStorage(storageType);
+		        if (ls) {
+		            ls.setItem(key, v);
+		        }
+		    },
+		    getStorage : function (key, storageType) {
+		        var ls = umStorage(storageType);
+		        if (ls) {
+		            var v = ls.getItem(key);
+		            if (!v) {
+		                return;
+		            }
+		            if (storageType != "configure") {
+		                if (v.indexOf('obj-') === 0) {
+		                    v = v.slice(4);
+		                    return JSON.parse(v);
+		                } else if (v.indexOf('str-') === 0) {
+		                    return v.slice(4);
+		                } else {
+		                    return v;
+		                }
+		            } else {
+		                return v;
+		            }
+		        }
+		    }
+        }
+        function toF(toa){
+        	var num = Number(toa);
+        	return num.toFixed(1);
+        }
+	    // 四个的总和
+	    var toAr1 = [];
+	    var toAr2 = [];
+	    var toAr3 = [];
+	    
+	    
+	    var xData = [];
+	    var contrastArr = summer.getStorage("Contrast_Arr");
+	    
+	    $(function(){
+			getData();
+    	});
+    	
+		
+    	$("select").change(function() {
+			var type = $(this).val();
+			setItem(type);
+		});
+		
+    	function setItem(type){
+    		var seriesArr = new Array();
+    		var arr1 = [];
+    		var arr2 = [];
+    		var arr3 = [];
+    		var name1 = contrastArr[0].name;
+    		var name2 = contrastArr[1].name;
+    		var name3 = contrastArr[2] ? contrastArr[2].name : "";
+    		switch (type) {
+				case "pm10": // pm10
+					for (var i = 0; i < toAr1.length; i++){
+						arr1.push(toAr1[i].pm10);
+					}
+					for (var i = 0; i < toAr2.length; i++){
+						arr2.push(toAr2[i].pm10);
+					}
+					seriesArr.push(
+						{"name": name1, "data": arr1},
+						{"name": name2, "data": arr2}
+					);
+					if(name3){
+						for (var i = 0; i < toAr3.length; i++){
+							arr3.push(toAr3[i].pm10);
+						}
+						seriesArr.push(
+							{"name": name3, "data": arr3}
+						);
+					}
+					break;
+				case "ShiD": // 湿度
+					for (var i = 0; i < toAr1.length; i++){
+						arr1.push(toAr1[i].ShiD);
+					}
+					for (var i = 0; i < toAr2.length; i++){
+						arr2.push(toAr2[i].ShiD);
+					}
+					seriesArr.push(
+						{"name": name1, "data": arr1},
+						{"name": name2, "data": arr2}
+					);
+					if(name3){
+						for (var i = 0; i < toAr3.length; i++){
+							arr3.push(toAr3[i].ShiD);
+						}
+						seriesArr.push(
+							{"name": name3, "data": arr3}
+						);
+					}
+					break;
+				case "WenD": // 温度
+					for (var i = 0; i < toAr1.length; i++){
+						arr1.push(toAr1[i].WenD);
+					}
+					for (var i = 0; i < toAr2.length; i++){
+						arr2.push(toAr2[i].WenD);
+					}
+					seriesArr.push(
+						{"name": name1, "data": arr1},
+						{"name": name2, "data": arr2}
+					);
+					if(name3){
+						for (var i = 0; i < toAr3.length; i++){
+							arr3.push(toAr3[i].WenD);
+						}
+						seriesArr.push(
+							{"name": name3, "data": arr3}
+						);
+					}
+					break;
+				case "YuL": // 噪音
+					for (var i = 0; i < toAr1.length; i++){
+						arr1.push(toAr1[i].YuL);
+					}
+					for (var i = 0; i < toAr2.length; i++){
+						arr2.push(toAr2[i].YuL);
+					}
+					seriesArr.push(
+						{"name": name1, "data": arr1},
+						{"name": name2, "data": arr2}
+					);
+					if(name3){
+						for (var i = 0; i < toAr3.length; i++){
+							arr3.push(toAr3[i].YuL);
+						}
+						seriesArr.push(
+							{"name": name3, "data": arr3}
+						);
+					}
+					break;
+				case "FengX": // 风向
+					for (var i = 0; i < toAr1.length; i++){
+						arr1.push(parseInt(toAr1[i].FengX));
+					}
+					for (var i = 0; i < toAr2.length; i++){
+						arr2.push(parseInt(toAr2[i].FengX));
+					}
+					seriesArr.push(
+						{"name": name1, "data": arr1},
+						{"name": name2, "data": arr2}
+					);
+					if(name3){
+						for (var i = 0; i < toAr3.length; i++){
+							arr3.push(parseInt(toAr3[i].FengX));
+						}
+						seriesArr.push(
+							{"name": name3, "data": arr3}
+						);
+					}
+					break;
+				case "FengS": // 风速
+					for (var i = 0; i < toAr1.length; i++){
+						arr1.push(toAr1[i].FengS);
+					}
+					for (var i = 0; i < toAr2.length; i++){
+						arr2.push(toAr2[i].FengS);
+					}
+					seriesArr.push(
+						{"name": name1, "data": arr1},
+						{"name": name2, "data": arr2}
+					);
+					if(name3){
+						for (var i = 0; i < toAr3.length; i++){
+							arr3.push(toAr3[i].FengS);
+						}
+						seriesArr.push(
+							{"name": name3, "data": arr3}
+						);
+					}
+					break;
+			}
+			var charts = new Highcharts.Chart({
+				chart:{
+					// 放置图表的容器
+					renderTo : 'history_data',
+					defaultSeriesType : 'spline',
+				},
+		        title: {
+		            text: ''
+		        },
+		        subtitle: {
+		            text: ''
+		        },
+		        xAxis: {
+		        	categories: xData,
+		        	tickmarkPlacement:'in',
+		            type: '',
+		            title: {
+		                text: ''
+		            }
+		        },
+		        yAxis: {
+		            title: {
+		                text: ''
+		            },
+		            //min: 0.1,
+		            gridLineWidth: 0,
+		            gridLineColor:'white',
+		            alternateGridColor: null,
+		        },
+		        plotOptions: {
+		            spline: {
+		                marker: {
+		                    enabled: true,
+		                },
+		                enableMouseTracking: false
+		            }
+		        },
+		        series:seriesArr
+			});
+    	}
+	    
+    	
+    	function getData(pr2,pr3) {
+    		var currDate = new Date();
+			var prevDate = new Date(currDate.getTime() - 24*60*60*1000);
+			var param2 = pr2 ? pr2 : currDate.format("yyyy-MM-dd hh:mm:ss");
+			var prarm3 = pr3 ? pr3 : prevDate.format("yyyy-MM-dd hh:mm:ss");
+			var param4 = 1;
+			
+			var param1 = "60130";
+			var param2 = "2017-09-17 16:55:49";
+			var prarm3 = "2017-09-17 17:55:49";
+			
+			var p0 = contrastArr[0].id;
+			var p1 = contrastArr[1].id;
+			var p2 = contrastArr[2] ? contrastArr[2].id : "";
+			
+			$.ajax({
+				type : "get",
+				dataType : "json",
+				url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+				data : {
+					parameter1 : param1,
+					parameter2 : param2,
+					parameter3 : prarm3,
+					parameter4 : param4,
+				},
+				success : function(data) {
+					// 室内数据
+					toAr1 = data.list;
+					// 第一个请求就把时间数据添加到数组中
+					for (var i = 0; i < toAr1.length; i++){
+						var date1 = toAr1[i].dataDate;
+						var date2 = date1.substring(11).substr(0,5);
+						xData.push(date2);
+					}
+					
+					// 
+					$.ajax({
+						type : "get",
+						dataType : "json",
+						url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+						data : {
+							parameter1 : param1,
+							parameter2 : param2,
+							parameter3 : prarm3,
+							parameter4 : param4,
+						},
+						success : function(data) {
+							// 室内数据
+							toAr2 = data.list;
+							
+							if ( p2 ) {
+								$.ajax({
+									type : "get",
+									dataType : "json",
+									url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+									data : {
+										parameter1 : param1,
+										parameter2 : param2,
+										parameter3 : prarm3,
+										parameter4 : param4,
+									},
+									success : function(data) {
+										// 室内数据
+										toAr3 = data.list;
+										
+										setItem("pm10")
+									},
+									error : function(e) {
+										alert(e.responseText);
+									}
+								});
+							}else{
+								setItem("pm10")
+							}
+						},
+						error : function(e) {
+							alert(e.responseText);
+						}
+					});
+				},
+				error : function(e) {
+					alert(e.responseText);
+				}
+			});
+    	}
+    	
+    	
+    </script>
+</html>
