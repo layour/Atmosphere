@@ -21,11 +21,12 @@
 				line-height: 36px;
 			}
 			.historydata_select select{
-			
+				float: left;
 				width:60px;
 				margin-left:10px;
 				height:36px;
 				box-sizing:border-box;
+				    margin-top: 6px;
 			}
 			.um-content{
 				font-size: 12px;
@@ -65,7 +66,7 @@
 				margin-right:3px;
 			}
 			.um-header input[type=text]{
-				width:144px;
+				width:120px;
 				font-size:12px;
 			}
 		</style>
@@ -84,19 +85,24 @@
 				    		<input type="text" id="endTime" class="scroller-date" readonly/>
 				    	</div>
 				    </div>
+			        <div class="fl">
+			        	<select id="select2">
+					        <option value="pm10">PM10</option>
+					        <option value="YuL">噪音</option>
+					        <option value="FengX">风向</option>
+					        <option value="FengS">风速</option>
+					        <option value="ShiD">湿度</option>
+					        <option value="WenD">温度</option>
+				        </select>
+				        <select id="select1">
+				        	<option value="m">分钟</option>
+				        	<option value="h">小时</option>
+				        </select>
+			        </div>
 			        
-			        <select id="select2">
-				        <option value="pm10">PM10</option>
-				        <option value="YuL">噪音</option>
-				        <option value="FengX">风向</option>
-				        <option value="FengS">风速</option>
-				        <option value="ShiD">湿度</option>
-				        <option value="WenD">温度</option>
-			        </select>
-			        <select name="" id="select1">
-			        	<option value="m">分钟</option>
-			        	<option value="h">小时</option>
-			        </select>
+			        <div class="fr" style="margin-top:1px;">
+			        	<a class="btn btn-inline" onclick="query()">查询</a>
+			        </div>
 			    </div>
 			    
 			    <div id="list-header" class="um-box">
@@ -316,18 +322,22 @@
 		        }
 		    }
         }
+       
         function toF(toa){
         	var num = Number(toa);
         	return num.toFixed(1);
         }
-	    // 四个的总和
-	    var toArr = [];
-	    var types = "";
+	    
+	    var types = "pm10";
+	    var endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
+	    var beginTime = new Date(new Date().getTime() - 1*60*60*1000).format("yyyy-MM-dd hh:mm:ss");
+	    var paramTime = 1;
+	    
 	    var contrastArr = summer.getStorage("Contrast_Arr");
 	    
 	    // 设置时间列表
-	    function setDateList(){
-    		var args = toArr[0];
+	    function setDateList(arr){
+    		var args = arr;
     		var dataText = doT.template($("#itemTemp0").text());
 			$("#l1").html(dataText(args));
     	}
@@ -336,13 +346,27 @@
     		var dataText = doT.template($("#itemHeader").text());
 			$("#header-b").html(dataText(contrastArr));
     	}
-    	// 选择不同的
+    	// 选择分钟或者小时
+    	$("#select1").change(function() {
+			var min = $(this).val();
+			if(min == "m"){
+				paramTime = 1;
+			}else{
+				paramTime = 4;
+			}
+		});
+		// 选择不同的指标选项
     	$("#select2").change(function() {
 			types = $(this).val();
-			setItem(types);
 		});
+		
+		// 点击查询按钮
+		function query(){
+			getData(types,beginTime,endTime,paramTime); 
+		}
+		
 		// 设置列表
-    	function setItem(type){
+    	function setItem(type,toArr){
     		switch (type) {
 				case "pm10": // pm10
 					var dataText = doT.template($("#itemTemp1").text());
@@ -385,41 +409,41 @@
 			$('.scroller-date').scroller('destroy').scroller({
 				preset: 'datetime',
 				theme: "ios7",
+				dateFormat:"yyyy-mm-dd",
+				timeFormat:"HH:ii",
 				mode: "scroller",
 				display: "bottom",
 				animate: "",
 				onSelect: selected
 			});
+			$("#startTime").val(beginTime.substr(0,beginTime.length-3));
+			$("#endTime").val(endTime.substr(0,beginTime.length-3));
 		}
 		
 		function selected(){
 			var start = $("#startTime").val();
 			var end = $("#endTime").val();
-			if(start && end ){
+			if( start ){
 				var startAmTm = start.split(" ");
-				var endAmTm = end.split(" ");		
-				if((new Date(startAmTm)).getTime() > (new Date(endAmTm)).getTime() ){
-					alert("开始时间不能大于结束时间");
-					$("#end").val("");
-					return false;
-				}
-				begintime = (new Date(startAmTm)).format("yyyy-MM-dd hh:mm:ss");
-				endtime = (new Date(endAmTm)).format("yyyy-MM-dd hh:mm:ss");
-				getData(false,begintime,endtime)
+				beginTime = (new Date(startAmTm)).format("yyyy-MM-dd hh:mm:ss");
+			}
+			if ( end ){
+				var endAmTm = end.split(" ");	
+				endTime = (new Date(endAmTm)).format("yyyy-MM-dd hh:mm:ss");
 			}
 		}
 		
     	function getData(types,pr2,pr3,p4) {
     		
-    		var currDate = new Date();
-			var prevDate = new Date(currDate.getTime() - 1*60*60*1000);
-			var param2 = pr2 ? pr2 : currDate.format("yyyy-MM-dd hh:mm:ss");
-			var prarm3 = pr3 ? pr3 : prevDate.format("yyyy-MM-dd hh:mm:ss");
+    		var toArr = [];
+    		
+			var param2 = pr2 ? pr2 : beginTime
+			var prarm3 = pr3 ? pr3 : endTime
 			// 4是小时  1是分钟数据
-			var param4 = p4 ? 4 : 1;
+			var param4 = p4 ? p4 : 1;
 			
 			var param1 = "60130";
-			var param2 = "2017-09-16 16:55:49";
+			var param2 = "2017-09-17 16:55:49";
 			var prarm3 = "2017-09-17 17:55:49";
 			
 			var p0 = contrastArr[0].id;
@@ -474,16 +498,17 @@
 										var iData = data.list;
 										toArr.push(iData);
 										console.log(toArr);
-										setDateList();
-										setItem(type)
+										
+										setDateList(toArr[0]);
+										setItem(type,toArr)
 									},
 									error : function(e) {
 										alert(e.responseText);
 									}
 								});
 							}else{
-								setDateList();
-								setItem(type)
+								setDateList(toArr[0]);
+								setItem(type,toArr)
 							}
 						},
 						error : function(e) {

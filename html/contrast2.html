@@ -12,15 +12,20 @@
 				background: none;
 			}
 			.historydata_select{
-				height: 44px;
+				height: auto;
 				margin:0;
+				background: #51A8DF;
 			}
 			.historydata_select p{
 				line-height: 36px;
 			}
 			.historydata_select select{
+				float: left;
+				width:60px;
+				margin-left:10px;
 				height:36px;
 				box-sizing:border-box;
+				    margin-top: 6px;
 			}
 			.um-content{
 				font-size: 12px;
@@ -53,30 +58,50 @@
 			#list-header div:last-child{
 				border-right:0;
 			}
-			.history_data{
-				width: 100%;
-			    padding: 0 10px;
-			    margin-top: 25px;
+			
+			.um-header span{
+				color:#ffffff;
+				line-height: 24px;
+				margin-right:3px;
+			}
+			.um-header input[type=text]{
+				width:120px;
+				font-size:12px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="um-win" id="index">
 			<div class="um-header" >
-				<div class="historydata_select">
-			        <p>参数对比</p>
+				<div class="historydata_select clearfix">
 			        <div class="fl">
-			        	<input type="datetime-local" id="startTime"/>
+				    	<div class="um-box">
+				    		<span class="f12">开始时间</span>
+				    		<input type="text" id="startTime" class="scroller-date" readonly/>
+				    	</div>
+				    	<div class="um-box">
+				    		<span  class="f12">结束时间</span>
+				    		<input type="text" id="endTime" class="scroller-date" readonly/>
+				    	</div>
+				    </div>
+			        <div class="fl">
+			        	<select id="select2">
+					        <option value="pm10">PM10</option>
+					        <option value="YuL">噪音</option>
+					        <option value="FengX">风向</option>
+					        <option value="FengS">风速</option>
+					        <option value="ShiD">湿度</option>
+					        <option value="WenD">温度</option>
+				        </select>
+				        <select id="select1">
+				        	<option value="m">分钟</option>
+				        	<option value="h">小时</option>
+				        </select>
 			        </div>
-			        <select>
-				        <option value="pm10">PM10</option>
-				        <option value="YuL">噪音</option>
-				        <option value="FengX">风向</option>
-				        <option value="FengS">风速</option>
-				        <option value="ShiD">湿度</option>
-				        <option value="WenD">温度</option>
-			        </select>
-			        <div class="clear"></div>
+			        
+			        <div class="fr" style="margin-top:1px;">
+			        	<a class="btn btn-inline" onclick="query()">查询</a>
+			        </div>
 			    </div>
 			</div>
 			<div class="um-content">
@@ -87,6 +112,8 @@
 	</body>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/highcharts.js"></script>
+    <link rel="stylesheet" href="../js/mob/iscroll.css" />
+    <script src="../js/mob/iscroll.js"></script>
     
     <script>
     	// 扩展date format
@@ -226,19 +253,67 @@
 	    var toAr2 = [];
 	    var toAr3 = [];
 	    
-	    
 	    var xData = [];
+	    
 	    var contrastArr = summer.getStorage("Contrast_Arr");
 	    
+	    var types = "pm10";
+	    var endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
+	    var beginTime = new Date(new Date().getTime() - 1*60*60*1000).format("yyyy-MM-dd hh:mm:ss");
+	    var paramTime = 1;
+	    
 	    $(function(){
+	    	// 初始化 滚动
+    		scroll();
 			getData();
     	});
     	
+		//初始化完毕初始化滚动js
+		function scroll(){
+			$('.scroller-date').scroller('destroy').scroller({
+				preset: 'datetime',
+				theme: "ios7",
+				dateFormat:"yyyy-mm-dd",
+				timeFormat:"HH:ii",
+				mode: "scroller",
+				display: "bottom",
+				animate: "",
+				onSelect: selected
+			});
+			$("#startTime").val(beginTime.substr(0,beginTime.length-3));
+			$("#endTime").val(endTime.substr(0,beginTime.length-3));
+		}
+		function selected(){
+			var start = $("#startTime").val();
+			var end = $("#endTime").val();
+			if( start ){
+				var startAmTm = start.split(" ");
+				beginTime = (new Date(startAmTm)).format("yyyy-MM-dd hh:mm:ss");
+			}
+			if ( end ){
+				var endAmTm = end.split(" ");	
+				endTime = (new Date(endAmTm)).format("yyyy-MM-dd hh:mm:ss");
+			}
+		}
 		
-    	$("select").change(function() {
-			var type = $(this).val();
-			setItem(type);
+    	// 选择分钟或者小时
+    	$("#select1").change(function() {
+			var min = $(this).val();
+			if(min == "m"){
+				paramTime = 1;
+			}else{
+				paramTime = 4;
+			}
 		});
+		// 选择不同的指标选项
+    	$("#select2").change(function() {
+			types = $(this).val();
+		});
+		
+			// 点击查询按钮
+		function query(){
+			getData(types,beginTime,endTime,paramTime); 
+		}
 		
     	function setItem(type){
     		var seriesArr = new Array();
@@ -412,12 +487,12 @@
     	}
 	    
     	
-    	function getData(pr2,pr3) {
-    		var currDate = new Date();
-			var prevDate = new Date(currDate.getTime() - 24*60*60*1000);
-			var param2 = pr2 ? pr2 : currDate.format("yyyy-MM-dd hh:mm:ss");
-			var prarm3 = pr3 ? pr3 : prevDate.format("yyyy-MM-dd hh:mm:ss");
-			var param4 = 1;
+    	function getData(types,pr2,pr3,p4) {
+    		
+			var param2 = pr2 ? pr2 : beginTime
+			var prarm3 = pr3 ? pr3 : endTime
+			// 4是小时  1是分钟数据
+			var param4 = p4 ? p4 : 1;
 			
 			var param1 = "60130";
 			var param2 = "2017-09-17 16:55:49";
@@ -426,6 +501,8 @@
 			var p0 = contrastArr[0].id;
 			var p1 = contrastArr[1].id;
 			var p2 = contrastArr[2] ? contrastArr[2].id : "";
+			
+			var type = types ? types : "pm10";
 			
 			$.ajax({
 				type : "get",
@@ -477,14 +554,14 @@
 										// 室内数据
 										toAr3 = data.list;
 										
-										setItem("pm10")
+										setItem(type)
 									},
 									error : function(e) {
 										alert(e.responseText);
 									}
 								});
 							}else{
-								setItem("pm10")
+								setItem(type)
 							}
 						},
 						error : function(e) {
