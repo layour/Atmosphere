@@ -442,9 +442,9 @@
 			// 4是小时  1是分钟数据
 			var param4 = p4 ? p4 : 1;
 			
-			var param1 = "60130";
-			var param2 = "2017-09-17 16:55:49";
-			var prarm3 = "2017-09-17 17:55:49";
+			//var param1 = "60130";
+			//var param2 = "2017-09-17 16:55:49";
+			//var prarm3 = "2017-09-17 17:55:49";
 			
 			var p0 = contrastArr[0].id;
 			var p1 = contrastArr[1].id;
@@ -457,7 +457,7 @@
 				dataType : "json",
 				url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
 				data : {
-					parameter1 : param1,
+					parameter1 : p0,
 					parameter2 : param2,
 					parameter3 : prarm3,
 					parameter4 : param4,
@@ -472,7 +472,7 @@
 						dataType : "json",
 						url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
 						data : {
-							parameter1 : param1,
+							parameter1 : p1,
 							parameter2 : param2,
 							parameter3 : prarm3,
 							parameter4 : param4,
@@ -488,7 +488,7 @@
 									dataType : "json",
 									url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
 									data : {
-										parameter1 : param1,
+										parameter1 : p2,
 										parameter2 : param2,
 										parameter3 : prarm3,
 										parameter4 : param4,
