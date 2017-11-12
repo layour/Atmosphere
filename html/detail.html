@@ -33,14 +33,14 @@
 			
 			</p>
 			<p class="device_pm" id="name0">
-				PM10/空气细颗粒物
+				负（氧）离子浓度
 			</p>
 			<div class="pm_date">
 				<p class="pm_number">
 					<span id="value0">--</span><span id="unit0" style="font-size: 40px;"></span>
 				</p>
 				<div class="pm_pollution_degree" style="position:absolute; left:150px">
-					<p  id="grade0">
+					<p id="grade0">
 					</p>
 					<p class="update_time">
 						更新于<span id="updateTime">--</span>
@@ -61,7 +61,7 @@
 				<div class="device_date_top">
 					<div class="device_date">
 						<p class="target" id="name1">
-							噪音
+							PM2.5
 						</p>
 						<p class="target_number" >
 							<span id="value1">--</span><span id="unit1" style="font-size: 12px;"></span>
@@ -234,16 +234,17 @@
 			var storage = window.localStorage;
 			storage.dev_name = status.name;
 			
-			var tips = getTips2(status,status.pm10);
+			//var tips = getTips2(status,status.NongD);
+			var tips = SetNongDContent(status.NongD);
 			$("#tip").text(tips);
-			// pm10
-			var grade0 = SetPM25Content(status.pm10);
-			$("#value0").text(status.pm10);
+			// 负离子
+			var grade0 = SetNongDContent(status.NongD);
+			$("#value0").text(status.NongD);
 			$("#grade0").text(grade0);
 			
-			// 噪音
-			$("#value1").text(status.pm1);
-			$("#unit1").text("db");
+			// PM2.5
+			$("#value1").text(status.pm25);
+			$("#unit1").text("ug/m3");
 			//var grade1 = SetTVOCContent(status.YuL);
 			//$("#grade1").text(grade1);
 			
@@ -335,20 +336,22 @@
 			return value;
 		}
 		
-		//pm2.5
-        function SetPM25Content(pm25) {
-		    if(pm25 <= 35) {
-		        return "空气质量优";
-		    } else if(pm25 <= 75) {
-		        return "空气质量良";
-		    } else if(pm25 <= 115) {
-		        return "轻度污染";
-		    } else if(pm25 <= 150) {
-		        return "中度污染";
-		    } else if(pm25 <= 250) {
-		        return "重度污染";
+		//NongD
+        function SetNongDContent(nongD) {
+		    if(nongD >= 3000) {
+		        return "一级";
+		    } else if(nongD >= 1200) {
+		        return "二级";
+		    } else if(nongD >= 500) {
+		        return "三级";
+		    } else if(nongD >= 300) {
+		        return "四级";
+		    } else if(nongD >= 100) {
+		        return "五级";
+		    } else if(nongD <= 100) {
+		        return "六级";
 		    } else {
-		        return "严重污染";
+		        return "六级";
 		    }
 		}
 	</script>
