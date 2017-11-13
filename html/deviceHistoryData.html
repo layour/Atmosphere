@@ -105,7 +105,7 @@
 		var currDate = new Date();
 		var prevDate = new Date(currDate.getTime() - 24*60*60*1000);
 		var param1 = GetQueryString("id") || "01006001";
-		var prarm2 = prevDate.format("yyyy-MM-dd hh:mm:ss");
+		var param2 = prevDate.format("yyyy-MM-dd hh:mm:ss");
 		var param3 = currDate.format("yyyy-MM-dd hh:mm:ss");
 		
 		//var param1 = "60130"
@@ -132,7 +132,7 @@
 			data : {
 				parameter1 : param1,
 				parameter2 : param2,
-				parameter3 : prarm3,
+				parameter3 : param3,
 				parameter4 : param4,
 			},
 			success : function(data) {
