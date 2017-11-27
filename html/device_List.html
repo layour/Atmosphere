@@ -49,6 +49,21 @@
                 background:url(../images/search.png) no-repeat;
                 background-size: 100% 100%;
             }
+            .um-list .um-list-item{
+            	height: 50px;
+            }
+            .um-list .um-list-item {
+            	font-size: 13px;
+            }
+            .um-btn{
+            	font-size: 12px;
+            }
+            .um-btn-primary{
+            	margin-left: 20px;
+            	    color: #333;
+			    background-color: #fff;
+			    border-color: #ccc;
+            }
 		</style>
 	</head>
 	<body  style="background:#088e85;">
@@ -88,16 +103,147 @@
 				<p class="more_popup_title">
 					添加设备
 				</p>
-				<p class="connection_network" style="text-align: center;">
-					长按图片识别二维码
-				</p>
-				<div style="text-align: center; margin-top:5px">
-					<img id="productQrCode" style="width:260px;" src="http://wx.yuntongkeji.com/res/img/qrcode.jpg">
+				<div style="height:300px;overflow-y: scroll">
+					<form action="">
+						
+                        <ul class="um-list">
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				站点ID：
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="text" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				站点名称：
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="password" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				经度
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				纬度
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				海拔
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				监测场编码:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				省行政区:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				县 区:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				网点布局:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				布署类型:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				坡面情况:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				电话:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        	<li class="um-list-item">
+                        		<div class="um-list-item-inner">
+                        			<div class="um-list-item-left pl15">
+                        				负责人:
+                        			</div>
+                        			<div class="um-list-item-right">
+                        				<input type="tel" class="form-control tr" placeholder="">
+                        			</div>
+                        		</div>
+                        	</li>
+                        </ul>
+
+					</form>
 				</div>
-				<div class="popup_button_1">
-					<button class="md-close next">
-						关闭
-					</button>
+				<div class="um-box-center pt10 pb10" style="border-top:1px solid #999" >
+					<button class="um-btn um-btn-info btn-inline" onclick="mdsave()">确定</button>
+					<button class="um-btn um-btn-primary btn-inline md-close">取消</button>
 				</div>
 			</div>
 		</div>
@@ -160,7 +306,12 @@
 		</div>
 		<div class="pm_content">
 		<p class="pm_units">负离子 ppm</p>
+		{{ if(it[i].NongD){ }}
+		
 		<p class="pm_number">{{=it[i].NongD}}</p>
+		{{} else{}}
+		<p class="pm_number">无数据</p>
+		{{}}}
 		</div>
 		<img class="equipment_list_arrow" src="../images/equipment_list_arrow.png">
 		</div>
@@ -225,5 +376,10 @@
             // 重新渲染arr2
             getList2(arr2);
         });
+        
+        
+        function mdsave(){
+        	
+        }
 	</script>
 </html>
