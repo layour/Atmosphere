@@ -28,12 +28,12 @@
     <div class="historydata_select">
         <p>历史数据</p>
         <select>
-	        <option value="pm10">PM10</option>
-	        <option value="YuL">噪音</option>
+	        <option value="NongD">负离子</option>
+	        <option value="pm25">PM2.5</option>
+	        <option value="WenD">温度</option>
+	        <option value="ShiD">湿度</option>
 	        <option value="FengX">风向</option>
 	        <option value="FengS">风速</option>
-	        <option value="ShiD">湿度</option>
-	        <option value="WenD">温度</option>
         </select>
         <div class="clear"></div>
     </div>
@@ -178,17 +178,17 @@
 		var seriesArr = new Array();
 		var dataArr = [];
 		switch (showTag) {
-		case "pm10": // pm10
+		case "NongD": // pm10
 			for (var i = 0; i < iData.length; i++){
 				dataArr.push(iData[i].pm10);
 			}
-			seriesArr.push({"name": 'PM10', "data": dataArr});
+			seriesArr.push({"name": '负离子', "data": dataArr});
 			break;
-		case "ShiD": // 湿度
+		case "pm25": // 噪音
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].ShiD);
+				dataArr.push(iData[i].pm25);
 			}
-			seriesArr.push({"name": '湿度', "data": dataArr});
+			seriesArr.push({"name": 'PM2.5', "data": dataArr});
 			break;
 		case "WenD": // 温度
 			for (var i = 0; i < iData.length; i++){
@@ -196,11 +196,11 @@
 			}
 			seriesArr.push({"name": '温度', "data": dataArr});
 			break;
-		case "YuL": // 噪音
+		case "ShiD": // 湿度
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].pm1);
+				dataArr.push(iData[i].ShiD);
 			}
-			seriesArr.push({"name": '噪音', "data": dataArr});
+			seriesArr.push({"name": '湿度', "data": dataArr});
 			break;
 		case "FengX": // 风向
 			for (var i = 0; i < iData.length; i++){
