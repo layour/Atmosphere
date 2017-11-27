@@ -87,12 +87,12 @@
 				    </div>
 			        <div class="fl">
 			        	<select id="select2">
-					        <option value="pm10">PM10</option>
-					        <option value="YuL">噪音</option>
+			        		<option value="NongD">负离子</option>
+			        		<option value="pm25">PM2.5</option>
+					        <option value="WenD">温度</option>
+					        <option value="ShiD">湿度</option>
 					        <option value="FengX">风向</option>
 					        <option value="FengS">风速</option>
-					        <option value="ShiD">湿度</option>
-					        <option value="WenD">温度</option>
 				        </select>
 				        <select id="select1">
 				        	<option value="m">分钟</option>
@@ -128,7 +128,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=toF(item[k].pm10)}}</div>
+						<div class="d1">{{=toF(item[k].pm25)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -155,7 +155,7 @@
 	            {{  for(var i=0;i<it.length;i++){  }}
 	            	<div class="um-bf1">
 	            		{{  for(var k = 0,item = it[i]; k < item.length; k++){  }}
-						<div class="d1">{{=toF(item[k].YuL)}}</div>
+						<div class="d1">{{=toF(item[k].NongD)}}</div>
 						{{ } }}
 					</div>
 	            {{ } }}
@@ -328,7 +328,7 @@
         	return num.toFixed(1);
         }
 	    
-	    var types = "pm10";
+	    var types = "NongD";
 	    var endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 	    var beginTime = new Date(new Date().getTime() - 1*60*60*1000).format("yyyy-MM-dd hh:mm:ss");
 	    var paramTime = 1;
@@ -368,7 +368,7 @@
 		// 设置列表
     	function setItem(type,toArr){
     		switch (type) {
-				case "pm10": // pm10
+				case "pm25": // pm10
 					var dataText = doT.template($("#itemTemp1").text());
 					$("#c-b").html(dataText(toArr));
 					break;
@@ -380,7 +380,7 @@
 					var dataText = doT.template($("#itemTemp3").text());
 					$("#c-b").html(dataText(toArr));
 					break;
-				case "YuL": // 噪音
+				case "NongD": // 噪音
 					var dataText = doT.template($("#itemTemp4").text());
 					$("#c-b").html(dataText(toArr));
 					break;
@@ -450,7 +450,7 @@
 			var p1 = contrastArr[1].id;
 			var p2 = contrastArr[2] ? contrastArr[2].id : "";
 			
-			var type = types ? types : "pm10";
+			var type = types ? types : "NongD";
 			
 			$.ajax({
 				type : "get",

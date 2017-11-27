@@ -86,12 +86,12 @@
 				    </div>
 			        <div class="fl">
 			        	<select id="select2">
-					        <option value="pm10">PM10</option>
-					        <option value="YuL">噪音</option>
+					        <option value="NongD">负离子</option>
+			        		<option value="pm25">PM2.5</option>
+					        <option value="WenD">温度</option>
+					        <option value="ShiD">湿度</option>
 					        <option value="FengX">风向</option>
 					        <option value="FengS">风速</option>
-					        <option value="ShiD">湿度</option>
-					        <option value="WenD">温度</option>
 				        </select>
 				        <select id="select1">
 				        	<option value="m">分钟</option>
@@ -257,7 +257,7 @@
 	    
 	    var contrastArr = summer.getStorage("Contrast_Arr");
 	    
-	    var types = "pm10";
+	    var types = "NongD";
 	    var endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 	    var beginTime = new Date(new Date().getTime() - 1*60*60*1000).format("yyyy-MM-dd hh:mm:ss");
 	    var paramTime = 1;
@@ -324,12 +324,12 @@
     		var name2 = contrastArr[1].name;
     		var name3 = contrastArr[2] ? contrastArr[2].name : "";
     		switch (type) {
-				case "pm10": // pm10
+				case "pm25": // pm25
 					for (var i = 0; i < toAr1.length; i++){
-						arr1.push(toAr1[i].pm10);
+						arr1.push(toAr1[i].pm25);
 					}
 					for (var i = 0; i < toAr2.length; i++){
-						arr2.push(toAr2[i].pm10);
+						arr2.push(toAr2[i].pm25);
 					}
 					seriesArr.push(
 						{"name": name1, "data": arr1},
@@ -337,7 +337,7 @@
 					);
 					if(name3){
 						for (var i = 0; i < toAr3.length; i++){
-							arr3.push(toAr3[i].pm10);
+							arr3.push(toAr3[i].pm25);
 						}
 						seriesArr.push(
 							{"name": name3, "data": arr3}
@@ -384,12 +384,12 @@
 						);
 					}
 					break;
-				case "YuL": // 噪音
+				case "NongD": // 噪音
 					for (var i = 0; i < toAr1.length; i++){
-						arr1.push(toAr1[i].YuL);
+						arr1.push(toAr1[i].NongD);
 					}
 					for (var i = 0; i < toAr2.length; i++){
-						arr2.push(toAr2[i].YuL);
+						arr2.push(toAr2[i].NongD);
 					}
 					seriesArr.push(
 						{"name": name1, "data": arr1},
@@ -397,7 +397,7 @@
 					);
 					if(name3){
 						for (var i = 0; i < toAr3.length; i++){
-							arr3.push(toAr3[i].YuL);
+							arr3.push(toAr3[i].NongD);
 						}
 						seriesArr.push(
 							{"name": name3, "data": arr3}
@@ -502,7 +502,7 @@
 			var p1 = contrastArr[1].id;
 			var p2 = contrastArr[2] ? contrastArr[2].id : "";
 			
-			var type = types ? types : "pm10";
+			var type = types ? types : "NongD";
 			
 			$.ajax({
 				type : "get",
