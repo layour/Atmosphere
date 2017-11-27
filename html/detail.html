@@ -11,6 +11,7 @@
 		<link type="text/css" rel="stylesheet" href="../css/popup.css" />
 
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="../js/clipboard.min.js"></script>
 		<script type="text/javascript">
 			wx.config({
 				debug : false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -24,6 +25,18 @@
 			wx.ready(function() {
 				wx.hideAllNonBaseMenuItem();
 			});
+			
+			var clipboard = new Clipboard('.shareClass');
+			clipboard.on('success', function(e) {
+				console.info('Action:', e.action);
+				console.info('Text:', e.text);
+				console.info('Trigger:', e.trigger);
+				e.clearSelection();
+			});
+			clipboard.on('error', function(e) {
+				console.error('Action:', e.action);
+				console.error('Trigger:', e.trigger);
+			}); 
 		</script>
 	</head>
 	<body>
@@ -120,7 +133,7 @@
 					<button id="CNBT" data-modal="connection_network" class="md-trigger"></button>
 				</li>
 				<li class="share">
-					<a id="shareA">分享</a>
+					<a id="shareA" class="shareClass">分享</a>
 				</li>
 				<li class="historydata">
 					<a onclick="hisDataTips('PM25')">历史数据</a>
