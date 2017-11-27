@@ -178,13 +178,13 @@
 		var seriesArr = new Array();
 		var dataArr = [];
 		switch (showTag) {
-		case "NongD": // pm10
+		case "NongD": // 负离子
 			for (var i = 0; i < iData.length; i++){
 				dataArr.push(iData[i].pm10);
 			}
 			seriesArr.push({"name": '负离子', "data": dataArr});
 			break;
-		case "pm25": // 噪音
+		case "pm25": // PM2.5
 			for (var i = 0; i < iData.length; i++){
 				dataArr.push(iData[i].pm25);
 			}
