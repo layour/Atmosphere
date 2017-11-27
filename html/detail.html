@@ -25,18 +25,6 @@
 			wx.ready(function() {
 				wx.hideAllNonBaseMenuItem();
 			});
-			
-			var clipboard = new Clipboard('.shareClass');
-			clipboard.on('success', function(e) {
-				console.info('Action:', e.action);
-				console.info('Text:', e.text);
-				console.info('Trigger:', e.trigger);
-				e.clearSelection();
-			});
-			clipboard.on('error', function(e) {
-				console.error('Action:', e.action);
-				console.error('Trigger:', e.trigger);
-			}); 
 		</script>
 	</head>
 	<body>
@@ -133,7 +121,7 @@
 					<button id="CNBT" data-modal="connection_network" class="md-trigger"></button>
 				</li>
 				<li class="share">
-					<a id="shareA" class="shareClass">分享</a>
+					<a id="shareA" data-clipboard-action="copy">分享</a>
 				</li>
 				<li class="historydata">
 					<a onclick="hisDataTips('PM25')">历史数据</a>
@@ -190,6 +178,7 @@
 	<!--弹窗JS-->
 	<script type="text/javascript" src="../js/popup/classie.js"></script>
 	<script type="text/javascript" src="../js/popup/modalEffects.js"></script>
+	<script type="text/javascript" src="../js/layer/layer.js"></script>
 
 	<script type="text/javascript">
 		// 获取location 参数
@@ -367,6 +356,19 @@
 		        return "六级";
 		    }
 		}
+		
+		//复制
+		var content = "http://bjepex.oicp.net:60086/Atmosphere/html/detail.html?id=" + GetQueryString("id");
+		$("#shareA").attr("data-clipboard-text", content);
+		
+		var clipboard = new Clipboard(document.getElementById('shareA'));
+		clipboard.on('success', function(e) {
+			layer.msg("复制成功，去粘贴吧", {time: 2000});
+			e.clearSelection();
+		});
+		clipboard.on('error', function(e) {
+			layer.msg("复制失败", {time: 1000});
+		}); 
 	</script>
 	
 </html>
