@@ -191,13 +191,13 @@
 		switch (showTag) {
 		case "NongD": // 负离子
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].NongD);
+				dataArr.push(parseInt(iData[i].NongD));
 			}
 			seriesArr.push({"name": '负离子', "data": dataArr});
 			break;
 		case "pm25": // PM2.5
 			for (var i = 0; i < iData.length; i++){
-				dataArr.push(iData[i].pm25);
+				dataArr.push(parseInt(iData[i].pm25));
 			}
 			seriesArr.push({"name": 'PM2.5', "data": dataArr});
 			break;

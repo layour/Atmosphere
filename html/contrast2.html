@@ -331,10 +331,10 @@
     		switch (type) {
 				case "pm25": // pm25
 					for (var i = 0; i < toAr1.length; i++){
-						arr1.push(toAr1[i].pm25);
+						arr1.push(parseInt(toAr1[i].pm25));
 					}
 					for (var i = 0; i < toAr2.length; i++){
-						arr2.push(toAr2[i].pm25);
+						arr2.push(parseInt(toAr2[i].pm25));
 					}
 					seriesArr.push(
 						{"name": name1, "data": arr1},
@@ -342,7 +342,7 @@
 					);
 					if(name3){
 						for (var i = 0; i < toAr3.length; i++){
-							arr3.push(toAr3[i].pm25);
+							arr3.push(parseInt(toAr3[i].pm25));
 						}
 						seriesArr.push(
 							{"name": name3, "data": arr3}
@@ -391,10 +391,10 @@
 					break;
 				case "NongD": // 噪音
 					for (var i = 0; i < toAr1.length; i++){
-						arr1.push(toAr1[i].NongD);
+						arr1.push(parseInt(toAr1[i].NongD));
 					}
 					for (var i = 0; i < toAr2.length; i++){
-						arr2.push(toAr2[i].NongD);
+						arr2.push(parseInt(toAr2[i].NongD));
 					}
 					seriesArr.push(
 						{"name": name1, "data": arr1},
@@ -402,7 +402,7 @@
 					);
 					if(name3){
 						for (var i = 0; i < toAr3.length; i++){
-							arr3.push(toAr3[i].NongD);
+							arr3.push(parseInt(toAr3[i].NongD));
 						}
 						seriesArr.push(
 							{"name": name3, "data": arr3}
