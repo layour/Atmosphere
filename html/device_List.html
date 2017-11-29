@@ -110,20 +110,20 @@
                         	<li class="um-list-item">
                         		<div class="um-list-item-inner">
                         			<div class="um-list-item-left pl15">
-                        				站点ID：
+                        				设备编号：
                         			</div>
                         			<div class="um-list-item-right">
-                        				<input type="text" class="form-control tr" placeholder="">
+                        				<input type="text" class="form-control tr" placeholder="" id="bianhao">
                         			</div>
                         		</div>
                         	</li>
                         	<li class="um-list-item">
                         		<div class="um-list-item-inner">
                         			<div class="um-list-item-left pl15">
-                        				站点名称：
+                        				设备名称：
                         			</div>
                         			<div class="um-list-item-right">
-                        				<input type="password" class="form-control tr" placeholder="">
+                        				<input type="text" class="form-control tr" placeholder="" id="mingcheng">
                         			</div>
                         		</div>
                         	</li>
@@ -133,7 +133,7 @@
                         				经度
                         			</div>
                         			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
+                        				<input type="text" class="form-control tr" placeholder="" id="jingdu">
                         			</div>
                         		</div>
                         	</li>
@@ -143,77 +143,7 @@
                         				纬度
                         			</div>
                         			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				海拔
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				监测场编码:
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				省行政区:
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				县 区:
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				网点布局:
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				布署类型:
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
-                        			</div>
-                        		</div>
-                        	</li>
-                        	<li class="um-list-item">
-                        		<div class="um-list-item-inner">
-                        			<div class="um-list-item-left pl15">
-                        				坡面情况:
-                        			</div>
-                        			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
+                        				<input type="text" class="form-control tr" placeholder="" id="weidu">
                         			</div>
                         		</div>
                         	</li>
@@ -223,20 +153,22 @@
                         				电话:
                         			</div>
                         			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
+                        				<input type="text" class="form-control tr" placeholder="" id="mobile">
                         			</div>
                         		</div>
                         	</li>
                         	<li class="um-list-item">
                         		<div class="um-list-item-inner">
                         			<div class="um-list-item-left pl15">
-                        				负责人:
+                        				站点名称：
                         			</div>
                         			<div class="um-list-item-right">
-                        				<input type="tel" class="form-control tr" placeholder="">
+                        				<input type="text" class="form-control tr" placeholder="" id="zhandian">
                         			</div>
                         		</div>
                         	</li>
+                        	
+                        	
                         </ul>
 
 					</form>
@@ -295,6 +227,7 @@
 	<script type="text/javascript" src="../js/popup/classie.js"></script>
 	<script type="text/javascript" src="../js/popup/modalEffects.js"></script>
 	<script type="text/javascript" src="../js/doT.min.js"></script>
+	<script type="text/javascript" src="../js/layer/layer.js"></script>
 	<script id="itemTemp" type="text/x-dot-template">
 		{{ for(var i = 0;i<it.length;i++){ }}
 		<div class="equipment_list" style="overflow: hidden;" data-id="{{=it[i].stationId}}" onclick="openDetail(this)">
@@ -382,7 +315,39 @@
         
         
         function mdsave(){
-        	
+        	var username = localStorage.getItem("username");
+        	var password = localStorage.getItem("password");
+        	var bianhao = $("#bianhao").val();
+        	var mingcheng = $("#mingcheng").val();
+        	var jingdu = $("#jingdu").val();
+        	var weidu = $("#weidu").val();
+        	var mobile = $("#mobile").val();
+        	var zhandian = $("#zhandian").val();
+        	if(!bianhao|| !mingcheng || !jingdu || !weidu|| !mobile || !zhandian){
+        		layer.msg("输入不能为空", {time: 2000});
+        		return false;
+        	}
+        	var EMessage = "'"+bianhao+"','"+mingcheng+"','"+jingdu+"','"+weidu+"','"+mobile+"','"+zhandian+"'";
+        	$.ajax({
+				type : "get",
+				dataType : "json",
+				url : "http://bjepex.oicp.net:8520/ch2/servlet/LoginAction",
+				data : {
+					// 手机号
+					username : username,
+					password : password,
+					index : "insertEQ",
+					EMessage:EMessage,
+					
+				},
+				success : function(data) {
+					alert(data);
+					cancle();
+				},
+				error : function(e) {
+					alert(e.responseText);
+				}
+			});
         }
 	</script>
 </html>

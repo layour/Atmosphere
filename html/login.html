@@ -68,6 +68,8 @@
 					index : "login"
 				},
 				success : function(data) {
+					localStorage.setItem('username', username);
+					localStorage.setItem('password', password);
 					// 登录成功以后跳转到list
 					window.location.href = "../html/device_List.html";
 				},
