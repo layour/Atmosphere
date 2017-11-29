@@ -302,15 +302,18 @@
 		<div class="equipment_content">
 		<p class="equipment_name">{{=it[i].name}}</p>
 		<p class="equipment_number">{{=it[i].stationId}}</p>
-		<p class="equipment_online">在线</p>
+		{{ if((new Date()-new Date(it[i].dataDate).getTime()) > 60*60*1000){ }}
+				<p class="equipment_offline">离线</p>
+			{{ } else { }}
+				<p class="equipment_online">在线</p>
+		{{ } }}
 		</div>
 		<div class="pm_content">
 		<p class="pm_units">负离子 ppm</p>
 		{{ if(it[i].NongD){ }}
-		
-		<p class="pm_number">{{=it[i].NongD}}</p>
-		{{} else{}}
-		<p class="pm_number">无数据</p>
+				<p class="pm_number">{{=it[i].NongD}}</p>
+			{{ } else { }}
+				<p class="pm_number">无数据</p>
 		{{}}}
 		</div>
 		<img class="equipment_list_arrow" src="../images/equipment_list_arrow.png">
