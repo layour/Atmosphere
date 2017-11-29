@@ -102,11 +102,11 @@
     }
 	/*获取图表显示数据*/
 	function getChartData() {
-		var currDate = new Date();
-		var prevDate = new Date(currDate.getTime() - 24*60*60*1000);
 		var param1 = GetQueryString("id") || "01006001";
-		var param2 = prevDate.format("yyyy-MM-dd hh:mm:ss");
-		var param3 = currDate.format("yyyy-MM-dd hh:mm:ss");
+		var currDate = new Date();
+		var prevDate;
+		
+		
 		
 		//var param1 = "60130"
 		//var param2 = "2017-09-16 17:55:49";
@@ -116,14 +116,20 @@
 		switch (showType) {
 			case "day":
 				param4 = 4;
+				prevDate = new Date(currDate.getTime() - 24*60*60*1000);
 				break;
 			case "month":
 				param4 = 5;
+				prevDate = new Date(currDate.getTime() - 24*60*60*1000*30);
 				break;
 			case "year":
-				param4 = 6;
+				param4 = 5;
+				prevDate = new Date(currDate.getTime() - 24*60*60*1000*100);
 				break;
 		}
+		
+		var param2 = prevDate.format("yyyy-MM-dd hh:mm:ss");
+		var param3 = currDate.format("yyyy-MM-dd hh:mm:ss");
 		// 室内历史数据取得
 		$.ajax({
 			type : "get",
@@ -142,7 +148,12 @@
 				var xData = [];
 				for (var i = 0; i < iData.length; i++){
 					var date1 = iData[i].dataDate;
-					var date2 = date1.substring(11).substr(0,5);
+					var date2;
+					if(showType == "day"){
+						date2 = date1.substring(11).substr(0,5);
+					}else{
+						date2 = date1.substring(5,10);
+					}
 					xData.push(date2);
 				}
 				createAA(xData,iData);
@@ -159,8 +170,8 @@
 		$("ul[id=nmdUl] > li").removeClass();
 		$(this).addClass("display_method_on");
 		// 更改showType类型   分为day，month  year  
-		//showType = $(this).attr("data-type");
-		//getChartData();
+		showType = $(this).attr("data-type");
+		getChartData();
 	});
 	
 	/*数据点下拉框监听事件*/
