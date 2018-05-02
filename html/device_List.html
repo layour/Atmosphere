@@ -305,7 +305,7 @@
             arr2 = [];
             // 循环arr1 做比对。  然后将数据添加到arr2 中去
             for(var k = 0; k < arr1.length; k++){
-                if(arr1[k].name.indexOf(txt) >= 0){
+                if(arr1[k].name.indexOf(txt) >= 0 || arr1[k].stationId.indexOf(txt) >= 0){
                     arr2.push(arr1[k]);
                 }
             }
